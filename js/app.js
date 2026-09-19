@@ -130,43 +130,37 @@ function continueGame() {
 }
 
 // ─── Intro cutscene ───────────────────────────────────────────────────────────
-function startIntro() {
+function startIntro(existingPlayPromise) {
   showScreen('intro');
   const video = document.getElementById('intro-video');
   const placeholder = document.getElementById('intro-placeholder');
   const skipBtn = document.getElementById('btn-skip-intro');
   let done = false;
 
+  function showFallback() {
+    if (video) video.style.display = 'none';
+    placeholder.style.display = 'flex';
+    const timer = setTimeout(finish, 4500);
+    skipBtn.onclick = () => { clearTimeout(timer); finish(); };
+  }
+
   function finish() {
     if (done) return;
     done = true;
-    if (video) { video.pause(); }
+    if (video) video.pause();
     launchGame();
   }
 
   skipBtn.onclick = finish;
 
-  if (video) {
-    video.onended = finish;
-    video.onerror = () => {
-      video.style.display = 'none';
-      placeholder.style.display = 'flex';
-      const timer = setTimeout(finish, 4500);
-      skipBtn.onclick = () => { clearTimeout(timer); finish(); };
-    };
-    // play() triggered by user gesture from btn-confirm-diff click — should work
-    const p = video.play();
-    if (p !== undefined) p.catch(() => {
-      video.style.display = 'none';
-      placeholder.style.display = 'flex';
-      const timer = setTimeout(finish, 4500);
-      skipBtn.onclick = () => { clearTimeout(timer); finish(); };
-    });
-  } else {
-    placeholder.style.display = 'flex';
-    const timer = setTimeout(finish, 4500);
-    skipBtn.onclick = () => { clearTimeout(timer); finish(); };
-  }
+  if (!video) { showFallback(); return; }
+
+  video.onended = finish;
+  video.onerror = showFallback;
+
+  // Use the play() promise that was called synchronously in the click handler
+  const p = existingPlayPromise || video.play();
+  if (p !== undefined) p.catch(showFallback);
 }
 
 function launchGame() {
@@ -450,22 +444,83 @@ function startLocation(actId, locId) {
 }
 
 // ─── Inventory ────────────────────────────────────────────────────────────────
+const WORDS_PER_PAGE = 6;
+let archivePage = 0;
+
 function renderInventory() {
-  const container = document.getElementById('inventory-list');
-  if (!state.foundWords.length) {
-    container.innerHTML = '<p class="empty-inv">Ты ещё не нашёл ни одного слова. Исследуй локации!</p>';
-    return;
+  document.getElementById('archive-count').textContent = `${state.foundWords.length} слов`;
+  renderArchivePage(0, 'none');
+}
+
+function renderArchivePage(page, direction) {
+  const pages = document.getElementById('archive-pages');
+  const dotsEl = document.getElementById('archive-dots');
+  const infoEl = document.getElementById('archive-page-info');
+  const words = state.foundWords;
+  const totalPages = Math.max(1, Math.ceil(words.length / WORDS_PER_PAGE));
+  page = Math.max(0, Math.min(page, totalPages - 1));
+  archivePage = page;
+
+  // dots
+  dotsEl.innerHTML = Array.from({ length: totalPages }, (_, i) =>
+    `<button class="archive-dot${i === page ? ' active' : ''}" onclick="goArchivePage(${i})"></button>`
+  ).join('');
+
+  infoEl.textContent = totalPages > 1 ? `${page + 1} / ${totalPages}` : '';
+  document.getElementById('archive-prev').style.visibility = page > 0 ? 'visible' : 'hidden';
+  document.getElementById('archive-next').style.visibility = page < totalPages - 1 ? 'visible' : 'hidden';
+
+  const slice = words.slice(page * WORDS_PER_PAGE, (page + 1) * WORDS_PER_PAGE);
+
+  // remove old page
+  const old = pages.querySelector('.archive-page');
+  if (old) {
+    if (direction !== 'none') {
+      old.classList.add(direction === 'right' ? 'page-exit-left' : 'page-exit-right');
+      setTimeout(() => old.remove(), 350);
+    } else {
+      old.remove();
+    }
   }
-  container.innerHTML = state.foundWords.map(id => {
-    const w = gameData.words[id];
-    if (!w) return '';
-    return `<div class="word-card">
-      <div class="word-form">${w.form}</div>
-      <div class="word-modern">→ ${w.modern}</div>
-      <div class="word-era">${w.era}</div>
-      <p class="word-desc">${w.description}</p>
+
+  const div = document.createElement('div');
+  div.className = 'archive-page';
+
+  if (!slice.length) {
+    div.innerHTML = `<div class="archive-empty">
+      <i data-lucide="book-open" style="width:40px;height:40px;opacity:0.3"></i>
+      <p>Ты ещё не нашёл ни одного слова.<br>Исследуй локации!</p>
     </div>`;
-  }).join('');
+  } else {
+    div.innerHTML = slice.map((id, idx) => {
+      const w = gameData.words[id];
+      if (!w) return '';
+      const num = String(page * WORDS_PER_PAGE + idx + 1).padStart(2, '0');
+      return `<div class="word-card">
+        <div class="word-card-num">#${num}</div>
+        <div class="word-divider"></div>
+        <div class="word-form">${w.form}</div>
+        <div class="word-modern">→ ${w.modern}</div>
+        <div class="word-era">${w.era}</div>
+        <p class="word-desc">${w.description}</p>
+      </div>`;
+    }).join('');
+  }
+
+  if (direction !== 'none') {
+    div.classList.add(direction === 'right' ? 'page-enter-right' : 'page-enter-left');
+    setTimeout(() => div.classList.add('page-active'), 20);
+  } else {
+    div.classList.add('page-active');
+  }
+
+  pages.appendChild(div);
+  lucide.createIcons();
+}
+
+function goArchivePage(page) {
+  const direction = page > archivePage ? 'right' : 'left';
+  renderArchivePage(page, direction);
 }
 
 // ─── Achievements ─────────────────────────────────────────────────────────────
@@ -516,8 +571,11 @@ async function init() {
 
   // Difficulty modal
   document.getElementById('btn-confirm-diff').onclick = () => {
+    // play() must be called synchronously inside the click handler
+    const video = document.getElementById('intro-video');
+    const playPromise = video ? video.play() : null;
     closeDifficultyModal();
-    startIntro();
+    startIntro(playPromise);
   };
   document.getElementById('btn-close-diff').onclick = closeDifficultyModal;
   document.getElementById('btn-close-diff-cancel').onclick = closeDifficultyModal;
