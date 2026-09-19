@@ -290,6 +290,8 @@ function renderChoices(node) {
 
   if (node.reward) applyReward(node.reward);
   if (node.action === 'complete_location') completeLocation();
+  if (node.action === 'complete_act1') { showAct1Finale(); return; }
+  if (node.action === 'quiz') { startQuiz(node.quiz_id); return; }
   if (node.action === 'start_act1') {
     setTimeout(() => {
       showActSplash('Акт I', 'Древняя Русь', 'Встреча с Мори', () => startLocation('act1', 'scriptorium'));
@@ -326,6 +328,227 @@ function renderChoices(node) {
     c.appendChild(btn);
     lucide.createIcons();
   }
+}
+
+// ─── Quiz engine ─────────────────────────────────────────────────────────────
+function startQuiz(quizId) {
+  const quiz = gameData.quizzes[quizId];
+  if (!quiz) return;
+  document.getElementById('quiz-bg').style.background =
+    document.getElementById('game-bg').style.background ||
+    'linear-gradient(135deg, #0e0a18, #1a0e2a)';
+  showScreen('quiz');
+  const c = document.getElementById('quiz-container');
+  c.innerHTML = '';
+  if (quiz.type === 'choice') renderChoiceQuiz(quiz, c);
+  else if (quiz.type === 'fill')  renderFillQuiz(quiz, c);
+  else if (quiz.type === 'match') renderMatchQuiz(quiz, c);
+}
+
+function quizDone(quiz, correct) {
+  if (correct) {
+    const wordIds = quiz.reward_words || (quiz.reward_word ? [quiz.reward_word] : []);
+    wordIds.forEach(id => {
+      if (!state.foundWords.includes(id)) {
+        state.foundWords.push(id);
+        showWordToast(gameData.words[id]?.form || id);
+      }
+    });
+    state.score += quiz.score || 0;
+    updateScoreUI();
+    updateInventoryCount();
+    saveProgress();
+    checkAchievements();
+  }
+  setTimeout(() => {
+    const dlg = gameData.post_quiz_dialogues[quiz.next_dialogue];
+    if (dlg) {
+      state.currentDialogue = dlg;
+      state.currentDialogueId = dlg[0].id;
+      showScreen('game');
+      showDialogue(dlg[0].id);
+    } else {
+      showScreen('map');
+    }
+  }, correct ? 1200 : 0);
+}
+
+function renderChoiceQuiz(quiz, c) {
+  c.innerHTML = `
+    <div class="quiz-eyebrow">${quiz.title}</div>
+    ${quiz.word_highlight ? `<div class="quiz-word-highlight">${quiz.word_highlight}</div>` : ''}
+    <div class="quiz-question">${quiz.question}</div>
+    <div class="quiz-options" id="quiz-opts"></div>
+    <div class="quiz-hint" id="quiz-hint">${quiz.hint}</div>
+    <div class="quiz-result" id="quiz-result">
+      <div class="quiz-result-icon">✨</div>
+      <div class="quiz-result-text">Правильно! +${quiz.score} очков</div>
+    </div>`;
+  const opts = document.getElementById('quiz-opts');
+  quiz.options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = opt.text;
+    btn.onclick = () => {
+      opts.querySelectorAll('.quiz-option').forEach(b => b.disabled = true);
+      if (opt.correct) {
+        btn.classList.add('correct');
+        document.getElementById('quiz-result').classList.add('visible');
+        quizDone(quiz, true);
+      } else {
+        btn.classList.add('wrong');
+        document.getElementById('quiz-hint').classList.add('visible');
+        setTimeout(() => {
+          opts.querySelectorAll('.quiz-option').forEach(b => {
+            b.disabled = false;
+            b.classList.remove('wrong');
+          });
+          document.getElementById('quiz-hint').classList.remove('visible');
+        }, 1800);
+      }
+    };
+    opts.appendChild(btn);
+  });
+}
+
+function renderFillQuiz(quiz, c) {
+  const letters = quiz.word_template.split('');
+  c.innerHTML = `
+    <div class="quiz-eyebrow">${quiz.title}</div>
+    <div class="quiz-question">${quiz.question}</div>
+    <div class="quiz-fill-word">${
+      letters.map((l, i) => i === quiz.missing_index
+        ? `<span class="quiz-fill-blank" id="fill-blank">_</span>`
+        : `<span class="quiz-fill-letter">${l}</span>`
+      ).join('')
+    }</div>
+    <div class="quiz-fill-options" id="fill-opts"></div>
+    <div class="quiz-hint" id="quiz-hint">${quiz.hint}</div>
+    <div class="quiz-result" id="quiz-result">
+      <div class="quiz-result-icon">✨</div>
+      <div class="quiz-result-text">Правильно! +${quiz.score} очков</div>
+    </div>`;
+  const opts = document.getElementById('fill-opts');
+  quiz.options.forEach(letter => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-fill-btn';
+    btn.textContent = letter;
+    btn.onclick = () => {
+      const blank = document.getElementById('fill-blank');
+      blank.textContent = letter;
+      opts.querySelectorAll('.quiz-fill-btn').forEach(b => b.disabled = true);
+      if (letter === quiz.correct_option) {
+        blank.classList.add('filled-correct');
+        document.getElementById('quiz-result').classList.add('visible');
+        quizDone(quiz, true);
+      } else {
+        blank.classList.add('filled-wrong');
+        document.getElementById('quiz-hint').classList.add('visible');
+        setTimeout(() => {
+          blank.textContent = '_';
+          blank.classList.remove('filled-wrong');
+          opts.querySelectorAll('.quiz-fill-btn').forEach(b => b.disabled = false);
+          document.getElementById('quiz-hint').classList.remove('visible');
+        }, 1800);
+      }
+    };
+    opts.appendChild(btn);
+  });
+}
+
+function renderMatchQuiz(quiz, c) {
+  const pairs = quiz.pairs;
+  const shuffledModern = [...pairs].sort(() => Math.random() - 0.5);
+  let selectedAncient = null;
+  let matchedCount = 0;
+  c.innerHTML = `
+    <div class="quiz-eyebrow">${quiz.title}</div>
+    <div class="quiz-question">${quiz.question}</div>
+    <div class="quiz-match">
+      <div class="quiz-match-col" id="match-ancient"></div>
+      <div class="quiz-match-col" id="match-modern"></div>
+    </div>
+    <div class="quiz-hint" id="quiz-hint">${quiz.hint}</div>
+    <div class="quiz-result" id="quiz-result">
+      <div class="quiz-result-icon">✨</div>
+      <div class="quiz-result-text">Все пары совпали! +${quiz.score} очков</div>
+    </div>`;
+  const ancientCol = document.getElementById('match-ancient');
+  const modernCol  = document.getElementById('match-modern');
+  pairs.forEach(pair => {
+    const btn = document.createElement('div');
+    btn.className = 'quiz-match-item';
+    btn.textContent = pair.ancient;
+    btn.dataset.ancient = pair.ancient;
+    btn.onclick = () => {
+      if (btn.classList.contains('matched')) return;
+      ancientCol.querySelectorAll('.quiz-match-item').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      selectedAncient = pair.ancient;
+    };
+    ancientCol.appendChild(btn);
+  });
+  shuffledModern.forEach(pair => {
+    const btn = document.createElement('div');
+    btn.className = 'quiz-match-item';
+    btn.textContent = pair.modern;
+    btn.dataset.modern = pair.modern;
+    btn.onclick = () => {
+      if (!selectedAncient || btn.classList.contains('matched')) return;
+      const correctPair = pairs.find(p => p.ancient === selectedAncient);
+      if (correctPair && correctPair.modern === pair.modern) {
+        btn.classList.add('matched');
+        ancientCol.querySelector(`[data-ancient="${selectedAncient}"]`).classList.add('matched');
+        selectedAncient = null;
+        matchedCount++;
+        if (matchedCount === pairs.length) {
+          document.getElementById('quiz-result').classList.add('visible');
+          quizDone(quiz, true);
+        }
+      } else {
+        btn.classList.add('wrong-flash');
+        ancientCol.querySelector(`[data-ancient="${selectedAncient}"]`)?.classList.remove('selected');
+        selectedAncient = null;
+        document.getElementById('quiz-hint').classList.add('visible');
+        setTimeout(() => {
+          btn.classList.remove('wrong-flash');
+          document.getElementById('quiz-hint').classList.remove('visible');
+        }, 1800);
+      }
+    };
+    modernCol.appendChild(btn);
+  });
+}
+
+// ─── Act I Finale ─────────────────────────────────────────────────────────────
+function showAct1Finale() {
+  const el = document.getElementById('act-finale');
+  document.getElementById('finale-title').textContent = 'Акт I завершён!';
+  document.getElementById('finale-sub').textContent = 'Древняя Русь открыла свои тайны';
+  document.getElementById('finale-stats').innerHTML = `
+    <div class="finale-stat">
+      <div class="finale-stat-num">${state.foundWords.length}</div>
+      <div class="finale-stat-label">слов найдено</div>
+    </div>
+    <div class="finale-stat">
+      <div class="finale-stat-num">${state.score}</div>
+      <div class="finale-stat-label">очков</div>
+    </div>
+    <div class="finale-stat">
+      <div class="finale-stat-num">3</div>
+      <div class="finale-stat-label">локации</div>
+    </div>`;
+  const act2 = gameData.acts.find(a => a.id === 'act2');
+  if (act2) act2.unlocked = true;
+  if (!state.completedLocations.includes('act1')) state.completedLocations.push('act1');
+  checkAchievements();
+  saveProgress();
+  el.classList.add('visible');
+  lucide.createIcons();
+  document.getElementById('finale-btn').onclick = () => {
+    el.classList.remove('visible');
+    showActSplash('Акт II', 'Печатный век', 'Скоро...', () => showScreen('map'));
+  };
 }
 
 // ─── Rewards & Achievements ───────────────────────────────────────────────────
