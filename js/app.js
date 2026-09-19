@@ -65,6 +65,8 @@ function showScreen(name) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   const el = document.getElementById(`screen-${name}`);
   if (el) el.classList.add('active');
+  else console.error('[DEBUG] showScreen: element not found for', name);
+  console.log('[DEBUG] showScreen:', name, '| el:', el?.id, '| display:', el ? getComputedStyle(el).display : 'N/A');
 
   const isGame = GAME_SCREENS.includes(name);
   document.getElementById('game-topbar').style.display = isGame ? 'flex' : 'none';
@@ -574,10 +576,8 @@ async function init() {
   // Difficulty modal
   document.getElementById('btn-confirm-diff').onclick = () => {
     const video = document.getElementById('intro-video');
-    console.log('[DEBUG] video element:', video);
-    console.log('[DEBUG] video src:', video?.currentSrc, '| readyState:', video?.readyState, '| networkState:', video?.networkState);
+    if (video) video.currentTime = 0;
     const playPromise = video ? video.play() : null;
-    console.log('[DEBUG] playPromise:', playPromise);
     if (playPromise) playPromise
       .then(() => console.log('[DEBUG] play() resolved — video is playing'))
       .catch(err => console.error('[DEBUG] play() rejected:', err.name, err.message));
