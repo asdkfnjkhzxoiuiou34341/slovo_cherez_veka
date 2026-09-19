@@ -130,7 +130,7 @@ function continueGame() {
 }
 
 // ─── Intro cutscene ───────────────────────────────────────────────────────────
-function startIntro() {
+function startIntro(playPromise) {
   showScreen('intro');
   const video = document.getElementById('intro-video');
   const placeholder = document.getElementById('intro-placeholder');
@@ -158,9 +158,11 @@ function startIntro() {
   video.onended = finish;
   video.onerror = showFallback;
 
-  // screen is now visible (display:flex), play() is still in the click handler call stack
-  const p = video.play();
-  if (p !== undefined) p.catch(showFallback);
+  const p = playPromise !== undefined ? playPromise : video.play();
+  if (p !== undefined) p.catch(err => {
+    console.error('[VIDEO] play() failed:', err.name, err.message);
+    showFallback();
+  });
 }
 
 function launchGame() {
@@ -571,8 +573,11 @@ async function init() {
 
   // Difficulty modal
   document.getElementById('btn-confirm-diff').onclick = () => {
+    // Call play() FIRST, synchronously, before any DOM work — preserves user gesture context
+    const video = document.getElementById('intro-video');
+    const playPromise = video ? video.play() : null;
     closeDifficultyModal();
-    startIntro();
+    startIntro(playPromise);
   };
   document.getElementById('btn-close-diff').onclick = closeDifficultyModal;
   document.getElementById('btn-close-diff-cancel').onclick = closeDifficultyModal;
