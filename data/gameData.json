@@ -1,0 +1,173 @@
+{
+  "meta": {
+    "title": "Слово через века",
+    "version": "1.1.0"
+  },
+  "prologue": {
+    "id": "prologue",
+    "title": "Пролог: Кладовка",
+    "background": "assets/images/bg_terem_inside.png",
+    "dialogue": [
+      {
+        "id": "p1",
+        "speaker": "Ты",
+        "emotion": "none",
+        "bg": "assets/images/bg_terem_inside.png",
+        "text": "Ох... Голова трещит... Где это я? Бабушка? Кладовка?...",
+        "next": "p2"
+      },
+      {
+        "id": "p2",
+        "speaker": "???",
+        "emotion": "shock",
+        "bg": "assets/images/bg_terem_inside.png",
+        "text": "Ой-ёй-ёй! Ты кто такой?! Откуда ты вывалился?! И почему на тебе нет льняной рубахи?!",
+        "next": "p3"
+      },
+      {
+        "id": "p3",
+        "speaker": "Ты",
+        "emotion": "none",
+        "bg": "assets/images/bg_terem_inside.png",
+        "text": "Я... я просто тронул старую книгу в кладовке... А ты кто? Светящаяся лисичка?",
+        "next": "p4"
+      },
+      {
+        "id": "p4",
+        "speaker": "Мори",
+        "emotion": "funny",
+        "bg": "assets/images/bg_terem_inside.png",
+        "text": "Я не лисичка! Я Мори — дух-хранитель слова! Правда, я тут спала... лет триста, наверное. А это что за чёрное зеркальце у тебя из кармана торчит?",
+        "next": "p5"
+      },
+      {
+        "id": "p5",
+        "speaker": "Мори",
+        "emotion": "funny",
+        "bg": "assets/images/bg_terem_window.png",
+        "text": "Взгляни в окно! Ты в Древней Руси, в тереме Скрижаль. Твоя книга затянула тебя сюда не просто так.",
+        "next": "p6"
+      },
+      {
+        "id": "p6",
+        "speaker": "Мори",
+        "emotion": "happy",
+        "bg": "assets/images/bg_terem_window.png",
+        "text": "Чтобы вернуться домой, тебе придётся собрать историю нашего языка с самого начала — шаг за шагом. Ну что, готов к приключению?",
+        "choices": [
+          { "text": "Готов! Погнали!", "next": "p7_yes", "score": 0 },
+          { "text": "А у меня есть выбор?..", "next": "p7_no", "score": 0 }
+        ]
+      },
+      {
+        "id": "p7_yes",
+        "speaker": "Мори",
+        "emotion": "happy",
+        "bg": "assets/images/bg_terem_window.png",
+        "text": "Вот это настрой! Переходим к первой берестяной грамоте!",
+        "next": null,
+        "action": "start_act1"
+      },
+      {
+        "id": "p7_no",
+        "speaker": "Мори",
+        "emotion": "funny",
+        "bg": "assets/images/bg_terem_window.png",
+        "text": "Хи-хи, умный! Выбора нет, зато будет весело!",
+        "next": null,
+        "action": "start_act1"
+      }
+    ]
+  },
+  "acts": [
+    {
+      "id": "act1",
+      "title": "Акт I: Древняя Русь",
+      "unlocked": true,
+      "locations": [
+        {
+          "id": "scriptorium",
+          "title": "Скрипторий",
+          "description": "Монастырская мастерская XI века, где переписывались книги",
+          "background": "linear-gradient(135deg, #1a0a00 0%, #2d1a0a 50%, #1a0a00 100%)",
+          "unlocked": true,
+          "dialogue": [
+            {
+              "id": "intro_1",
+              "speaker": "Мори",
+              "emotion": "happy",
+              "text": "Вот мы и в Скриптории — монастырской мастерской XI века. Здесь монахи переписывали книги, сохраняя слова для потомков.",
+              "next": "intro_2"
+            },
+            {
+              "id": "intro_2",
+              "speaker": "Мори",
+              "emotion": "idea",
+              "text": "Смотри — вот перед нами берестяная грамота. Как ты думаешь, что означает слово «вѣдати»?",
+              "choices": [
+                { "text": "Знать, ведать", "next": "q1_correct", "score": 10, "correct": true },
+                { "text": "Видеть", "next": "q1_wrong", "score": 0 },
+                { "text": "Говорить", "next": "q1_wrong", "score": 0 }
+              ]
+            },
+            {
+              "id": "q1_correct",
+              "speaker": "Мори",
+              "emotion": "happy",
+              "text": "Верно! «Вѣдати» — знать, ведать. Отсюда слова «ведьма» (та, что знает), «невежда» (не знающий). Ты нашёл своё первое слово!",
+              "next": "word_found_vedat",
+              "reward": {
+                "type": "word",
+                "word": {
+                  "id": "vedat",
+                  "form": "вѣдати",
+                  "modern": "ведать / знать",
+                  "era": "Древняя Русь, XI в.",
+                  "description": "Глагол старославянского происхождения. Дал жизнь словам: ведьма, невежда, ведомость, заведение."
+                }
+              }
+            },
+            {
+              "id": "q1_wrong",
+              "speaker": "Мори",
+              "emotion": "pout",
+              "text": "Не совсем... «Вѣдати» означает «знать, ведать». Отсюда слова «ведьма» и «невежда». Запомни это слово!",
+              "next": "word_found_vedat"
+            },
+            {
+              "id": "word_found_vedat",
+              "speaker": "Мори",
+              "emotion": "happy",
+              "text": "Слово «вѣдати» добавлено в твой Словарный Архив! Продолжим исследование Скриптория?",
+              "choices": [
+                { "text": "Продолжить", "next": "scriptorium_end", "score": 0 }
+              ]
+            },
+            {
+              "id": "scriptorium_end",
+              "speaker": "Мори",
+              "emotion": "idea",
+              "text": "Скрипторий открыл нам свои тайны. Следующая эпоха ждёт тебя на карте!",
+              "next": null,
+              "action": "complete_location"
+            }
+          ],
+          "words": ["vedat"]
+        }
+      ]
+    },
+    { "id": "act2", "title": "Акт II: Печатный век", "unlocked": false, "locations": [] },
+    { "id": "act3", "title": "Акт III: Золотой век литературы", "unlocked": false, "locations": [] },
+    { "id": "act4", "title": "Акт IV: Язык народов и диалекты", "unlocked": false, "locations": [] },
+    { "id": "act5", "title": "Акт V: Современность", "unlocked": false, "locations": [] }
+  ],
+  "words": {
+    "vedat": {
+      "id": "vedat",
+      "form": "вѣдати",
+      "modern": "ведать / знать",
+      "era": "Древняя Русь, XI в.",
+      "description": "Глагол старославянского происхождения. Дал жизнь словам: ведьма, невежда, ведомость, заведение."
+    }
+  }
+}

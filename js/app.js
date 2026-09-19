@@ -1,0 +1,619 @@
+// ─── Constants ────────────────────────────────────────────────────────────────
+const SAVE_KEY = 'scv_save';
+
+const DIFF_LABELS = {
+  novice:   'Первопроходец',
+  explorer: 'Исследователь',
+  keeper:   'Хранитель',
+};
+
+const ACHIEVEMENTS = [
+  { id: 'first_word',   name: 'Первая грамота',       desc: 'Найди первое слово',          icon: 'scroll-text', color: '#c9a84c', bg: 'rgba(201,168,76,0.12)' },
+  { id: 'act1_done',    name: 'Знаток Скриптория',    desc: 'Пройди Акт I',                icon: 'feather',     color: '#81c784', bg: 'rgba(100,200,100,0.12)' },
+  { id: 'words_5',      name: 'Собиратель слов',      desc: 'Найди 5 слов',                icon: 'library',     color: '#64b5f6', bg: 'rgba(100,150,200,0.12)' },
+  { id: 'score_50',     name: 'Острый ум',            desc: 'Набери 50 очков',             icon: 'zap',         color: '#ffb74d', bg: 'rgba(255,180,80,0.12)'  },
+  { id: 'glagolica',    name: 'Знаток Глаголицы',     desc: 'Пройди Акт II',               icon: 'type',        color: '#f48fb1', bg: 'rgba(240,140,180,0.12)' },
+  { id: 'dialects',     name: 'Покоритель Диалектов', desc: 'Пройди Акт IV',               icon: 'globe',       color: '#80cbc4', bg: 'rgba(100,200,190,0.12)' },
+  { id: 'words_15',     name: 'Мастер Словесности',   desc: 'Найди 15 слов',               icon: 'award',       color: '#b39ddb', bg: 'rgba(150,100,200,0.12)' },
+  { id: 'all_acts',     name: 'Летопись Единства',    desc: 'Пройди все 5 актов',          icon: 'crown',       color: '#f0d080', bg: 'rgba(240,210,80,0.12)'  },
+];
+
+// ─── State ────────────────────────────────────────────────────────────────────
+let gameData = null;
+let state = {
+  score: 0,
+  foundWords: [],
+  completedLocations: [],
+  unlockedAchievements: [],
+  difficulty: 'explorer',
+  currentDialogueId: null,
+  currentLocation: null,
+  currentDialogue: null,
+  lastScreen: 'game',
+};
+
+// ─── Save / Load ──────────────────────────────────────────────────────────────
+function saveProgress() {
+  localStorage.setItem(SAVE_KEY, JSON.stringify({
+    score: state.score,
+    foundWords: state.foundWords,
+    completedLocations: state.completedLocations,
+    unlockedAchievements: state.unlockedAchievements,
+    difficulty: state.difficulty,
+  }));
+}
+
+function loadProgress() {
+  const saved = localStorage.getItem(SAVE_KEY);
+  if (!saved) return;
+  const d = JSON.parse(saved);
+  state.score = d.score ?? 0;
+  state.foundWords = d.foundWords ?? [];
+  state.completedLocations = d.completedLocations ?? [];
+  state.unlockedAchievements = d.unlockedAchievements ?? [];
+  state.difficulty = d.difficulty ?? 'explorer';
+}
+
+function hasSave() {
+  return !!localStorage.getItem(SAVE_KEY);
+}
+
+// ─── Screens ──────────────────────────────────────────────────────────────────
+const GAME_SCREENS = ['game', 'map', 'inventory'];
+
+function showScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById(`screen-${name}`);
+  if (el) el.classList.add('active');
+
+  const isGame = GAME_SCREENS.includes(name);
+  document.getElementById('game-topbar').style.display = isGame ? 'flex' : 'none';
+
+  if (name === 'map') { renderMap(); state.lastScreen = 'map'; }
+  if (name === 'inventory') { renderInventory(); state.lastScreen = 'inventory'; }
+  if (name === 'game') state.lastScreen = 'game';
+
+  lucide.createIcons();
+}
+
+// ─── Difficulty ───────────────────────────────────────────────────────────────
+function _syncDiffCards(containerSelector, diff) {
+  document.querySelectorAll(containerSelector + ' .diff-card').forEach(c => {
+    const sel = c.dataset.diff === diff;
+    c.classList.toggle('selected', sel);
+    // handle both landing (check-icon-*) and modal (mcheck-icon-*) prefixes
+    c.querySelectorAll('[id*="check-icon-"]').forEach(ic => {
+      ic.style.display = sel ? 'block' : 'none';
+    });
+  });
+}
+
+function selectDifficulty(diff) {
+  state.difficulty = diff;
+  _syncDiffCards('#difficulty', diff);
+  document.getElementById('diff-badge').textContent = DIFF_LABELS[diff];
+  saveProgress();
+  lucide.createIcons();
+}
+
+function selectDifficultyModal(diff) {
+  state.difficulty = diff;
+  _syncDiffCards('#modal-diff-grid', diff);
+  document.getElementById('diff-badge').textContent = DIFF_LABELS[diff];
+  saveProgress();
+  lucide.createIcons();
+}
+
+function openDifficultyModal() {
+  // sync modal cards to current state
+  _syncDiffCards('#modal-diff-grid', state.difficulty);
+  lucide.createIcons();
+  document.getElementById('modal-difficulty').classList.add('open');
+}
+
+function closeDifficultyModal() {
+  document.getElementById('modal-difficulty').classList.remove('open');
+}
+
+// ─── Landing helpers ──────────────────────────────────────────────────────────
+function scrollToSection(id) {
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+}
+
+function continueGame() {
+  showScreen('game');
+  if (state.currentDialogue && state.currentDialogueId) {
+    showDialogue(state.currentDialogueId);
+  } else {
+    showScreen('map');
+  }
+}
+
+// ─── Intro cutscene ───────────────────────────────────────────────────────────
+function startIntro() {
+  showScreen('intro');
+  const video = document.getElementById('intro-video');
+  const placeholder = document.getElementById('intro-placeholder');
+  const skipBtn = document.getElementById('btn-skip-intro');
+  let done = false;
+
+  function finish() {
+    if (done) return;
+    done = true;
+    if (video) { video.pause(); }
+    launchGame();
+  }
+
+  skipBtn.onclick = finish;
+
+  if (video) {
+    video.onended = finish;
+    video.onerror = () => {
+      video.style.display = 'none';
+      placeholder.style.display = 'flex';
+      const timer = setTimeout(finish, 4500);
+      skipBtn.onclick = () => { clearTimeout(timer); finish(); };
+    };
+    // play() triggered by user gesture from btn-confirm-diff click — should work
+    const p = video.play();
+    if (p !== undefined) p.catch(() => {
+      video.style.display = 'none';
+      placeholder.style.display = 'flex';
+      const timer = setTimeout(finish, 4500);
+      skipBtn.onclick = () => { clearTimeout(timer); finish(); };
+    });
+  } else {
+    placeholder.style.display = 'flex';
+    const timer = setTimeout(finish, 4500);
+    skipBtn.onclick = () => { clearTimeout(timer); finish(); };
+  }
+}
+
+function launchGame() {
+  showActSplash('Пролог', 'Слово через века', 'Начало путешествия', startPrologue);
+}
+
+// ─── Act Splash ───────────────────────────────────────────────────────────────
+function showActSplash(eyebrow, title, sub, onDone) {
+  const splash = document.getElementById('act-splash');
+  document.getElementById('act-splash-eyebrow').textContent = eyebrow;
+  document.getElementById('act-splash-title').textContent = title;
+  document.getElementById('act-splash-sub').textContent = sub;
+  splash.classList.add('visible');
+  setTimeout(() => {
+    splash.style.transition = 'opacity 0.8s ease';
+    splash.style.opacity = '0';
+    setTimeout(() => {
+      splash.classList.remove('visible');
+      splash.style.opacity = '';
+      splash.style.transition = '';
+      onDone?.();
+    }, 800);
+  }, 2200);
+}
+
+// ─── Background crossfade ─────────────────────────────────────────────────────
+function setGameBg(value) {
+  const bg = document.getElementById('game-bg');
+  const next = document.getElementById('game-bg-next');
+  const css = (value && (value.startsWith('assets') || value.startsWith('mori')))
+    ? `url('${value}') center/cover no-repeat`
+    : value;
+  next.style.background = css;
+  next.style.opacity = '1';
+  setTimeout(() => {
+    bg.style.background = css;
+    next.style.opacity = '0';
+  }, 700);
+}
+function startPrologue() {
+  const p = gameData.prologue;
+  state.currentDialogue = p.dialogue;
+  state.currentDialogueId = p.dialogue[0].id;
+  state.currentLocation = { id: 'prologue', title: p.title };
+  document.getElementById('location-title').textContent = '';
+  setGameBg(p.background);
+  showScreen('game');
+  showDialogue(state.currentDialogueId);
+}
+
+// ─── Mori sprite ─────────────────────────────────────────────────────────────
+const MORI_SPRITES = {
+  default:  'mori/mori_full.png',
+  happy:    'mori/mori_happy.png',
+  idea:     'mori/mori_idea.png',
+  pout:     'mori/mori_pout.png',
+  shock:    'mori/mori_shock.png',
+  confused: 'mori/mori_confused.png',
+  funny:    'mori/mori_funny..png',
+  none:     null,
+};
+
+const MORI_FALLBACKS = {
+  shock:    'mori/mori_full.png',
+  confused: 'mori/mori_full.png',
+  funny:    'mori/mori_idea.png',
+};
+
+function setMoriEmotion(emotion) {
+  const container = document.querySelector('.mori-container');
+  const img = document.getElementById('mori-sprite');
+  if (emotion === 'none') {
+    container.style.display = 'none';
+    return;
+  }
+  container.style.display = '';
+  const src = MORI_SPRITES[emotion] || MORI_SPRITES.default;
+  if (img.src.endsWith(src)) return;
+  img.classList.add('fade-out');
+  setTimeout(() => {
+    img.src = src;
+    img.onerror = () => {
+      img.src = MORI_FALLBACKS[emotion] || MORI_SPRITES.default;
+      img.onerror = null;
+    };
+    img.classList.remove('fade-out');
+  }, 200);
+}
+
+// ─── Dialogue engine ──────────────────────────────────────────────────────────
+function getDialogueNode(id) {
+  return state.currentDialogue.find(d => d.id === id);
+}
+
+function showDialogue(nodeId) {
+  const node = getDialogueNode(nodeId);
+  if (!node) return;
+  state.currentDialogueId = nodeId;
+  setMoriEmotion(node.emotion || 'default');
+  // switch background if node specifies one
+  if (node.bg) {
+    setGameBg(node.bg);
+  }
+  document.getElementById('speaker-name').textContent = node.speaker;
+  document.getElementById('choices-container').innerHTML = '';
+  typeText(node.text, () => renderChoices(node));
+}
+
+function typeText(text, onDone) {
+  const el = document.getElementById('dialogue-text');
+  el.textContent = '';
+  let i = 0;
+  const iv = setInterval(() => {
+    el.textContent += text[i++];
+    if (i >= text.length) { clearInterval(iv); onDone?.(); }
+  }, 22);
+  el.onclick = () => {
+    clearInterval(iv);
+    el.textContent = text;
+    el.onclick = null;
+    onDone?.();
+  };
+}
+
+function renderChoices(node) {
+  const c = document.getElementById('choices-container');
+  c.innerHTML = '';
+
+  if (node.reward) applyReward(node.reward);
+  if (node.action === 'complete_location') completeLocation();
+  if (node.action === 'start_act1') {
+    setTimeout(() => {
+      showActSplash('Акт I', 'Древняя Русь', 'Встреча с Мори', () => startLocation('act1', 'scriptorium'));
+    }, 400);
+    return;
+  }
+
+  if (node.choices?.length) {
+    node.choices.forEach(choice => {
+      const btn = document.createElement('button');
+      btn.className = 'choice-btn';
+      btn.textContent = choice.text;
+      btn.onclick = () => {
+        state.score += choice.score || 0;
+        updateScoreUI();
+        saveProgress();
+        checkAchievements();
+        showDialogue(choice.next);
+      };
+      c.appendChild(btn);
+    });
+  } else if (node.next) {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn choice-btn--continue';
+    btn.innerHTML = 'Продолжить <i data-lucide="arrow-right" style="width:14px;height:14px;display:inline;vertical-align:middle"></i>';
+    btn.onclick = () => { showDialogue(node.next); lucide.createIcons(); };
+    c.appendChild(btn);
+    lucide.createIcons();
+  } else {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn choice-btn--continue';
+    btn.innerHTML = '<i data-lucide="map" style="width:14px;height:14px;display:inline;vertical-align:middle"></i> Открыть карту';
+    btn.onclick = () => showScreen('map');
+    c.appendChild(btn);
+    lucide.createIcons();
+  }
+}
+
+// ─── Rewards & Achievements ───────────────────────────────────────────────────
+function applyReward(reward) {
+  if (reward.type === 'word' && !state.foundWords.includes(reward.word.id)) {
+    state.foundWords.push(reward.word.id);
+    saveProgress();
+    showWordToast(reward.word.form);
+    updateInventoryCount();
+    checkAchievements();
+  }
+}
+
+function completeLocation() {
+  const id = state.currentLocation?.id;
+  if (id && !state.completedLocations.includes(id)) {
+    state.completedLocations.push(id);
+    saveProgress();
+    checkAchievements();
+  }
+}
+
+function checkAchievements() {
+  const unlock = (id) => {
+    if (!state.unlockedAchievements.includes(id)) {
+      state.unlockedAchievements.push(id);
+      saveProgress();
+      const ach = ACHIEVEMENTS.find(a => a.id === id);
+      if (ach) showAchievementToast(ach.name);
+    }
+  };
+  if (state.foundWords.length >= 1)  unlock('first_word');
+  if (state.foundWords.length >= 5)  unlock('words_5');
+  if (state.foundWords.length >= 15) unlock('words_15');
+  if (state.score >= 50)             unlock('score_50');
+  if (state.completedLocations.includes('scriptorium')) unlock('act1_done');
+}
+
+// ─── UI Updates ───────────────────────────────────────────────────────────────
+function updateScoreUI() {
+  document.getElementById('score-display').textContent = state.score;
+}
+
+function updateInventoryCount() {
+  document.getElementById('inv-count').textContent = state.foundWords.length;
+}
+
+// ─── Toasts ───────────────────────────────────────────────────────────────────
+function showWordToast(word) {
+  const toast = document.getElementById('word-toast');
+  document.getElementById('toast-word').textContent = word;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3200);
+}
+
+function showAchievementToast(name) {
+  // Reuse word toast with different text briefly after word toast
+  setTimeout(() => {
+    const toast = document.getElementById('word-toast');
+    document.getElementById('toast-word').textContent = '';
+    toast.querySelector('span').textContent = '';
+    // Create a separate small notification
+    const el = document.createElement('div');
+    el.style.cssText = `position:fixed;bottom:1.5rem;right:1.5rem;z-index:300;
+      background:linear-gradient(135deg,#1a2d45,#243b55);
+      border:1px solid var(--gold);border-radius:8px;
+      padding:0.75rem 1.1rem;color:var(--gold-light);
+      font-family:'Cinzel',serif;font-size:0.82rem;
+      box-shadow:0 4px 20px rgba(201,168,76,0.25);
+      animation:slideDown 0.4s ease both;`;
+    el.textContent = `🏆 ${name}`;
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 3000);
+  }, 500);
+}
+
+// ─── Map ──────────────────────────────────────────────────────────────────────
+function renderMap() {
+  const container = document.getElementById('map-acts');
+  container.innerHTML = '';
+  gameData.acts.forEach(act => {
+    const div = document.createElement('div');
+    div.className = `act-card ${act.unlocked ? '' : 'locked'}`;
+    const locs = act.locations.map(loc => {
+      const done = state.completedLocations.includes(loc.id);
+      const icon = done
+        ? '<i data-lucide="check-circle" style="width:13px;height:13px"></i>'
+        : '<i data-lucide="map-pin" style="width:13px;height:13px"></i>';
+      return `<button class="loc-btn ${done ? 'completed' : ''}"
+        ${!act.unlocked ? 'disabled' : ''}
+        data-act="${act.id}" data-loc="${loc.id}">
+        ${icon} ${loc.title}
+      </button>`;
+    }).join('') || '<p class="soon">Скоро...</p>';
+    div.innerHTML = `<h3>${act.title}</h3><div class="locations-list">${locs}</div>`;
+    container.appendChild(div);
+  });
+  container.querySelectorAll('.loc-btn:not([disabled])').forEach(btn => {
+    btn.onclick = () => startLocation(btn.dataset.act, btn.dataset.loc);
+  });
+  lucide.createIcons();
+}
+
+function startLocation(actId, locId) {
+  const act = gameData.acts.find(a => a.id === actId);
+  const loc = act?.locations.find(l => l.id === locId);
+  if (!loc) return;
+  state.currentLocation = loc;
+  state.currentDialogue = loc.dialogue;
+  state.currentDialogueId = loc.dialogue[0].id;
+  document.getElementById('location-title').textContent = loc.title;
+  setGameBg(loc.background);
+  showScreen('game');
+  showDialogue(state.currentDialogueId);
+}
+
+// ─── Inventory ────────────────────────────────────────────────────────────────
+function renderInventory() {
+  const container = document.getElementById('inventory-list');
+  if (!state.foundWords.length) {
+    container.innerHTML = '<p class="empty-inv">Ты ещё не нашёл ни одного слова. Исследуй локации!</p>';
+    return;
+  }
+  container.innerHTML = state.foundWords.map(id => {
+    const w = gameData.words[id];
+    if (!w) return '';
+    return `<div class="word-card">
+      <div class="word-form">${w.form}</div>
+      <div class="word-modern">→ ${w.modern}</div>
+      <div class="word-era">${w.era}</div>
+      <p class="word-desc">${w.description}</p>
+    </div>`;
+  }).join('');
+}
+
+// ─── Achievements ─────────────────────────────────────────────────────────────
+function renderAchievements() {
+  const grid = document.getElementById('achievements-grid');
+  grid.innerHTML = ACHIEVEMENTS.map(a => {
+    const unlocked = state.unlockedAchievements.includes(a.id);
+    return `<div class="ach-card ${unlocked ? 'unlocked' : 'locked'}">
+      <div class="ach-icon" style="background:${a.bg};border:1px solid ${a.color}40">
+        <i data-lucide="${a.icon}" style="width:24px;height:24px;color:${a.color}"></i>
+      </div>
+      <div class="ach-name">${a.name}</div>
+      <div class="ach-desc">${unlocked ? a.desc : '???'}</div>
+    </div>`;
+  }).join('');
+  lucide.createIcons();
+}
+
+function openAchievements() {
+  renderAchievements();
+  document.getElementById('modal-achievements').classList.add('open');
+}
+
+function closeAchievements() {
+  document.getElementById('modal-achievements').classList.remove('open');
+}
+
+// ─── Init ─────────────────────────────────────────────────────────────────────
+async function init() {
+  const res = await fetch('data/gameData.json');
+  gameData = await res.json();
+
+  loadProgress();
+  updateScoreUI();
+  updateInventoryCount();
+  document.getElementById('diff-badge').textContent = DIFF_LABELS[state.difficulty];
+
+  // Sync difficulty modal cards
+  _syncDiffCards('#modal-diff-grid', state.difficulty);
+
+  // Show "Continue" button if save exists
+  if (hasSave()) {
+    document.getElementById('btn-continue').style.display = 'flex';
+  }
+
+  // Landing buttons → open difficulty modal first
+  document.getElementById('btn-start-landing').onclick = () => openDifficultyModal();
+
+  // Difficulty modal
+  document.getElementById('btn-confirm-diff').onclick = () => {
+    closeDifficultyModal();
+    startIntro();
+  };
+  document.getElementById('btn-close-diff').onclick = closeDifficultyModal;
+  document.getElementById('btn-close-diff-cancel').onclick = closeDifficultyModal;
+  document.getElementById('modal-difficulty').onclick = (e) => {
+    if (e.target === e.currentTarget) closeDifficultyModal();
+  };
+
+  // Game topbar
+  document.getElementById('btn-map').onclick = () => showScreen('map');
+  document.getElementById('btn-inventory').onclick = () => showScreen('inventory');
+  document.getElementById('btn-achievements').onclick = openAchievements;
+
+  // Map / Inventory back
+  document.getElementById('btn-back-map').onclick = () => showScreen('game');
+  document.getElementById('btn-back-inv').onclick = () => showScreen('game');
+  document.getElementById('archive-prev').onclick = () => goArchivePage(archivePage - 1);
+  document.getElementById('archive-next').onclick = () => goArchivePage(archivePage + 1);
+
+  // Achievements modal close
+  document.getElementById('btn-close-achievements').onclick = closeAchievements;
+  document.getElementById('modal-achievements').onclick = (e) => {
+    if (e.target === e.currentTarget) closeAchievements();
+  };
+
+  showScreen('landing');
+  lucide.createIcons();
+}
+
+document.addEventListener('DOMContentLoaded', init);
+
+// ─── 3D Coverflow Carousel ──────────────────────────────────────────
+function initCarousel() {
+  const slides = Array.from(document.querySelectorAll('.carousel-slide'));
+  const dotsContainer = document.getElementById('carousel-dots');
+  if (!slides.length || !dotsContainer) return;
+
+  const total = slides.length;
+  let current = 0;
+  let autoTimer = null;
+  let dragStartX = 0;
+
+  slides.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'carousel-dot';
+    dot.setAttribute('aria-label', `Слайд ${i + 1}`);
+    dot.onclick = () => goTo(i);
+    dotsContainer.appendChild(dot);
+  });
+
+  function applyPositions() {
+    const leftIdx  = ((current - 1) + total) % total;
+    const rightIdx = (current + 1) % total;
+    slides.forEach((slide, i) => {
+      slide.classList.remove('pos-center', 'pos-left', 'pos-right');
+      if (i === current)        slide.classList.add('pos-center');
+      else if (i === leftIdx)   slide.classList.add('pos-left');
+      else if (i === rightIdx)  slide.classList.add('pos-right');
+    });
+    Array.from(dotsContainer.children).forEach((d, i) => {
+      d.classList.toggle('active', i === current);
+    });
+    lucide.createIcons();
+  }
+
+  function goTo(idx) {
+    current = ((idx % total) + total) % total;
+    applyPositions();
+    resetAuto();
+  }
+
+  function resetAuto() {
+    clearInterval(autoTimer);
+    autoTimer = setInterval(() => goTo(current + 1), 3800);
+  }
+
+  document.getElementById('carousel-prev').onclick = () => goTo(current - 1);
+  document.getElementById('carousel-next').onclick = () => goTo(current + 1);
+
+  slides.forEach((slide, i) => {
+    slide.addEventListener('click', () => { if (i !== current) goTo(i); });
+  });
+
+  const track = document.getElementById('carousel-track');
+  track.addEventListener('mousedown',  e => { dragStartX = e.clientX; });
+  track.addEventListener('mouseup',    e => {
+    const dx = e.clientX - dragStartX;
+    if (Math.abs(dx) > 50) goTo(dx < 0 ? current + 1 : current - 1);
+  });
+  track.addEventListener('touchstart', e => { dragStartX = e.touches[0].clientX; }, { passive: true });
+  track.addEventListener('touchend',   e => {
+    const dx = e.changedTouches[0].clientX - dragStartX;
+    if (Math.abs(dx) > 40) goTo(dx < 0 ? current + 1 : current - 1);
+  });
+
+  applyPositions();
+  resetAuto();
+}
+
+document.addEventListener('DOMContentLoaded', initCarousel);

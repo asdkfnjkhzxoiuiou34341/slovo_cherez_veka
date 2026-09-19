@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="dark" />
+  <title>Слово через века — Интерактивный атлас русского языка</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+
+<!-- ══ SCREEN: LANDING ══ -->
+<div class="screen active screen--scroll" id="screen-landing">
+<div style="width:100%;display:flex;flex-direction:column;">
+
+  <header class="lp-header">
+    <div class="lp-logo">
+      <span class="lp-logo-letter">С</span>лово через века
+    </div>
+    <nav class="lp-nav">
+      <button class="btn-ghost--nav" onclick="scrollToSection('about')">О проекте</button>
+      <button class="btn-ghost--nav" onclick="scrollToSection('features')">Возможности</button>
+      <button class="btn-ghost--nav" onclick="scrollToSection('gallery')">Скриншоты</button>
+    </nav>
+    <button class="btn-ghost" id="btn-continue" style="display:none" onclick="continueGame()">
+      <i data-lucide="play" style="width:13px;height:13px"></i> Продолжить
+    </button>
+  </header>
+
+  <section class="lp-hero">
+    <div class="lp-hero-inner">
+      <div class="lp-hero-text">
+        <div class="lp-hero-eyebrow">
+          <i data-lucide="book-marked" style="width:13px;height:13px"></i>
+          Образовательный интерактивный атлас
+        </div>
+        <h1 class="lp-hero-title">
+          Тысячелетняя история<br><em>русского слова</em>
+        </h1>
+        <p class="lp-hero-sub">
+          От берестяных грамот Новгорода и исследований академика Зализняка —
+          до современной цифровой словесности. Пять эпох, 25+ локаций,
+          живые диалекты народов России.
+        </p>
+        <div class="lp-hero-actions">
+          <button class="btn-primary" id="btn-start-landing">
+            <i data-lucide="compass" style="width:17px;height:17px"></i>
+            Начать путешествие
+          </button>
+          <button class="btn-ghost" onclick="scrollToSection('about')">
+            Узнать больше <i data-lucide="chevron-down" style="width:13px;height:13px"></i>
+          </button>
+        </div>
+      </div>
+      <img src="mori/mori_happy.png" class="lp-hero-mori" alt="Мори" />
+    </div>
+  </section>
+
+  <div class="lp-divider"></div>
+
+  <!-- About / Features -->
+  <section class="lp-section" id="about">
+    <div class="lp-section-label">О проекте</div>
+    <h2 class="lp-section-title">Пять эпох. Тысяча лет. Один язык.</h2>
+    <p class="lp-section-sub">
+      «Слово через века» — бесплатный интерактивный квест в жанре визуальной новеллы,
+      созданный на основе материалов Института русского языка им. В. В. Виноградова РАН
+      и Национального корпуса русского языка.
+    </p>
+    <div class="features-grid" id="features">
+      <div class="feature-card">
+        <div class="feature-icon"><i data-lucide="scroll-text" style="width:20px;height:20px"></i></div>
+        <h3>Берестяные грамоты</h3>
+        <p>Новгородские грамоты XI–XV вв. и открытия академика А. А. Зализняка. Живые голоса средневековых горожан через тексты на бересте.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i data-lucide="type" style="width:20px;height:20px"></i></div>
+        <h3>Кириллица и глаголица</h3>
+        <p>История создания славянской азбуки Кириллом и Мефодием, эволюция орфографии от церковнославянского до современных норм.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i data-lucide="globe" style="width:20px;height:20px"></i></div>
+        <h3>Атлас языков народов России</h3>
+        <p>Татарский, якутский, башкирский, чеченский и другие языки. Интерактивный этно-лингвистический атлас с диалектными картами.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i data-lucide="book-open" style="width:20px;height:20px"></i></div>
+        <h3>Словарный Архив</h3>
+        <p>Коллекция архаизмов, историзмов и диалектизмов с верифицированными данными ИРЯ РАН и портала Грамота.ру. Этимология каждого слова.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i data-lucide="puzzle" style="width:20px;height:20px"></i></div>
+        <h3>Лингвистические задания</h3>
+        <p>Ребусы, этимологические загадки, задания на орфоэпию и паронимы. Формат адаптируется под выбранный уровень — от 1 класса до ЕГЭ.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i data-lucide="trophy" style="width:20px;height:20px"></i></div>
+        <h3>Система достижений</h3>
+        <p>8 наград: «Первая грамота», «Знаток Глаголицы», «Покоритель Диалектов», «Летопись Единства». Прогресс сохраняется автоматически.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="lp-divider"></div>
+
+  <!-- Gallery -->
+  <section class="lp-section" id="gallery">
+    <div class="lp-section-label">Скриншоты</div>
+    <h2 class="lp-section-title">Как выглядит игра</h2>
+    <p class="lp-section-sub">Визуальная новелла, карта эпох и лингвистические головоломки — всё в браузере, без установки.</p>
+
+    <div class="carousel" id="gallery-carousel">
+      <div class="carousel-track" id="carousel-track">
+
+        <div class="carousel-slide">
+          <div class="gallery-mock gallery-mock-dialogue">
+            <img src="mori/mori_idea.png" style="height:115px;position:absolute;left:14px;bottom:62px;filter:drop-shadow(0 0 10px rgba(212,175,55,0.38))" alt="" />
+            <div class="gallery-mock-inner">
+              <div class="mock-dialogue-box">
+                <div class="mock-speaker">Мори</div>
+                <div class="mock-text">Берестяная грамота №292, Новгород, XII в. Что означает слово «вѣдати»?</div>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-label">
+            <i data-lucide="message-square" style="width:13px;height:13px"></i>
+            Диалоговое окно визуальной новеллы
+          </div>
+        </div>
+
+        <div class="carousel-slide">
+          <div class="gallery-mock gallery-mock-map">
+            <div class="mock-map-dots">
+              <div style="display:flex;flex-direction:column;align-items:center;gap:0.8rem">
+                <div class="mock-dot"></div>
+                <div style="font-size:0.6rem;color:rgba(212,175,55,0.75);font-family:'Cormorant Garamond',serif">Акт I</div>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:0.8rem">
+                <div class="mock-dot dim"></div>
+                <div style="font-size:0.6rem;color:rgba(212,175,55,0.28);font-family:'Cormorant Garamond',serif">Акт II</div>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:0.8rem">
+                <div class="mock-dot dim"></div>
+                <div style="font-size:0.6rem;color:rgba(212,175,55,0.28);font-family:'Cormorant Garamond',serif">Акт III</div>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-label">
+            <i data-lucide="map" style="width:13px;height:13px"></i>
+            Карта эпох с локациями
+          </div>
+        </div>
+
+        <div class="carousel-slide">
+          <div class="gallery-mock gallery-mock-puzzle">
+            <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.7rem;padding:1.2rem">
+              <div style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;color:var(--gold-light);font-weight:600">вѣдати</div>
+              <div style="display:flex;flex-direction:column;gap:0.4rem;width:100%">
+                <div style="background:rgba(212,175,55,0.1);border:1px solid rgba(212,175,55,0.3);border-radius:3px;padding:0.3rem 0.7rem;font-size:0.72rem;color:var(--text)">Знать, ведать</div>
+                <div style="background:rgba(30,25,40,0.6);border:1px solid var(--border);border-radius:3px;padding:0.3rem 0.7rem;font-size:0.72rem;color:var(--text-dim)">Видеть</div>
+                <div style="background:rgba(30,25,40,0.6);border:1px solid var(--border);border-radius:3px;padding:0.3rem 0.7rem;font-size:0.72rem;color:var(--text-dim)">Говорить</div>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-label">
+            <i data-lucide="puzzle" style="width:13px;height:13px"></i>
+            Лингвистическая головоломка
+          </div>
+        </div>
+
+        <div class="carousel-slide">
+          <div class="gallery-mock" style="background:linear-gradient(135deg,#0c140c,#101a10)">
+            <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.6rem;padding:1.2rem">
+              <div style="font-family:'Cormorant Garamond',serif;font-size:0.72rem;color:var(--gold);letter-spacing:0.15em;text-transform:uppercase">Словарный Архив</div>
+              <div style="background:var(--bg-card);border:1px solid rgba(212,175,55,0.28);border-radius:5px;padding:0.7rem;width:100%">
+                <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold-light);font-weight:600">вѣдати</div>
+                <div style="font-size:0.65rem;color:#9ab8d4;margin-top:0.2rem">→ ведать / знать</div>
+                <div style="font-size:0.62rem;color:var(--text-dim);font-style:italic;margin-top:0.12rem">Древняя Русь, XI в. · ИРЯ РАН</div>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-label">
+            <i data-lucide="book-open" style="width:13px;height:13px"></i>
+            Карточка найденного слова
+          </div>
+        </div>
+
+      </div>
+
+      <button class="carousel-btn carousel-btn--prev" id="carousel-prev" aria-label="Назад">
+        <i data-lucide="chevron-left" style="width:20px;height:20px"></i>
+      </button>
+      <button class="carousel-btn carousel-btn--next" id="carousel-next" aria-label="Вперёд">
+        <i data-lucide="chevron-right" style="width:20px;height:20px"></i>
+      </button>
+      <div class="carousel-dots" id="carousel-dots"></div>
+    </div>
+  </section>
+
+  <footer class="lp-footer">
+    <p>
+      Образовательный интерактивный атлас русского языка и языков народов России.<br>
+      Разработано на основе материалов
+      <a href="https://ruslang.ru" target="_blank" rel="noopener">ИРЯ РАН им. В. В. Виноградова</a>
+      и <a href="https://ruscorpora.ru" target="_blank" rel="noopener">Национального корпуса русского языка</a>.
+    </p>
+  </footer>
+
+</div>
+</div>
+
+<!-- ══ MODAL: DIFFICULTY ══ -->
+<div class="modal-overlay" id="modal-difficulty">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Выбери уровень сложности</div>
+      <button class="modal-close" id="btn-close-diff">
+        <i data-lucide="x" style="width:20px;height:20px"></i>
+      </button>
+    </div>
+    <p class="modal-subtitle">Мори подстроит язык диалогов, глубину материала и формат заданий под твой уровень.</p>
+    <div class="difficulty-grid" id="modal-diff-grid">
+
+      <div class="diff-card" data-diff="novice" onclick="selectDifficultyModal('novice')">
+        <div class="diff-card-check" id="mcheck-novice">
+          <i data-lucide="check" style="width:11px;height:11px;color:#0e0c10;display:none" id="mcheck-icon-novice"></i>
+        </div>
+        <div class="diff-icon" style="background:rgba(90,158,106,0.12);border:1px solid rgba(90,158,106,0.28)">
+          <i data-lucide="star" style="width:22px;height:22px;color:#7ec48e"></i>
+        </div>
+        <h3>Первопроходец</h3>
+        <div class="diff-grade">1–4 классы</div>
+        <p>Простой язык, ребусы, сказочные факты о буквах.</p>
+      </div>
+
+      <div class="diff-card" data-diff="explorer" onclick="selectDifficultyModal('explorer')">
+        <div class="diff-card-check" id="mcheck-explorer">
+          <i data-lucide="check" style="width:11px;height:11px;color:#0e0c10;display:none" id="mcheck-icon-explorer"></i>
+        </div>
+        <div class="diff-icon" style="background:var(--gold-dim);border:1px solid rgba(212,175,55,0.28)">
+          <i data-lucide="compass" style="width:22px;height:22px;color:var(--gold)"></i>
+        </div>
+        <h3>Исследователь</h3>
+        <div class="diff-grade">5–9 классы</div>
+        <p>Этимология, диалекты, история азбуки.</p>
+      </div>
+
+      <div class="diff-card" data-diff="keeper" onclick="selectDifficultyModal('keeper')">
+        <div class="diff-card-check" id="mcheck-keeper">
+          <i data-lucide="check" style="width:11px;height:11px;color:#0e0c10;display:none" id="mcheck-icon-keeper"></i>
+        </div>
+        <div class="diff-icon" style="background:rgba(150,100,200,0.1);border:1px solid rgba(150,100,200,0.25)">
+          <i data-lucide="scroll-text" style="width:22px;height:22px;color:#b39ddb"></i>
+        </div>
+        <h3>Хранитель</h3>
+        <div class="diff-grade">10–11 · ЕГЭ</div>
+        <p>Паронимы, нормы ударения, задания ЕГЭ.</p>
+      </div>
+
+    </div>
+    <div class="modal-actions">
+      <button class="btn-ghost" id="btn-close-diff-cancel">Отмена</button>
+      <button class="btn-primary" id="btn-confirm-diff">
+        <i data-lucide="compass" style="width:16px;height:16px"></i>
+        Войти в историю
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SCREEN: INTRO ══ -->
+<div class="screen" id="screen-intro">
+  <video id="intro-video" muted playsinline preload="auto">
+    <source src="assets/video/intro.mp4" type="video/mp4" />
+  </video>
+  <div class="intro-placeholder" id="intro-placeholder" style="display:none">
+    <img src="mori/mori_full.png" class="intro-mori-float" alt="Мори" />
+    <div class="intro-placeholder-title">Слово через века</div>
+    <div class="intro-placeholder-sub">Путешествие начинается...</div>
+    <div class="intro-progress"><div class="intro-progress-bar" id="intro-bar"></div></div>
+  </div>
+  <button class="btn-skip" id="btn-skip-intro">
+    <i data-lucide="skip-forward" style="width:13px;height:13px"></i>
+    Пропустить
+  </button>
+</div>
+
+<!-- ══ GAME TOPBAR ══ -->
+<div class="game-topbar" id="game-topbar" style="display:none">
+  <div class="topbar-group">
+    <button class="btn-ghost" id="btn-map">
+      <i data-lucide="map" style="width:13px;height:13px"></i> Карта
+    </button>
+  </div>
+  <div class="topbar-group">
+    <div class="score-display">
+      <i data-lucide="sparkles" style="width:13px;height:13px"></i>
+      <span id="score-display">0</span>
+    </div>
+    <span class="diff-badge" id="diff-badge">Исследователь</span>
+  </div>
+  <div class="topbar-group">
+    <button class="btn-ghost" id="btn-achievements">
+      <i data-lucide="trophy" style="width:13px;height:13px"></i> Награды
+    </button>
+    <button class="btn-ghost" id="btn-inventory">
+      <i data-lucide="book-open" style="width:13px;height:13px"></i> Архив
+      <span class="inv-badge" id="inv-count">0</span>
+    </button>
+  </div>
+</div>
+
+<!-- ══ ACT SPLASH ══ -->
+<div id="act-splash">
+  <div class="act-splash-eyebrow" id="act-splash-eyebrow"></div>
+  <div class="act-splash-line"></div>
+  <div class="act-splash-title" id="act-splash-title"></div>
+  <div class="act-splash-sub" id="act-splash-sub"></div>
+</div>
+
+<!-- ══ SCREEN: GAME ══ -->
+<div class="screen" id="screen-game">
+  <div id="game-bg"></div>
+  <div id="game-bg-next"></div>
+  <div id="location-title"></div>
+  <div class="mori-container">
+    <img id="mori-sprite" src="mori/mori_full.png" alt="Мори" />
+  </div>
+  <div class="dialogue-box">
+    <div class="speaker-name" id="speaker-name">Мори</div>
+    <p id="dialogue-text"></p>
+    <div id="choices-container"></div>
+  </div>
+</div>
+
+<!-- ══ SCREEN: MAP ══ -->
+<div class="screen" id="screen-map">
+  <div class="map-header">
+    <h2>Карта эпох</h2>
+    <p>Выбери локацию для исследования</p>
+  </div>
+  <div id="map-acts"></div>
+  <div style="text-align:center;padding-bottom:2rem">
+    <button class="btn-ghost" id="btn-back-map">
+      <i data-lucide="arrow-left" style="width:13px;height:13px"></i> Вернуться
+    </button>
+  </div>
+</div>
+
+<!-- ══ SCREEN: INVENTORY ══ -->
+<div class="screen" id="screen-inventory">
+  <div class="archive-header">
+    <div class="archive-header-left">
+      <button class="btn-ghost" id="btn-back-inv">
+        <i data-lucide="arrow-left" style="width:13px;height:13px"></i> Назад
+      </button>
+    </div>
+    <div class="archive-header-center">
+      <div class="archive-title-label">Словарный Архив</div>
+      <div class="archive-page-info" id="archive-page-info"></div>
+    </div>
+    <div class="archive-header-right">
+      <span class="archive-count" id="archive-count">0 слов</span>
+    </div>
+  </div>
+  <div class="archive-body">
+    <button class="archive-nav archive-nav--prev" id="archive-prev">
+      <i data-lucide="chevron-left" style="width:22px;height:22px"></i>
+    </button>
+    <div class="archive-pages" id="archive-pages"></div>
+    <button class="archive-nav archive-nav--next" id="archive-next">
+      <i data-lucide="chevron-right" style="width:22px;height:22px"></i>
+    </button>
+  </div>
+  <div class="archive-dots" id="archive-dots"></div>
+</div>
+
+<!-- ══ MODAL: ACHIEVEMENTS ══ -->
+<div class="modal-overlay" id="modal-achievements">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Мои Награды</div>
+      <button class="modal-close" id="btn-close-achievements">
+        <i data-lucide="x" style="width:20px;height:20px"></i>
+      </button>
+    </div>
+    <div class="achievements-grid" id="achievements-grid"></div>
+  </div>
+</div>
+
+<!-- ══ WORD TOAST ══ -->
+<div id="word-toast">
+  <i data-lucide="scroll-text" style="width:14px;height:14px"></i>
+  Найдено: <span id="toast-word"></span>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
