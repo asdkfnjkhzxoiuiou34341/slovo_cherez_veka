@@ -130,7 +130,7 @@ function continueGame() {
 }
 
 // ─── Intro cutscene ───────────────────────────────────────────────────────────
-function startIntro(existingPlayPromise) {
+function startIntro() {
   showScreen('intro');
   const video = document.getElementById('intro-video');
   const placeholder = document.getElementById('intro-placeholder');
@@ -158,8 +158,8 @@ function startIntro(existingPlayPromise) {
   video.onended = finish;
   video.onerror = showFallback;
 
-  // Use the play() promise that was called synchronously in the click handler
-  const p = existingPlayPromise || video.play();
+  // screen is now visible (display:flex), play() is still in the click handler call stack
+  const p = video.play();
   if (p !== undefined) p.catch(showFallback);
 }
 
@@ -571,11 +571,8 @@ async function init() {
 
   // Difficulty modal
   document.getElementById('btn-confirm-diff').onclick = () => {
-    // play() must be called synchronously inside the click handler
-    const video = document.getElementById('intro-video');
-    const playPromise = video ? video.play() : null;
     closeDifficultyModal();
-    startIntro(playPromise);
+    startIntro();
   };
   document.getElementById('btn-close-diff').onclick = closeDifficultyModal;
   document.getElementById('btn-close-diff-cancel').onclick = closeDifficultyModal;
