@@ -573,9 +573,14 @@ async function init() {
 
   // Difficulty modal
   document.getElementById('btn-confirm-diff').onclick = () => {
-    // Call play() FIRST, synchronously, before any DOM work — preserves user gesture context
     const video = document.getElementById('intro-video');
+    console.log('[DEBUG] video element:', video);
+    console.log('[DEBUG] video src:', video?.currentSrc, '| readyState:', video?.readyState, '| networkState:', video?.networkState);
     const playPromise = video ? video.play() : null;
+    console.log('[DEBUG] playPromise:', playPromise);
+    if (playPromise) playPromise
+      .then(() => console.log('[DEBUG] play() resolved — video is playing'))
+      .catch(err => console.error('[DEBUG] play() rejected:', err.name, err.message));
     closeDifficultyModal();
     startIntro(playPromise);
   };
