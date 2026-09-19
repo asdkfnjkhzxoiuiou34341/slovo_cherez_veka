@@ -65,8 +65,6 @@ function showScreen(name) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   const el = document.getElementById(`screen-${name}`);
   if (el) el.classList.add('active');
-  else console.error('[DEBUG] showScreen: element not found for', name);
-  console.log('[DEBUG] showScreen:', name, '| el:', el?.id, '| display:', el ? getComputedStyle(el).display : 'N/A');
 
   const isGame = GAME_SCREENS.includes(name);
   document.getElementById('game-topbar').style.display = isGame ? 'flex' : 'none';
@@ -161,10 +159,7 @@ function startIntro(playPromise) {
   video.onerror = showFallback;
 
   const p = playPromise !== undefined ? playPromise : video.play();
-  if (p !== undefined) p.catch(err => {
-    console.error('[VIDEO] play() failed:', err.name, err.message);
-    showFallback();
-  });
+  if (p !== undefined) p.catch(showFallback);
 }
 
 function launchGame() {
@@ -578,9 +573,7 @@ async function init() {
     const video = document.getElementById('intro-video');
     if (video) video.currentTime = 0;
     const playPromise = video ? video.play() : null;
-    if (playPromise) playPromise
-      .then(() => console.log('[DEBUG] play() resolved — video is playing'))
-      .catch(err => console.error('[DEBUG] play() rejected:', err.name, err.message));
+    if (playPromise) playPromise.catch(err => console.error('[VIDEO]', err.name, err.message));
     closeDifficultyModal();
     startIntro(playPromise);
   };
