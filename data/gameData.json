@@ -87,7 +87,7 @@
           "id": "scriptorium",
           "title": "Скрипторий",
           "description": "Монастырская мастерская XI века, где переписывались книги",
-          "background": "linear-gradient(135deg, #1a0a00 0%, #2d1a0a 50%, #1a0a00 100%)",
+          "background": "assets/images/bg_scriptorium_desk.png",
           "unlocked": true,
           "dialogue": [
             {
@@ -125,7 +125,7 @@
           "id": "birch_grove",
           "title": "Берёзовая роща",
           "description": "Место, где заготавливали бересту для грамот",
-          "background": "linear-gradient(135deg, #0a1a0a 0%, #1a2d0a 50%, #0a1a0a 100%)",
+          "background": "assets/images/bg_birch_grove.png",
           "unlocked": true,
           "dialogue": [
             {
@@ -156,7 +156,7 @@
           "id": "church",
           "title": "Церковь Кириллицы",
           "description": "Место, где хранятся первые кириллические рукописи",
-          "background": "linear-gradient(135deg, #0a0a1a 0%, #1a0a2d 50%, #0a0a1a 100%)",
+          "background": "assets/images/bg_scriptorium_desk.png",
           "unlocked": true,
           "dialogue": [
             {

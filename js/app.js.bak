@@ -1,24 +1,24 @@
-// ─── Constants ────────────────────────────────────────────────────────────────
+﻿// в”Ђв”Ђв”Ђ Constants в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
 const SAVE_KEY = 'scv_save';
 
 const DIFF_LABELS = {
-  novice:   'Первопроходец',
-  explorer: 'Исследователь',
-  keeper:   'Хранитель',
+  novice:   'РџРµСЂРІРѕРїСЂРѕС…РѕРґРµС†',
+  explorer: 'РСЃСЃР»РµРґРѕРІР°С‚РµР»СЊ',
+  keeper:   'РҐСЂР°РЅРёС‚РµР»СЊ',
 };
 
 const ACHIEVEMENTS = [
-  { id: 'first_word',   name: 'Первая грамота',       desc: 'Найди первое слово',          icon: 'scroll-text', color: '#c9a84c', bg: 'rgba(201,168,76,0.12)' },
-  { id: 'act1_done',    name: 'Знаток Скриптория',    desc: 'Пройди Акт I',                icon: 'feather',     color: '#81c784', bg: 'rgba(100,200,100,0.12)' },
-  { id: 'words_5',      name: 'Собиратель слов',      desc: 'Найди 5 слов',                icon: 'library',     color: '#64b5f6', bg: 'rgba(100,150,200,0.12)' },
-  { id: 'score_50',     name: 'Острый ум',            desc: 'Набери 50 очков',             icon: 'zap',         color: '#ffb74d', bg: 'rgba(255,180,80,0.12)'  },
-  { id: 'glagolica',    name: 'Знаток Глаголицы',     desc: 'Пройди Акт II',               icon: 'type',        color: '#f48fb1', bg: 'rgba(240,140,180,0.12)' },
-  { id: 'dialects',     name: 'Покоритель Диалектов', desc: 'Пройди Акт IV',               icon: 'globe',       color: '#80cbc4', bg: 'rgba(100,200,190,0.12)' },
-  { id: 'words_15',     name: 'Мастер Словесности',   desc: 'Найди 15 слов',               icon: 'award',       color: '#b39ddb', bg: 'rgba(150,100,200,0.12)' },
-  { id: 'all_acts',     name: 'Летопись Единства',    desc: 'Пройди все 5 актов',          icon: 'crown',       color: '#f0d080', bg: 'rgba(240,210,80,0.12)'  },
+  { id: 'first_word',   name: 'РџРµСЂРІР°СЏ РіСЂР°РјРѕС‚Р°',       desc: 'РќР°Р№РґРё РїРµСЂРІРѕРµ СЃР»РѕРІРѕ',          icon: 'scroll-text', color: '#c9a84c', bg: 'rgba(201,168,76,0.12)' },
+  { id: 'act1_done',    name: 'Р—РЅР°С‚РѕРє РЎРєСЂРёРїС‚РѕСЂРёСЏ',    desc: 'РџСЂРѕР№РґРё РђРєС‚ I',                icon: 'feather',     color: '#81c784', bg: 'rgba(100,200,100,0.12)' },
+  { id: 'words_5',      name: 'РЎРѕР±РёСЂР°С‚РµР»СЊ СЃР»РѕРІ',      desc: 'РќР°Р№РґРё 5 СЃР»РѕРІ',                icon: 'library',     color: '#64b5f6', bg: 'rgba(100,150,200,0.12)' },
+  { id: 'score_50',     name: 'РћСЃС‚СЂС‹Р№ СѓРј',            desc: 'РќР°Р±РµСЂРё 50 РѕС‡РєРѕРІ',             icon: 'zap',         color: '#ffb74d', bg: 'rgba(255,180,80,0.12)'  },
+  { id: 'glagolica',    name: 'Р—РЅР°С‚РѕРє Р“Р»Р°РіРѕР»РёС†С‹',     desc: 'РџСЂРѕР№РґРё РђРєС‚ II',               icon: 'type',        color: '#f48fb1', bg: 'rgba(240,140,180,0.12)' },
+  { id: 'dialects',     name: 'РџРѕРєРѕСЂРёС‚РµР»СЊ Р”РёР°Р»РµРєС‚РѕРІ', desc: 'РџСЂРѕР№РґРё РђРєС‚ IV',               icon: 'globe',       color: '#80cbc4', bg: 'rgba(100,200,190,0.12)' },
+  { id: 'words_15',     name: 'РњР°СЃС‚РµСЂ РЎР»РѕРІРµСЃРЅРѕСЃС‚Рё',   desc: 'РќР°Р№РґРё 15 СЃР»РѕРІ',               icon: 'award',       color: '#b39ddb', bg: 'rgba(150,100,200,0.12)' },
+  { id: 'all_acts',     name: 'Р›РµС‚РѕРїРёСЃСЊ Р•РґРёРЅСЃС‚РІР°',    desc: 'РџСЂРѕР№РґРё РІСЃРµ 5 Р°РєС‚РѕРІ',          icon: 'crown',       color: '#f0d080', bg: 'rgba(240,210,80,0.12)'  },
 ];
 
-// ─── State ────────────────────────────────────────────────────────────────────
+// в”Ђв”Ђв”Ђ State в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
 let gameData = null;
 let state = {
   score: 0,
@@ -32,7 +32,7 @@ let state = {
   lastScreen: 'game',
 };
 
-// ─── Save / Load ──────────────────────────────────────────────────────────────
+// в”Ђв”Ђв”Ђ Save / Load в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
 function saveProgress() {
   localStorage.setItem(SAVE_KEY, JSON.stringify({
     score: state.score,
@@ -58,7 +58,7 @@ function hasSave() {
   return !!localStorage.getItem(SAVE_KEY);
 }
 
-// ─── Screens ──────────────────────────────────────────────────────────────────
+// в”Ђв”Ђв”Ђ Screens в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
 const GAME_SCREENS = ['game', 'map', 'inventory'];
 
 function showScreen(name) {
@@ -76,7 +76,7 @@ function showScreen(name) {
   lucide.createIcons();
 }
 
-// ─── Difficulty ───────────────────────────────────────────────────────────────
+// в”Ђв”Ђв”Ђ Difficulty в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
 function _syncDiffCards(containerSelector, diff) {
   document.querySelectorAll(containerSelector + ' .diff-card').forEach(c => {
     const sel = c.dataset.diff === diff;
@@ -115,7 +115,7 @@ function closeDifficultyModal() {
   document.getElementById('modal-difficulty').classList.remove('open');
 }
 
-// ─── Landing helpers ──────────────────────────────────────────────────────────
+// в”Ђв”Ђв”Ђ Landing helpers в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
 function scrollToSection(id) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
 }
@@ -129,7 +129,7 @@ function continueGame() {
   }
 }
 
-// ─── Intro cutscene ───────────────────────────────────────────────────────────
+// в”Ђв”Ђв”Ђ Intro cutscene в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
 function startIntro(playPromise) {
   showScreen('intro');
   const video = document.getElementById('intro-video');
@@ -163,10 +163,10 @@ function startIntro(playPromise) {
 }
 
 function launchGame() {
-  showActSplash('Пролог', 'Слово через века', 'Начало путешествия', startPrologue);
+  showActSplash('РџСЂРѕР»РѕРі', 'РЎР»РѕРІРѕ С‡РµСЂРµР· РІРµРєР°', 'РќР°С‡Р°Р»Рѕ РїСѓС‚РµС€РµСЃС‚РІРёСЏ', startPrologue);
 }
 
-// ─── Act Splash ───────────────────────────────────────────────────────────────
+// в”Ђв”Ђв”Ђ Act Splash в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
 function showActSplash(eyebrow, title, sub, onDone) {
   const splash = document.getElementById('act-splash');
   document.getElementById('act-splash-eyebrow').textContent = eyebrow;
@@ -185,7 +185,7 @@ function showActSplash(eyebrow, title, sub, onDone) {
   }, 2200);
 }
 
-// ─── Background crossfade ─────────────────────────────────────────────────────
+// в”Ђв”Ђв”Ђ Background crossfade в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
 function setGameBg(value) {
   const bg = document.getElementById('game-bg');
   const next = document.getElementById('game-bg-next');
@@ -210,7 +210,7 @@ function startPrologue() {
   showDialogue(state.currentDialogueId);
 }
 
-// ─── Mori sprite ─────────────────────────────────────────────────────────────
+// в”Ђв”Ђв”Ђ Mori sprite в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
 const MORI_SPRITES = {
   default:  'mori/mori_full.png',
   happy:    'mori/mori_happy.png',
@@ -249,7 +249,7 @@ function setMoriEmotion(emotion) {
   }, 200);
 }
 
-// ─── Dialogue engine ──────────────────────────────────────────────────────────
+// в”Ђв”Ђв”Ђ Dialogue engine в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
 function getDialogueNode(id) {
   return state.currentDialogue.find(d => d.id === id);
 }
@@ -294,7 +294,7 @@ function renderChoices(node) {
   if (node.action === 'quiz') { startQuiz(node.quiz_id); return; }
   if (node.action === 'start_act1') {
     setTimeout(() => {
-      showActSplash('Акт I', 'Древняя Русь', 'Встреча с Мори', () => startLocation('act1', 'scriptorium'));
+      showActSplash('РђРєС‚ I', 'Р”СЂРµРІРЅСЏСЏ Р СѓСЃСЊ', 'Р’СЃС‚СЂРµС‡Р° СЃ РњРѕСЂРё', () => startLocation('act1', 'scriptorium'));
     }, 400);
     return;
   }
@@ -316,42 +316,27 @@ function renderChoices(node) {
   } else if (node.next) {
     const btn = document.createElement('button');
     btn.className = 'choice-btn choice-btn--continue';
-    btn.innerHTML = 'Продолжить <i data-lucide="arrow-right" style="width:14px;height:14px;display:inline;vertical-align:middle"></i>';
+    btn.innerHTML = 'РџСЂРѕРґРѕР»Р¶РёС‚СЊ <i data-lucide="arrow-right" style="width:14px;height:14px;display:inline;vertical-align:middle"></i>';
     btn.onclick = () => { showDialogue(node.next); lucide.createIcons(); };
     c.appendChild(btn);
     lucide.createIcons();
   } else {
     const btn = document.createElement('button');
     btn.className = 'choice-btn choice-btn--continue';
-    btn.innerHTML = '<i data-lucide="map" style="width:14px;height:14px;display:inline;vertical-align:middle"></i> Открыть карту';
+    btn.innerHTML = '<i data-lucide="map" style="width:14px;height:14px;display:inline;vertical-align:middle"></i> РћС‚РєСЂС‹С‚СЊ РєР°СЂС‚Сѓ';
     btn.onclick = () => showScreen('map');
     c.appendChild(btn);
     lucide.createIcons();
   }
 }
 
-// ─── Quiz engine ─────────────────────────────────────────────────────────────
-// ─── Quiz helpers ───────────────────────────────────────────────────────────
-function showPisaloSuccess(wordForm) {
-  const el = document.createElement('div');
-  el.className = 'pisalo-success';
-  el.innerHTML = `<img src="assets/images/item_pisalo.png" alt=""><div class="pisalo-success-text">+ ${wordForm}</div>`;
-  document.body.appendChild(el);
-  setTimeout(() => el.remove(), 1500);
-}
-
-function quizScrollWrap(inner) {
-  return `<div class="quiz-scroll-wrap">
-    <img class="quiz-scroll-bg" src="assets/images/birch_scroll_empty.png" alt="" />
-    <div class="quiz-scroll-content">${inner}</div>
-  </div>`;
-}
-
+// в”Ђв”Ђв”Ђ Quiz engine в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
 function startQuiz(quizId) {
   const quiz = gameData.quizzes[quizId];
   if (!quiz) return;
   document.getElementById('quiz-bg').style.background =
-    `url('assets/images/bg_scriptorium_desk.png') center/cover no-repeat`;
+    document.getElementById('game-bg').style.background ||
+    'linear-gradient(135deg, #0e0a18, #1a0e2a)';
   showScreen('quiz');
   const c = document.getElementById('quiz-container');
   c.innerHTML = '';
@@ -392,15 +377,13 @@ function renderChoiceQuiz(quiz, c) {
   c.innerHTML = `
     <div class="quiz-eyebrow">${quiz.title}</div>
     ${quiz.word_highlight ? `<div class="quiz-word-highlight">${quiz.word_highlight}</div>` : ''}
-    ${quizScrollWrap(`
-      <div class="quiz-question">${quiz.question}</div>
-      <div class="quiz-options" id="quiz-opts"></div>
-      <div class="quiz-hint" id="quiz-hint">${quiz.hint}</div>
-      <div class="quiz-result" id="quiz-result">
-        <div class="quiz-result-icon">✨</div>
-        <div class="quiz-result-text">Правильно! +${quiz.score} очков</div>
-      </div>
-    `)}`;
+    <div class="quiz-question">${quiz.question}</div>
+    <div class="quiz-options" id="quiz-opts"></div>
+    <div class="quiz-hint" id="quiz-hint">${quiz.hint}</div>
+    <div class="quiz-result" id="quiz-result">
+      <div class="quiz-result-icon">вњЁ</div>
+      <div class="quiz-result-text">РџСЂР°РІРёР»СЊРЅРѕ! +${quiz.score} РѕС‡РєРѕРІ</div>
+    </div>`;
   const opts = document.getElementById('quiz-opts');
   quiz.options.forEach(opt => {
     const btn = document.createElement('button');
@@ -411,14 +394,15 @@ function renderChoiceQuiz(quiz, c) {
       if (opt.correct) {
         btn.classList.add('correct');
         document.getElementById('quiz-result').classList.add('visible');
-        const wid = quiz.reward_word || quiz.reward_words?.[0];
-        if (wid) showPisaloSuccess(gameData.words[wid]?.form || wid);
         quizDone(quiz, true);
       } else {
         btn.classList.add('wrong');
         document.getElementById('quiz-hint').classList.add('visible');
         setTimeout(() => {
-          opts.querySelectorAll('.quiz-option').forEach(b => { b.disabled = false; b.classList.remove('wrong'); });
+          opts.querySelectorAll('.quiz-option').forEach(b => {
+            b.disabled = false;
+            b.classList.remove('wrong');
+          });
           document.getElementById('quiz-hint').classList.remove('visible');
         }, 1800);
       }
@@ -431,21 +415,19 @@ function renderFillQuiz(quiz, c) {
   const letters = quiz.word_template.split('');
   c.innerHTML = `
     <div class="quiz-eyebrow">${quiz.title}</div>
-    ${quizScrollWrap(`
-      <div class="quiz-question">${quiz.question}</div>
-      <div class="quiz-fill-word">${
-        letters.map((l, i) => i === quiz.missing_index
-          ? `<span class="quiz-fill-blank" id="fill-blank">_</span>`
-          : `<span class="quiz-fill-letter">${l}</span>`
-        ).join('')
-      }</div>
-      <div class="quiz-fill-options" id="fill-opts"></div>
-      <div class="quiz-hint" id="quiz-hint">${quiz.hint}</div>
-      <div class="quiz-result" id="quiz-result">
-        <div class="quiz-result-icon">✨</div>
-        <div class="quiz-result-text">Правильно! +${quiz.score} очков</div>
-      </div>
-    `)}`;
+    <div class="quiz-question">${quiz.question}</div>
+    <div class="quiz-fill-word">${
+      letters.map((l, i) => i === quiz.missing_index
+        ? `<span class="quiz-fill-blank" id="fill-blank">_</span>`
+        : `<span class="quiz-fill-letter">${l}</span>`
+      ).join('')
+    }</div>
+    <div class="quiz-fill-options" id="fill-opts"></div>
+    <div class="quiz-hint" id="quiz-hint">${quiz.hint}</div>
+    <div class="quiz-result" id="quiz-result">
+      <div class="quiz-result-icon">вњЁ</div>
+      <div class="quiz-result-text">РџСЂР°РІРёР»СЊРЅРѕ! +${quiz.score} РѕС‡РєРѕРІ</div>
+    </div>`;
   const opts = document.getElementById('fill-opts');
   quiz.options.forEach(letter => {
     const btn = document.createElement('button');
@@ -458,8 +440,6 @@ function renderFillQuiz(quiz, c) {
       if (letter === quiz.correct_option) {
         blank.classList.add('filled-correct');
         document.getElementById('quiz-result').classList.add('visible');
-        const wid = quiz.reward_word || quiz.reward_words?.[0];
-        if (wid) showPisaloSuccess(gameData.words[wid]?.form || wid);
         quizDone(quiz, true);
       } else {
         blank.classList.add('filled-wrong');
@@ -483,18 +463,16 @@ function renderMatchQuiz(quiz, c) {
   let matchedCount = 0;
   c.innerHTML = `
     <div class="quiz-eyebrow">${quiz.title}</div>
-    ${quizScrollWrap(`
-      <div class="quiz-question">${quiz.question}</div>
-      <div class="quiz-match">
-        <div class="quiz-match-col" id="match-ancient"></div>
-        <div class="quiz-match-col" id="match-modern"></div>
-      </div>
-      <div class="quiz-hint" id="quiz-hint">${quiz.hint}</div>
-      <div class="quiz-result" id="quiz-result">
-        <div class="quiz-result-icon">✨</div>
-        <div class="quiz-result-text">Все пары совпали! +${quiz.score} очков</div>
-      </div>
-    `)}`;
+    <div class="quiz-question">${quiz.question}</div>
+    <div class="quiz-match">
+      <div class="quiz-match-col" id="match-ancient"></div>
+      <div class="quiz-match-col" id="match-modern"></div>
+    </div>
+    <div class="quiz-hint" id="quiz-hint">${quiz.hint}</div>
+    <div class="quiz-result" id="quiz-result">
+      <div class="quiz-result-icon">вњЁ</div>
+      <div class="quiz-result-text">Р’СЃРµ РїР°СЂС‹ СЃРѕРІРїР°Р»Рё! +${quiz.score} РѕС‡РєРѕРІ</div>
+    </div>`;
   const ancientCol = document.getElementById('match-ancient');
   const modernCol  = document.getElementById('match-modern');
   pairs.forEach(pair => {
@@ -525,7 +503,6 @@ function renderMatchQuiz(quiz, c) {
         matchedCount++;
         if (matchedCount === pairs.length) {
           document.getElementById('quiz-result').classList.add('visible');
-          showPisaloSuccess('Все слова!');
           quizDone(quiz, true);
         }
       } else {
@@ -543,23 +520,23 @@ function renderMatchQuiz(quiz, c) {
   });
 }
 
-// ─── Act I Finale ─────────────────────────────────────────────────────────────
+// в”Ђв”Ђв”Ђ Act I Finale в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
 function showAct1Finale() {
   const el = document.getElementById('act-finale');
-  document.getElementById('finale-title').textContent = 'Акт I завершён!';
-  document.getElementById('finale-sub').textContent = 'Древняя Русь открыла свои тайны';
+  document.getElementById('finale-title').textContent = 'РђРєС‚ I Р·Р°РІРµСЂС€С‘РЅ!';
+  document.getElementById('finale-sub').textContent = 'Р”СЂРµРІРЅСЏСЏ Р СѓСЃСЊ РѕС‚РєСЂС‹Р»Р° СЃРІРѕРё С‚Р°Р№РЅС‹';
   document.getElementById('finale-stats').innerHTML = `
     <div class="finale-stat">
       <div class="finale-stat-num">${state.foundWords.length}</div>
-      <div class="finale-stat-label">слов найдено</div>
+      <div class="finale-stat-label">СЃР»РѕРІ РЅР°Р№РґРµРЅРѕ</div>
     </div>
     <div class="finale-stat">
       <div class="finale-stat-num">${state.score}</div>
-      <div class="finale-stat-label">очков</div>
+      <div class="finale-stat-label">РѕС‡РєРѕРІ</div>
     </div>
     <div class="finale-stat">
       <div class="finale-stat-num">3</div>
-      <div class="finale-stat-label">локации</div>
+      <div class="finale-stat-label">Р»РѕРєР°С†РёРё</div>
     </div>`;
   const act2 = gameData.acts.find(a => a.id === 'act2');
   if (act2) act2.unlocked = true;
@@ -570,11 +547,11 @@ function showAct1Finale() {
   lucide.createIcons();
   document.getElementById('finale-btn').onclick = () => {
     el.classList.remove('visible');
-    showActSplash('Акт II', 'Печатный век', 'Скоро...', () => showScreen('map'));
+    showActSplash('РђРєС‚ II', 'РџРµС‡Р°С‚РЅС‹Р№ РІРµРє', 'РЎРєРѕСЂРѕ...', () => showScreen('map'));
   };
 }
 
-// ─── Rewards & Achievements ───────────────────────────────────────────────────
+// в”Ђв”Ђв”Ђ Rewards & Achievements в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
 function applyReward(reward) {
   if (reward.type === 'word' && !state.foundWords.includes(reward.word.id)) {
     state.foundWords.push(reward.word.id);
@@ -610,7 +587,7 @@ function checkAchievements() {
   if (state.completedLocations.includes('scriptorium')) unlock('act1_done');
 }
 
-// ─── UI Updates ───────────────────────────────────────────────────────────────
+// в”Ђв”Ђв”Ђ UI Updates в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
 function updateScoreUI() {
   document.getElementById('score-display').textContent = state.score;
 }
@@ -619,7 +596,7 @@ function updateInventoryCount() {
   document.getElementById('inv-count').textContent = state.foundWords.length;
 }
 
-// ─── Toasts ───────────────────────────────────────────────────────────────────
+// в”Ђв”Ђв”Ђ Toasts в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
 function showWordToast(word) {
   const toast = document.getElementById('word-toast');
   document.getElementById('toast-word').textContent = word;
@@ -642,22 +619,19 @@ function showAchievementToast(name) {
       font-family:'Cinzel',serif;font-size:0.82rem;
       box-shadow:0 4px 20px rgba(201,168,76,0.25);
       animation:slideDown 0.4s ease both;`;
-    el.textContent = `🏆 ${name}`;
+    el.textContent = `рџЏ† ${name}`;
     document.body.appendChild(el);
     setTimeout(() => el.remove(), 3000);
   }, 500);
 }
 
-// ─── Map ──────────────────────────────────────────────────────────────────────
+// в”Ђв”Ђв”Ђ Map в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
 function renderMap() {
   const container = document.getElementById('map-acts');
   container.innerHTML = '';
   gameData.acts.forEach(act => {
     const div = document.createElement('div');
     div.className = `act-card ${act.unlocked ? '' : 'locked'}`;
-    const preview = act.id === 'act2' ? `<img class="act-card-preview-img" src="assets/images/act2_preview.png" alt="" />` : '';
-    const unlockBadge = (act.id === 'act2' && act.unlocked && !state.completedLocations.includes('act2_seen'))
-      ? `<div class="act-unlock-badge">Ново!</div>` : '';
     const locs = act.locations.map(loc => {
       const done = state.completedLocations.includes(loc.id);
       const icon = done
@@ -668,9 +642,8 @@ function renderMap() {
         data-act="${act.id}" data-loc="${loc.id}">
         ${icon} ${loc.title}
       </button>`;
-    }).join('') || '<p class="soon">Скоро...</p>';
-    div.className = `act-card ${act.unlocked ? '' : 'locked'} ${act.id === 'act2' ? 'act-card-preview' : ''}`;
-    div.innerHTML = `${unlockBadge}${preview}<h3>${act.title}</h3><div class="locations-list">${locs}</div>`;
+    }).join('') || '<p class="soon">РЎРєРѕСЂРѕ...</p>';
+    div.innerHTML = `<h3>${act.title}</h3><div class="locations-list">${locs}</div>`;
     container.appendChild(div);
   });
   container.querySelectorAll('.loc-btn:not([disabled])').forEach(btn => {
@@ -692,12 +665,12 @@ function startLocation(actId, locId) {
   showDialogue(state.currentDialogueId);
 }
 
-// ─── Inventory ────────────────────────────────────────────────────────────────
+// в”Ђв”Ђв”Ђ Inventory в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
 const WORDS_PER_PAGE = 6;
 let archivePage = 0;
 
 function renderInventory() {
-  document.getElementById('archive-count').textContent = `${state.foundWords.length} слов`;
+  document.getElementById('archive-count').textContent = `${state.foundWords.length} СЃР»РѕРІ`;
   renderArchivePage(0, 'none');
 }
 
@@ -738,7 +711,7 @@ function renderArchivePage(page, direction) {
   if (!slice.length) {
     div.innerHTML = `<div class="archive-empty">
       <i data-lucide="book-open" style="width:40px;height:40px;opacity:0.3"></i>
-      <p>Ты ещё не нашёл ни одного слова.<br>Исследуй локации!</p>
+      <p>РўС‹ РµС‰С‘ РЅРµ РЅР°С€С‘Р» РЅРё РѕРґРЅРѕРіРѕ СЃР»РѕРІР°.<br>РСЃСЃР»РµРґСѓР№ Р»РѕРєР°С†РёРё!</p>
     </div>`;
   } else {
     div.innerHTML = slice.map((id, idx) => {
@@ -749,7 +722,7 @@ function renderArchivePage(page, direction) {
         <div class="word-card-num">#${num}</div>
         <div class="word-divider"></div>
         <div class="word-form">${w.form}</div>
-        <div class="word-modern">→ ${w.modern}</div>
+        <div class="word-modern">в†’ ${w.modern}</div>
         <div class="word-era">${w.era}</div>
         <p class="word-desc">${w.description}</p>
       </div>`;
@@ -772,7 +745,7 @@ function goArchivePage(page) {
   renderArchivePage(page, direction);
 }
 
-// ─── Achievements ─────────────────────────────────────────────────────────────
+// в”Ђв”Ђв”Ђ Achievements в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
 function renderAchievements() {
   const grid = document.getElementById('achievements-grid');
   grid.innerHTML = ACHIEVEMENTS.map(a => {
@@ -797,7 +770,7 @@ function closeAchievements() {
   document.getElementById('modal-achievements').classList.remove('open');
 }
 
-// ─── Init ─────────────────────────────────────────────────────────────────────
+// в”Ђв”Ђв”Ђ Init в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
 async function init() {
   const res = await fetch('data/gameData.json');
   gameData = await res.json();
@@ -815,7 +788,7 @@ async function init() {
     document.getElementById('btn-continue').style.display = 'flex';
   }
 
-  // Landing buttons → open difficulty modal first
+  // Landing buttons в†’ open difficulty modal first
   document.getElementById('btn-start-landing').onclick = () => openDifficultyModal();
 
   // Difficulty modal
@@ -856,7 +829,7 @@ async function init() {
 
 document.addEventListener('DOMContentLoaded', init);
 
-// ─── 3D Coverflow Carousel ──────────────────────────────────────────
+// в”Ђв”Ђв”Ђ 3D Coverflow Carousel в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
 function initCarousel() {
   const slides = Array.from(document.querySelectorAll('.carousel-slide'));
   const dotsContainer = document.getElementById('carousel-dots');
@@ -870,7 +843,7 @@ function initCarousel() {
   slides.forEach((_, i) => {
     const dot = document.createElement('button');
     dot.className = 'carousel-dot';
-    dot.setAttribute('aria-label', `Слайд ${i + 1}`);
+    dot.setAttribute('aria-label', `РЎР»Р°Р№Рґ ${i + 1}`);
     dot.onclick = () => goTo(i);
     dotsContainer.appendChild(dot);
   });
@@ -925,3 +898,4 @@ function initCarousel() {
 }
 
 document.addEventListener('DOMContentLoaded', initCarousel);
+
