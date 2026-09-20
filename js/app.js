@@ -129,8 +129,8 @@ function scrollToSection(id) {
 }
 
 function continueGame() {
-  showScreen('game');
   if (state.currentDialogue && state.currentDialogueId) {
+    showScreen('game');
     showDialogue(state.currentDialogueId);
   } else {
     showScreen('map');
@@ -207,6 +207,7 @@ function setGameBg(value) {
   }, 700);
 }
 function startPrologue() {
+  if (!gameData?.prologue) { console.error('[startPrologue] gameData not ready'); return; }
   const p = gameData.prologue;
   state.currentDialogue = p.dialogue;
   state.currentDialogueId = p.dialogue[0].id;
