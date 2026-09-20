@@ -6,8 +6,6 @@ const BASE = (() => {
   return p.includes('/slovo_cherez_veka') ? '/slovo_cherez_veka' : '';
 })();
 function asset(path) { return BASE + '/' + path.replace(/^\//, ''); }
-const BASE = location.pathname.includes('/slovo_cherez_veka') ? '/slovo_cherez_veka' : '';
-function asset(path) { return BASE + '/' + path.replace(/^\//, ''); }
 
 const DIFF_LABELS = {
   novice:   'Первопроходец',
