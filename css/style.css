@@ -1862,7 +1862,7 @@ h1, h2, h3, h4 {
   position: absolute;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
   user-select: none;
   pointer-events: none;
@@ -2482,4 +2482,22 @@ h1, h2, h3, h4 {
   55%  { transform: translate(-50%,-50%) scale(1)   rotate(0deg);  opacity: 1; }
   80%  { transform: translate(-50%,-50%) scale(1)   rotate(0deg);  opacity: 1; }
   100% { transform: translate(-50%,-50%) scale(0.9) rotate(0deg);  opacity: 0; }
+}
+
+/* ════════════ MAP MOBILE FIX ════════════ */
+@media (max-width: 768px) and (orientation: landscape) {
+  .map-bg-img {
+    object-fit: contain;
+    object-position: center center;
+  }
+  .map-world {
+    overflow: auto;
+    cursor: default;
+  }
+  /* Маркеры позиционируются относительно реального размера картинки */
+  .map-markers {
+    position: absolute;
+    /* Картинка с contain вписывается в экран целиком */
+    inset: 0;
+  }
 }
