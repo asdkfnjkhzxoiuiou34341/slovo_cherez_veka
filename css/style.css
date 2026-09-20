@@ -2314,3 +2314,121 @@ h1, h2, h3, h4 {
   .carousel-slide.pos-left  { transform: translateX(-160px) translateZ(-130px) rotateY(35deg) scale(0.75); }
   .carousel-slide.pos-right { transform: translateX(160px)  translateZ(-130px) rotateY(-35deg) scale(0.75); }
 }
+
+/* ════════════ ROTATE OVERLAY ════════════ */
+#rotate-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--bg);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  text-align: center;
+  padding: 2rem;
+}
+
+.rotate-icon {
+  animation: rotateHint 2s ease-in-out infinite;
+}
+
+@keyframes rotateHint {
+  0%,100% { transform: rotate(0deg); }
+  40%      { transform: rotate(-90deg); }
+  60%      { transform: rotate(-90deg); }
+}
+
+.rotate-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--gold);
+}
+
+.rotate-sub {
+  font-size: 0.88rem;
+  color: var(--text-dim);
+  max-width: 260px;
+  line-height: 1.6;
+}
+
+.rotate-arrow {
+  animation: float 2s ease-in-out infinite;
+}
+
+/* Показываем overlay только на мобильных в portrait */
+@media (max-width: 768px) and (orientation: portrait) {
+  #rotate-overlay { display: flex; }
+
+  /* Скрываем всё остальное */
+  body > *:not(#rotate-overlay) { visibility: hidden; pointer-events: none; }
+}
+
+/* ════════════ LANDSCAPE MOBILE ОПТИМИЗАЦИЯ ════════════ */
+@media (max-width: 900px) and (orientation: landscape) {
+
+  /* Диалоговое окно — компактнее и полупрозрачнее */
+  .dialogue-box {
+    min-height: 0;
+    padding: 0.7rem 1rem 0.9rem 1rem;
+    background: linear-gradient(180deg, rgba(10,8,14,0.55) 0%, rgba(10,8,14,0.82) 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  /* Мори — меньше и левее */
+  .mori-container {
+    bottom: 100px;
+    left: 8px;
+  }
+  #mori-sprite {
+    height: clamp(110px, 20vh, 170px);
+  }
+
+  /* Текст диалога */
+  #dialogue-text {
+    font-size: 0.92rem;
+    min-height: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .speaker-name {
+    font-size: 0.88rem;
+    margin-bottom: 0.4rem;
+    padding: 0.15rem 0.65rem;
+  }
+
+  .choice-btn {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.9rem;
+  }
+
+  #choices-container { gap: 0.4rem; }
+
+  /* Топбар */
+  .game-topbar { padding: 0.35rem 0.9rem; }
+
+  /* Карта — панель снизу на 70% */
+  .map-panel {
+    height: 70vh;
+  }
+
+  /* Квиз */
+  .quiz-container {
+    padding: 3rem 1rem 1rem;
+    gap: 0.6rem;
+  }
+  .quiz-word-highlight {
+    font-size: clamp(1.6rem, 5vw, 2.4rem);
+    padding: 0.3rem 1.2rem;
+  }
+  .quiz-scroll-content { padding: 0.8rem 1.2rem; gap: 0.6rem; }
+  .quiz-mori-hint-img { height: 60px; }
+
+  /* Архив */
+  .archive-page {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+}
