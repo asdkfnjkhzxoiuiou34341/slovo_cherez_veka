@@ -1343,7 +1343,7 @@ h1, h2, h3, h4 {
 .carousel-dot:hover:not(.active) { background: rgba(212,175,55,0.4); }
 
 /* ════════════ QUIZ SCREEN ════════════ */
-#screen-quiz { flex-direction: column; position: relative; overflow: hidden; }
+#screen-quiz { flex-direction: column; overflow: hidden; }
 
 #quiz-bg {
   position: absolute;
@@ -1779,3 +1779,37 @@ h1, h2, h3, h4 {
 .choice-btn {
   animation: fadeInUpChoice 0.3s ease both;
 }
+
+/* ════════════ QUIZ FIXES ════════════ */
+.quiz-container {
+  padding: 5rem 2rem 2rem;
+  gap: 1rem;
+  overflow-y: auto;
+}
+
+.quiz-word-highlight {
+  font-size: clamp(2.8rem, 6vw, 4.2rem);
+  background: rgba(212,175,55,0.08);
+  border: 1px solid rgba(212,175,55,0.3);
+  border-radius: 8px;
+  padding: 0.5rem 2rem;
+}
+
+.quiz-option {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.8rem 1.2rem;
+  border-radius: 6px;
+  transition: background 0.18s, border-color 0.18s, transform 0.18s;
+  overflow: visible;
+}
+.quiz-option::before { display: none; }
+.quiz-option .opt-icon { flex-shrink: 0; width: 18px; height: 18px; opacity: 0.5; }
+.quiz-option:hover:not(:disabled) { transform: translateX(4px); }
+.quiz-option.correct .opt-icon { opacity: 1; color: #7ec48e; }
+.quiz-option.wrong   .opt-icon { opacity: 1; color: #e07060; }
+.quiz-option.wrong { animation: wrongFlash 0.35s ease; }
+
+.quiz-result-icon { display: flex; align-items: center; justify-content: center; }
+.quiz-result-icon svg { width: 2.2rem; height: 2.2rem; color: var(--gold); }

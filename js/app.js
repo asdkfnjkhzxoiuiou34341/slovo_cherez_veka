@@ -303,7 +303,7 @@ function renderChoices(node) {
   if (node.action === 'complete_location') completeLocation();
   if (node.action === 'complete_act1') { showAct1Finale(); return; }
   if (node.action === 'quiz') { startQuiz(node.quiz_id); return; }
-  if (node.action === 'start_act1') {
+  if (node.action === 'start_act1') { showScreen('map'); return; }
     setTimeout(() => {
       showActSplash('Акт I', 'Древняя Русь', 'Встреча с Мори', () => startLocation('act1', 'scriptorium'));
     }, 400);
@@ -417,11 +417,13 @@ function renderChoiceQuiz(quiz, c) {
   quiz.options.forEach(opt => {
     const btn = document.createElement('button');
     btn.className = 'quiz-option';
-    btn.textContent = opt.text;
+    btn.innerHTML = `<i data-lucide="circle" class="opt-icon" style="width:16px;height:16px"></i><span>${opt.text}</span>`;
     btn.onclick = () => {
       opts.querySelectorAll('.quiz-option').forEach(b => b.disabled = true);
       if (opt.correct) {
         btn.classList.add('correct');
+        btn.querySelector('i').setAttribute('data-lucide', 'check-circle');
+        lucide.createIcons();
         document.getElementById('quiz-result').classList.add('visible');
         const wid = quiz.reward_word || quiz.reward_words?.[0];
         if (wid) showPisaloSuccess(gameData.words[wid]?.form || wid);
