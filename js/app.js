@@ -302,7 +302,15 @@ function renderChoices(node) {
   if (node.reward) applyReward(node.reward);
   if (node.action === 'complete_location') completeLocation();
   if (node.action === 'complete_act1') { showAct1Finale(); return; }
-  if (node.action === 'quiz') { startQuiz(node.quiz_id); return; }
+  if (node.action === 'quiz') {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn choice-btn--continue';
+    btn.innerHTML = '<i data-lucide="scroll-text" style="width:14px;height:14px;display:inline;vertical-align:middle"></i> Перейти к заданию';
+    btn.onclick = () => startQuiz(node.quiz_id);
+    c.appendChild(btn);
+    lucide.createIcons();
+    return;
+  }
   if (node.action === 'start_act1') { showScreen('map'); return; }
 
   if (node.choices?.length) {
@@ -402,12 +410,15 @@ function renderChoiceQuiz(quiz, c) {
     ${quizScrollWrap(`
       <div class="quiz-question">${quiz.question}</div>
       <div class="quiz-options" id="quiz-opts"></div>
-      <div class="quiz-hint" id="quiz-hint">${quiz.hint}</div>
       <div class="quiz-result" id="quiz-result">
-        <div class="quiz-result-icon">✨</div>
+        <div class="quiz-result-icon"><i data-lucide="star" style="width:2.2rem;height:2.2rem;color:var(--gold)"></i></div>
         <div class="quiz-result-text">Правильно! +${quiz.score} очков</div>
       </div>
-    `)}`;
+    `)}
+    <div class="quiz-mori-hint" id="quiz-hint" style="display:none">
+      <img src="${asset('mori/mori_pout.png')}" class="quiz-mori-hint-img" alt="" />
+      <div class="quiz-mori-hint-bubble">${quiz.hint}</div>
+    </div>`;
   const opts = document.getElementById('quiz-opts');
   quiz.options.forEach(opt => {
     const btn = document.createElement('button');
@@ -419,21 +430,23 @@ function renderChoiceQuiz(quiz, c) {
         btn.classList.add('correct');
         btn.querySelector('i').setAttribute('data-lucide', 'check-circle');
         lucide.createIcons();
+        document.getElementById('quiz-hint').style.display = 'none';
         document.getElementById('quiz-result').classList.add('visible');
         const wid = quiz.reward_word || quiz.reward_words?.[0];
         if (wid) showPisaloSuccess(gameData.words[wid]?.form || wid);
         quizDone(quiz, true);
       } else {
         btn.classList.add('wrong');
-        document.getElementById('quiz-hint').classList.add('visible');
+        document.getElementById('quiz-hint').style.display = 'flex';
         setTimeout(() => {
-          opts.querySelectorAll('.quiz-option').forEach(b => { b.disabled = false; b.classList.remove('wrong'); });
-          document.getElementById('quiz-hint').classList.remove('visible');
-        }, 1800);
+          btn.classList.remove('wrong');
+          opts.querySelectorAll('.quiz-option').forEach(b => b.disabled = false);
+        }, 600);
       }
     };
     opts.appendChild(btn);
   });
+  lucide.createIcons();
 }
 
 function renderFillQuiz(quiz, c) {
@@ -449,12 +462,15 @@ function renderFillQuiz(quiz, c) {
         ).join('')
       }</div>
       <div class="quiz-fill-options" id="fill-opts"></div>
-      <div class="quiz-hint" id="quiz-hint">${quiz.hint}</div>
       <div class="quiz-result" id="quiz-result">
-        <div class="quiz-result-icon">✨</div>
+        <div class="quiz-result-icon"><i data-lucide="star" style="width:2.2rem;height:2.2rem;color:var(--gold)"></i></div>
         <div class="quiz-result-text">Правильно! +${quiz.score} очков</div>
       </div>
-    `)}`;
+    `)}
+    <div class="quiz-mori-hint" id="quiz-hint" style="display:none">
+      <img src="${asset('mori/mori_pout.png')}" class="quiz-mori-hint-img" alt="" />
+      <div class="quiz-mori-hint-bubble">${quiz.hint}</div>
+    </div>`;
   const opts = document.getElementById('fill-opts');
   quiz.options.forEach(letter => {
     const btn = document.createElement('button');
@@ -466,23 +482,24 @@ function renderFillQuiz(quiz, c) {
       opts.querySelectorAll('.quiz-fill-btn').forEach(b => b.disabled = true);
       if (letter === quiz.correct_option) {
         blank.classList.add('filled-correct');
+        document.getElementById('quiz-hint').style.display = 'none';
         document.getElementById('quiz-result').classList.add('visible');
         const wid = quiz.reward_word || quiz.reward_words?.[0];
         if (wid) showPisaloSuccess(gameData.words[wid]?.form || wid);
         quizDone(quiz, true);
       } else {
         blank.classList.add('filled-wrong');
-        document.getElementById('quiz-hint').classList.add('visible');
+        document.getElementById('quiz-hint').style.display = 'flex';
         setTimeout(() => {
           blank.textContent = '_';
           blank.classList.remove('filled-wrong');
           opts.querySelectorAll('.quiz-fill-btn').forEach(b => b.disabled = false);
-          document.getElementById('quiz-hint').classList.remove('visible');
-        }, 1800);
+        }, 600);
       }
     };
     opts.appendChild(btn);
   });
+  lucide.createIcons();
 }
 
 function renderMatchQuiz(quiz, c) {
@@ -498,12 +515,15 @@ function renderMatchQuiz(quiz, c) {
         <div class="quiz-match-col" id="match-ancient"></div>
         <div class="quiz-match-col" id="match-modern"></div>
       </div>
-      <div class="quiz-hint" id="quiz-hint">${quiz.hint}</div>
       <div class="quiz-result" id="quiz-result">
-        <div class="quiz-result-icon">✨</div>
+        <div class="quiz-result-icon"><i data-lucide="star" style="width:2.2rem;height:2.2rem;color:var(--gold)"></i></div>
         <div class="quiz-result-text">Все пары совпали! +${quiz.score} очков</div>
       </div>
-    `)}`;
+    `)}
+    <div class="quiz-mori-hint" id="quiz-hint" style="display:none">
+      <img src="${asset('mori/mori_pout.png')}" class="quiz-mori-hint-img" alt="" />
+      <div class="quiz-mori-hint-bubble">${quiz.hint}</div>
+    </div>`;
   const ancientCol = document.getElementById('match-ancient');
   const modernCol  = document.getElementById('match-modern');
   pairs.forEach(pair => {
@@ -541,11 +561,8 @@ function renderMatchQuiz(quiz, c) {
         btn.classList.add('wrong-flash');
         ancientCol.querySelector(`[data-ancient="${selectedAncient}"]`)?.classList.remove('selected');
         selectedAncient = null;
-        document.getElementById('quiz-hint').classList.add('visible');
-        setTimeout(() => {
-          btn.classList.remove('wrong-flash');
-          document.getElementById('quiz-hint').classList.remove('visible');
-        }, 1800);
+        document.getElementById('quiz-hint').style.display = 'flex';
+        setTimeout(() => { btn.classList.remove('wrong-flash'); }, 600);
       }
     };
     modernCol.appendChild(btn);
@@ -736,17 +753,20 @@ function openMapPanel(act) {
   const locsEl = document.getElementById('map-panel-locs');
   locsEl.innerHTML = '';
 
-  act.locations.forEach(loc => {
+  act.locations.forEach((loc, idx) => {
     const done = state.completedLocations.includes(loc.id);
+    const prevDone = idx === 0 || state.completedLocations.includes(act.locations[idx - 1].id);
+    const locked = !prevDone;
     const btn = document.createElement('button');
     btn.className = `map-loc-btn ${done ? 'completed' : ''}`;
+    if (locked) btn.disabled = true;
     btn.innerHTML = `
       <div class="map-loc-btn-icon">
-        <i data-lucide="${done ? 'check-circle' : 'map-pin'}" style="width:15px;height:15px"></i>
+        <i data-lucide="${done ? 'check-circle' : locked ? 'lock' : 'map-pin'}" style="width:15px;height:15px"></i>
       </div>
       <div class="map-loc-btn-text">
         <div class="map-loc-btn-name">${loc.title}</div>
-        <div class="map-loc-btn-sub">${loc.description}</div>
+        <div class="map-loc-btn-sub">${locked ? 'Сначала заверши предыдущую локацию' : loc.description}</div>
       </div>`;
     btn.onclick = () => {
       panel.classList.remove('open');

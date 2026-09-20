@@ -2097,3 +2097,50 @@ h1, h2, h3, h4 {
   margin-top: 0.15rem;
   line-height: 1.3;
 }
+
+/* ════════════ МОРИ-ПОДСКАЗКА В КВИЗЕ ════════════ */
+.quiz-mori-hint {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.8rem;
+  animation: fadeUp 0.35s ease both;
+  max-width: 480px;
+  width: 100%;
+}
+
+.quiz-mori-hint-img {
+  height: 90px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5));
+  animation: float 3s ease-in-out infinite;
+}
+
+.quiz-mori-hint-bubble {
+  background: rgba(18,16,22,0.95);
+  border: 1px solid rgba(212,175,55,0.35);
+  border-radius: 10px 10px 10px 2px;
+  padding: 0.7rem 1rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  color: var(--gold-light);
+  font-style: italic;
+  line-height: 1.5;
+  position: relative;
+}
+.quiz-mori-hint-bubble::before {
+  content: '';
+  position: absolute;
+  bottom: 8px; left: -8px;
+  border: 5px solid transparent;
+  border-right-color: rgba(212,175,55,0.35);
+}
+
+/* ════════════ МЕТКИ МАРКЕРОВ КАРТЫ — КРУПНЕЕ ════════════ */
+.map-marker-label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  background: rgba(10,8,16,0.72);
+  padding: 0.15rem 0.5rem;
+  border-radius: 3px;
+  border: 1px solid rgba(212,175,55,0.2);
+}
