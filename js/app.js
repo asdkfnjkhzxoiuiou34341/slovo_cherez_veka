@@ -352,7 +352,7 @@ function showPisaloSuccess(wordForm) {
   el.className = 'pisalo-success';
   el.innerHTML = `<img src="${asset('assets/images/item_pisalo.png')}" alt=""><div class="pisalo-success-text">+ ${wordForm}</div>`;
   document.body.appendChild(el);
-  setTimeout(() => el.remove(), 1500);
+  setTimeout(() => el.remove(), 3000);
 }
 
 function quizScrollWrap(inner) {
@@ -400,7 +400,7 @@ function quizDone(quiz, correct) {
     } else {
       showScreen('map');
     }
-  }, correct ? 1200 : 0);
+  }, correct ? 2800 : 0);
 }
 
 function renderChoiceQuiz(quiz, c) {
@@ -428,7 +428,8 @@ function renderChoiceQuiz(quiz, c) {
       opts.querySelectorAll('.quiz-option').forEach(b => b.disabled = true);
       if (opt.correct) {
         btn.classList.add('correct');
-        btn.querySelector('i').setAttribute('data-lucide', 'check-circle');
+        const icon = btn.querySelector('svg') || btn.querySelector('i');
+        if (icon) icon.setAttribute('data-lucide', 'check-circle');
         lucide.createIcons();
         document.getElementById('quiz-hint').style.display = 'none';
         document.getElementById('quiz-result').classList.add('visible');
