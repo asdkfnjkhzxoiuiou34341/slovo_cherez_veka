@@ -1759,3 +1759,23 @@ h1, h2, h3, h4 {
   text-transform: uppercase;
   animation: fadeUp 0.5s ease both;
 }
+
+/* ════════════ CHOICE BTN APPEAR ANIMATION ════════════ */
+@keyframes fadeInUpChoice {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.choice-btn {
+  animation: fadeInUpChoice 0.3s ease both;
+}
+
+/* ════════════ CHOICE BTN APPEAR ANIMATION ════════════ */
+@keyframes fadeInUpChoice {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.choice-btn {
+  animation: fadeInUpChoice 0.3s ease both;
+}

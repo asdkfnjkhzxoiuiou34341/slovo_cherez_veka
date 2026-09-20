@@ -1,6 +1,14 @@
 // ─── Constants ────────────────────────────────────────────────────────────────
 const SAVE_KEY = 'scv_save';
 
+const BASE = (() => {
+  const p = location.pathname;
+  return p.includes('/slovo_cherez_veka') ? '/slovo_cherez_veka' : '';
+})();
+function asset(path) { return BASE + '/' + path.replace(/^\//, ''); }
+const BASE = location.pathname.includes('/slovo_cherez_veka') ? '/slovo_cherez_veka' : '';
+function asset(path) { return BASE + '/' + path.replace(/^\//, ''); }
+
 const DIFF_LABELS = {
   novice:   'Первопроходец',
   explorer: 'Исследователь',
@@ -189,9 +197,8 @@ function showActSplash(eyebrow, title, sub, onDone) {
 function setGameBg(value) {
   const bg = document.getElementById('game-bg');
   const next = document.getElementById('game-bg-next');
-  const css = (value && (value.startsWith('assets') || value.startsWith('mori')))
-    ? `url('${value}') center/cover no-repeat`
-    : value;
+  const resolved = (value && (value.startsWith('assets') || value.startsWith('mori'))) ? asset(value) : value;
+  const css = resolved ? `url('${resolved}') center/cover no-repeat` : resolved;
   next.style.background = css;
   next.style.opacity = '1';
   setTimeout(() => {
@@ -236,13 +243,13 @@ function setMoriEmotion(emotion) {
     return;
   }
   container.style.display = '';
-  const src = MORI_SPRITES[emotion] || MORI_SPRITES.default;
-  if (img.src.endsWith(src)) return;
+  const src = asset(MORI_SPRITES[emotion] || MORI_SPRITES.default);
+  if (img.src === src) return;
   img.classList.add('fade-out');
   setTimeout(() => {
     img.src = src;
     img.onerror = () => {
-      img.src = MORI_FALLBACKS[emotion] || MORI_SPRITES.default;
+      img.src = asset(MORI_FALLBACKS[emotion] || MORI_SPRITES.default);
       img.onerror = null;
     };
     img.classList.remove('fade-out');
@@ -300,9 +307,10 @@ function renderChoices(node) {
   }
 
   if (node.choices?.length) {
-    node.choices.forEach(choice => {
+    node.choices.forEach((choice, idx) => {
       const btn = document.createElement('button');
       btn.className = 'choice-btn';
+      btn.style.animationDelay = `${idx * 80}ms`;
       btn.textContent = choice.text;
       btn.onclick = () => {
         state.score += choice.score || 0;
@@ -335,14 +343,14 @@ function renderChoices(node) {
 function showPisaloSuccess(wordForm) {
   const el = document.createElement('div');
   el.className = 'pisalo-success';
-  el.innerHTML = `<img src="assets/images/item_pisalo.png" alt=""><div class="pisalo-success-text">+ ${wordForm}</div>`;
+  el.innerHTML = `<img src="${asset('assets/images/item_pisalo.png')}" alt=""><div class="pisalo-success-text">+ ${wordForm}</div>`;
   document.body.appendChild(el);
   setTimeout(() => el.remove(), 1500);
 }
 
 function quizScrollWrap(inner) {
   return `<div class="quiz-scroll-wrap">
-    <img class="quiz-scroll-bg" src="assets/images/birch_scroll_empty.png" alt="" />
+    <img class="quiz-scroll-bg" src="${asset('assets/images/birch_scroll_empty.png')}" alt="" />
     <div class="quiz-scroll-content">${inner}</div>
   </div>`;
 }
@@ -351,7 +359,7 @@ function startQuiz(quizId) {
   const quiz = gameData.quizzes[quizId];
   if (!quiz) return;
   document.getElementById('quiz-bg').style.background =
-    `url('assets/images/bg_scriptorium_desk.png') center/cover no-repeat`;
+    `url('${asset('assets/images/bg_scriptorium_desk.png')}') center/cover no-repeat`;
   showScreen('quiz');
   const c = document.getElementById('quiz-container');
   c.innerHTML = '';
@@ -655,7 +663,7 @@ function renderMap() {
   gameData.acts.forEach(act => {
     const div = document.createElement('div');
     div.className = `act-card ${act.unlocked ? '' : 'locked'}`;
-    const preview = act.id === 'act2' ? `<img class="act-card-preview-img" src="assets/images/act2_preview.png" alt="" />` : '';
+    const preview = act.id === 'act2' ? `<img class="act-card-preview-img" src="${asset('assets/images/act2_preview.png')}" alt="" />` : '';
     const unlockBadge = (act.id === 'act2' && act.unlocked && !state.completedLocations.includes('act2_seen'))
       ? `<div class="act-unlock-badge">Ново!</div>` : '';
     const locs = act.locations.map(loc => {
@@ -799,7 +807,7 @@ function closeAchievements() {
 
 // ─── Init ─────────────────────────────────────────────────────────────────────
 async function init() {
-  const res = await fetch('data/gameData.json');
+  const res = await fetch(asset('data/gameData.json'));
   gameData = await res.json();
 
   loadProgress();
