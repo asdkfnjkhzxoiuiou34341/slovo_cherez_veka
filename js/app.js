@@ -279,6 +279,7 @@ function showDialogue(nodeId) {
 function typeText(text, onDone) {
   const el = document.getElementById('dialogue-text');
   el.textContent = '';
+  if (!text) { onDone?.(); return; }
   let i = 0;
   const iv = setInterval(() => {
     el.textContent += text[i++];
