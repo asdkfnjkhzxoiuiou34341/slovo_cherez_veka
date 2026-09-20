@@ -3,7 +3,9 @@ const SAVE_KEY = 'scv_save';
 
 const BASE = (() => {
   const p = location.pathname;
-  return p.includes('/slovo_cherez_veka') ? '/slovo_cherez_veka' : '';
+  if (p.includes('/slovo_cherez_veka')) return '/slovo_cherez_veka';
+  // local: derive base from current path (strip filename if any)
+  return p.replace(/\/[^/]*$/, '');
 })();
 function asset(path) { return BASE + '/' + path.replace(/^\//, ''); }
 
