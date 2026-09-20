@@ -271,7 +271,9 @@ function showDialogue(nodeId) {
   if (node.bg) {
     setGameBg(node.bg);
   }
-  document.getElementById('speaker-name').textContent = node.speaker;
+  const speakerEl = document.getElementById('speaker-name');
+  speakerEl.textContent = node.speaker || '';
+  speakerEl.style.display = node.speaker ? 'inline-block' : 'none';
   document.getElementById('choices-container').innerHTML = '';
   typeText(node.text, () => renderChoices(node));
 }
