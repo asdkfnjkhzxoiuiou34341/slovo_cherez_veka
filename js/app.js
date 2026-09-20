@@ -304,11 +304,6 @@ function renderChoices(node) {
   if (node.action === 'complete_act1') { showAct1Finale(); return; }
   if (node.action === 'quiz') { startQuiz(node.quiz_id); return; }
   if (node.action === 'start_act1') { showScreen('map'); return; }
-    setTimeout(() => {
-      showActSplash('Акт I', 'Древняя Русь', 'Встреча с Мори', () => startLocation('act1', 'scriptorium'));
-    }, 400);
-    return;
-  }
 
   if (node.choices?.length) {
     node.choices.forEach((choice, idx) => {
@@ -663,33 +658,108 @@ function showAchievementToast(name) {
 }
 
 // ─── Map ──────────────────────────────────────────────────────────────────────
+
+// Позиции маркеров на карте (% от ширины/высоты картинки)
+const MAP_POSITIONS = {
+  act1: { x: 36, y: 38, icon: 'map_marker_village.png',    label: 'Древняя Русь' },
+  act2: { x: 55, y: 32, icon: 'map_marker_monastery.png',  label: 'Печатный век' },
+  act3: { x: 48, y: 55, icon: 'map_marker_locked.png',     label: 'Золотой век' },
+  act4: { x: 62, y: 48, icon: 'map_marker_locked.png',     label: 'Языки народов' },
+  act5: { x: 70, y: 40, icon: 'map_marker_locked.png',     label: 'Современность' },
+};
+
 function renderMap() {
-  const container = document.getElementById('map-acts');
-  container.innerHTML = '';
+  const markersEl = document.getElementById('map-markers');
+  markersEl.innerHTML = '';
+
   gameData.acts.forEach(act => {
-    const div = document.createElement('div');
-    div.className = `act-card ${act.unlocked ? '' : 'locked'}`;
-    const preview = act.id === 'act2' ? `<img class="act-card-preview-img" src="${asset('assets/images/act2_preview.png')}" alt="" />` : '';
-    const unlockBadge = (act.id === 'act2' && act.unlocked && !state.completedLocations.includes('act2_seen'))
-      ? `<div class="act-unlock-badge">Ново!</div>` : '';
-    const locs = act.locations.map(loc => {
-      const done = state.completedLocations.includes(loc.id);
-      const icon = done
-        ? '<i data-lucide="check-circle" style="width:13px;height:13px"></i>'
-        : '<i data-lucide="map-pin" style="width:13px;height:13px"></i>';
-      return `<button class="loc-btn ${done ? 'completed' : ''}"
-        ${!act.unlocked ? 'disabled' : ''}
-        data-act="${act.id}" data-loc="${loc.id}">
-        ${icon} ${loc.title}
-      </button>`;
-    }).join('') || '<p class="soon">Скоро...</p>';
-    div.className = `act-card ${act.unlocked ? '' : 'locked'} ${act.id === 'act2' ? 'act-card-preview' : ''}`;
-    div.innerHTML = `${unlockBadge}${preview}<h3>${act.title}</h3><div class="locations-list">${locs}</div>`;
-    container.appendChild(div);
+    const pos = MAP_POSITIONS[act.id];
+    if (!pos) return;
+
+    const marker = document.createElement('div');
+    marker.className = `map-marker ${act.unlocked ? 'active-act' : 'locked'}`;
+    marker.style.left = pos.x + '%';
+    marker.style.top  = pos.y + '%';
+    marker.dataset.act = act.id;
+
+    marker.innerHTML = `
+      <div class="map-marker-icon">
+        <img src="${asset('assets/images/' + pos.icon)}" alt="" />
+      </div>
+      <div class="map-marker-pin"></div>
+      <div class="map-marker-label">${pos.label}</div>`;
+
+    if (act.unlocked) {
+      marker.onclick = () => openMapPanel(act);
+      marker.onmouseenter = (e) => showMapTooltip(e, act);
+      marker.onmouseleave = () => hideMapTooltip();
+    }
+
+    markersEl.appendChild(marker);
   });
-  container.querySelectorAll('.loc-btn:not([disabled])').forEach(btn => {
-    btn.onclick = () => startLocation(btn.dataset.act, btn.dataset.loc);
+
+  // Панель закрыта по умолчанию
+  document.getElementById('map-panel').classList.remove('open');
+  document.getElementById('map-panel-close').onclick = () => {
+    document.getElementById('map-panel').classList.remove('open');
+  };
+
+  lucide.createIcons();
+}
+
+function showMapTooltip(e, act) {
+  const tip = document.getElementById('map-tooltip');
+  const done = act.locations.filter(l => state.completedLocations.includes(l.id)).length;
+  const total = act.locations.length;
+  document.getElementById('map-tooltip-title').textContent = act.title;
+  document.getElementById('map-tooltip-desc').textContent = total ? `${done}/${total} локаций` : 'Скоро...';
+  const statusEl = document.getElementById('map-tooltip-status');
+  statusEl.textContent = act.unlocked ? 'Открыто' : 'Закрыто';
+  statusEl.className = 'map-tooltip-status' + (act.unlocked ? '' : ' locked');
+  tip.style.left = (e.clientX + 14) + 'px';
+  tip.style.top  = (e.clientY - 10) + 'px';
+  tip.classList.add('visible');
+}
+
+function hideMapTooltip() {
+  document.getElementById('map-tooltip').classList.remove('visible');
+}
+
+function openMapPanel(act) {
+  hideMapTooltip();
+  const panel = document.getElementById('map-panel');
+  document.getElementById('map-panel-title').textContent = act.title;
+  document.getElementById('map-panel-desc').textContent = act.locations.length
+    ? 'Выбери локацию:'
+    : 'Эта эпоха ещё не открыта.';
+
+  const locsEl = document.getElementById('map-panel-locs');
+  locsEl.innerHTML = '';
+
+  act.locations.forEach(loc => {
+    const done = state.completedLocations.includes(loc.id);
+    const btn = document.createElement('button');
+    btn.className = `map-loc-btn ${done ? 'completed' : ''}`;
+    btn.innerHTML = `
+      <div class="map-loc-btn-icon">
+        <i data-lucide="${done ? 'check-circle' : 'map-pin'}" style="width:15px;height:15px"></i>
+      </div>
+      <div class="map-loc-btn-text">
+        <div class="map-loc-btn-name">${loc.title}</div>
+        <div class="map-loc-btn-sub">${loc.description}</div>
+      </div>`;
+    btn.onclick = () => {
+      panel.classList.remove('open');
+      startLocation(act.id, loc.id);
+    };
+    locsEl.appendChild(btn);
   });
+
+  if (!act.locations.length) {
+    locsEl.innerHTML = `<div style="color:var(--text-dim);font-size:0.85rem;font-style:italic;padding:1rem 0;text-align:center">Скоро...</div>`;
+  }
+
+  panel.classList.add('open');
   lucide.createIcons();
 }
 
@@ -853,7 +923,7 @@ async function init() {
   document.getElementById('btn-achievements').onclick = openAchievements;
 
   // Map / Inventory back
-  document.getElementById('btn-back-map').onclick = () => showScreen('game');
+  document.getElementById('btn-back-map').onclick = () => showScreen(state.lastScreen === 'map' ? 'game' : state.lastScreen);
   document.getElementById('btn-back-inv').onclick = () => showScreen('game');
   document.getElementById('archive-prev').onclick = () => goArchivePage(archivePage - 1);
   document.getElementById('archive-next').onclick = () => goArchivePage(archivePage + 1);

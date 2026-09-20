@@ -354,15 +354,37 @@
 
 <!-- ══ SCREEN: MAP ══ -->
 <div class="screen" id="screen-map">
-  <div class="map-header">
-    <h2>Карта эпох</h2>
-    <p>Выбери локацию для исследования</p>
-  </div>
-  <div id="map-acts"></div>
-  <div style="text-align:center;padding-bottom:2rem">
+  <div class="map-topbar">
     <button class="btn-ghost" id="btn-back-map">
-      <i data-lucide="arrow-left" style="width:13px;height:13px"></i> Вернуться
+      <i data-lucide="arrow-left" style="width:13px;height:13px"></i> Назад
     </button>
+    <div class="map-topbar-title">Карта Древней Руси</div>
+    <div class="map-topbar-hint">Выбери место для исследования</div>
+  </div>
+
+  <div class="map-world" id="map-world">
+    <img class="map-bg-img" src="assets/images/map_rus_full.png" alt="Карта Руси" id="map-bg-img" />
+    <div class="map-fog" id="map-fog"></div>
+    <div class="map-markers" id="map-markers"></div>
+  </div>
+
+  <!-- Tooltip при наведении на маркер -->
+  <div class="map-tooltip" id="map-tooltip">
+    <div class="map-tooltip-title" id="map-tooltip-title"></div>
+    <div class="map-tooltip-desc" id="map-tooltip-desc"></div>
+    <div class="map-tooltip-status" id="map-tooltip-status"></div>
+  </div>
+
+  <!-- Панель выбора локации (появляется при клике) -->
+  <div class="map-panel" id="map-panel">
+    <div class="map-panel-header">
+      <div class="map-panel-title" id="map-panel-title"></div>
+      <button class="map-panel-close" id="map-panel-close">
+        <i data-lucide="x" style="width:16px;height:16px"></i>
+      </button>
+    </div>
+    <div class="map-panel-desc" id="map-panel-desc"></div>
+    <div class="map-panel-locs" id="map-panel-locs"></div>
   </div>
 </div>
 

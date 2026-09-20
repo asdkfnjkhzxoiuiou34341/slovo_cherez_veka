@@ -219,7 +219,127 @@
         "speaker": "Мори",
         "emotion": "happy",
         "bg": "assets/images/bg_birch_grove.png",
-        "text": "Тогда открываем карту — три места ждут нас!",
+        "text": "Отлично! Но сначала нам надо дойти до монастыря. Там живут монахи, которые умеют читать и писать. Пойдём!",
+        "next": "p25"
+      },
+      {
+        "id": "p25",
+        "speaker": "",
+        "emotion": "none",
+        "bg": "assets/images/bg_village_road.png",
+        "text": "Вы выходите из рощи на деревенскую улицу. Пахнет дымом и свежим хлебом. Куры бегают по двору.",
+        "next": "p26"
+      },
+      {
+        "id": "p26",
+        "speaker": "Ты",
+        "emotion": "none",
+        "bg": "assets/images/bg_village_road.png",
+        "text": "Смотри, какие дома! Все из брёвен, и на окнах резные узоры.",
+        "next": "p27"
+      },
+      {
+        "id": "p27",
+        "speaker": "Мори",
+        "emotion": "funny",
+        "bg": "assets/images/bg_village_road.png",
+        "text": "Это обычная деревня XI века! Люди здесь встают с солнцем и ложатся с темнотой. Никакого электричества!",
+        "next": "p28"
+      },
+      {
+        "id": "p28",
+        "speaker": "",
+        "emotion": "none",
+        "bg": "assets/images/bg_monastery_road.png",
+        "text": "За деревней начинается широкая дорога через поле. Вдали на холме видны белые стены и золотой купол.",
+        "next": "p29"
+      },
+      {
+        "id": "p29",
+        "speaker": "Ты",
+        "emotion": "none",
+        "bg": "assets/images/bg_monastery_road.png",
+        "text": "Что это там блестит?",
+        "next": "p30"
+      },
+      {
+        "id": "p30",
+        "speaker": "Мори",
+        "emotion": "happy",
+        "bg": "assets/images/bg_monastery_road.png",
+        "text": "Это монастырь! Там монахи каждый день переписывают книги. Без них все знания были бы потеряны.",
+        "next": "p31"
+      },
+      {
+        "id": "p31",
+        "speaker": "",
+        "emotion": "none",
+        "bg": "assets/images/bg_monastery_road_closer.png",
+        "text": "Дорога поднимается на холм. Монастырские стены становятся всё ближе. Слышен колокольный звон.",
+        "next": "p32"
+      },
+      {
+        "id": "p32",
+        "speaker": "Мори",
+        "emotion": "happy",
+        "bg": "assets/images/bg_monastery_road_closer.png",
+        "text": "Слышишь колокол? Монахи зовут друг друга на молитву. Колокол — это как будильник для всего монастыря!",
+        "next": "p33"
+      },
+      {
+        "id": "p33",
+        "speaker": "",
+        "emotion": "none",
+        "bg": "assets/images/bg_monastery_gates.png",
+        "text": "Вы подходите к большим деревянным воротам. Над аркой горит масляная лампа.",
+        "next": "p34"
+      },
+      {
+        "id": "p34",
+        "speaker": "Ты",
+        "emotion": "none",
+        "bg": "assets/images/bg_monastery_gates.png",
+        "text": "Ворота такие огромные! Как в сказке.",
+        "next": "p35"
+      },
+      {
+        "id": "p35",
+        "speaker": "Мори",
+        "emotion": "idea",
+        "bg": "assets/images/bg_monastery_gates.png",
+        "text": "Стены строили толстыми — для защиты. А над воротами всегда вешали икону, чтобы охраняла всех входящих.",
+        "next": "p36"
+      },
+      {
+        "id": "p36",
+        "speaker": "",
+        "emotion": "none",
+        "bg": "assets/images/bg_monastery_gates_open.png",
+        "text": "Ворота медленно открываются. За ними — мощёный двор, колодец и большая церковь с золотым куполом.",
+        "next": "p37"
+      },
+      {
+        "id": "p37",
+        "speaker": "Мори",
+        "emotion": "happy",
+        "bg": "assets/images/bg_monastery_courtyard.png",
+        "text": "Добро пожаловать в монастырь! Вон там — скрипторий, где пишут книги. А вон там — церковь. Куда сначала?",
+        "next": "p38"
+      },
+      {
+        "id": "p38",
+        "speaker": "",
+        "emotion": "none",
+        "bg": "assets/images/bg_monastery_courtyard.png",
+        "text": "Во дворе тихо. Монах несёт стопку берестяных листов. Яблони цветут у стены.",
+        "next": "p_start_map"
+      },
+      {
+        "id": "p_start_map",
+        "speaker": "Мори",
+        "emotion": "happy",
+        "bg": "assets/images/bg_monastery_courtyard.png",
+        "text": "Открываем карту — здесь много мест для изучения!",
         "action": "start_act1"
       }
     ]
@@ -303,30 +423,297 @@
           "id": "church",
           "title": "Церковь Кириллицы",
           "description": "Место, где хранятся первые кириллические рукописи",
-          "background": "assets/images/bg_scriptorium_desk.png",
+          "background": "assets/images/bg_church_interior.png",
           "unlocked": true,
           "dialogue": [
             {
               "id": "c1",
               "speaker": "",
               "emotion": "none",
-              "text": "Высокие стены, тихо, торжественно. На полках — старинные книги.",
+              "bg": "assets/images/bg_church_interior.png",
+              "text": "Высокие каменные стены. Пахнет ладаном. На стенах — рисунки святых.",
               "next": "c2"
             },
             {
               "id": "c2",
               "speaker": "Мори",
               "emotion": "happy",
+              "bg": "assets/images/bg_church_interior.png",
               "text": "Здесь хранятся первые книги на кириллице. Буквы придумали два брата — Кирилл и Мефодий. От их имён и пошло слово «кириллица»!",
               "next": "c3"
             },
             {
               "id": "c3",
+              "speaker": "Ты",
+              "emotion": "none",
+              "bg": "assets/images/bg_church_interior.png",
+              "text": "А почему буквы назвали в честь Кирилла, а не Мефодия?",
+              "next": "c4"
+            },
+            {
+              "id": "c4",
+              "speaker": "Мори",
+              "emotion": "funny",
+              "bg": "assets/images/bg_church_interior.png",
+              "text": "Хи-хи! Хороший вопрос. Кирилл был главным придумщиком букв. Мефодий помогал переводить книги. Оба — молодцы!",
+              "next": "c5"
+            },
+            {
+              "id": "c5",
+              "speaker": "",
+              "emotion": "none",
+              "bg": "assets/images/bg_church_altar.png",
+              "text": "На алтаре лежит открытая книга. Буквы написаны красными и золотыми чернилами.",
+              "next": "c6"
+            },
+            {
+              "id": "c6",
               "speaker": "Мори",
               "emotion": "idea",
-              "text": "Буква «А» называлась «аз», буква «Б» — «буки». Отсюда и слово «азбука»! Последнее задание — соединить старые слова с новыми.",
+              "bg": "assets/images/bg_church_altar.png",
+              "text": "Буква «А» называлась «аз», буква «Б» — «буки». Отсюда и слово «азбука»! Попробуй соединить старые слова с новыми.",
               "action": "quiz",
               "quiz_id": "q_match"
+            }
+          ]
+        },
+        {
+          "id": "courtyard",
+          "title": "Монастырский двор",
+          "description": "Двор монастыря, где монахи занимались хозяйством",
+          "background": "assets/images/bg_monastery_courtyard.png",
+          "unlocked": true,
+          "dialogue": [
+            {
+              "id": "cy1",
+              "speaker": "",
+              "emotion": "none",
+              "bg": "assets/images/bg_monastery_courtyard.png",
+              "text": "Во дворе тихо и спокойно. Монах несёт стопку берестяных листов.",
+              "next": "cy2"
+            },
+            {
+              "id": "cy2",
+              "speaker": "Мори",
+              "emotion": "happy",
+              "bg": "assets/images/bg_monastery_courtyard.png",
+              "text": "Монахи жили по строгому расписанию. Утром — молитва, днём — работа и переписка книг, вечером — снова молитва.",
+              "next": "cy3"
+            },
+            {
+              "id": "cy3",
+              "speaker": "Ты",
+              "emotion": "none",
+              "bg": "assets/images/bg_monastery_courtyard.png",
+              "text": "Целый день писать? Это же устанешь!",
+              "next": "cy4"
+            },
+            {
+              "id": "cy4",
+              "speaker": "Мори",
+              "emotion": "funny",
+              "bg": "assets/images/bg_monastery_courtyard.png",
+              "text": "Ещё как! Поэтому монахи иногда писали на полях книг: «Ох, болит рука, не могу писать!» Это тоже дошло до нас!",
+              "next": "cy5"
+            },
+            {
+              "id": "cy5",
+              "speaker": "",
+              "emotion": "none",
+              "bg": "assets/images/bg_monastery_courtyard_evening.png",
+              "text": "Солнце клонится к закату. Двор окрашивается в оранжевый цвет.",
+              "next": "cy6"
+            },
+            {
+              "id": "cy6",
+              "speaker": "Мори",
+              "emotion": "idea",
+              "bg": "assets/images/bg_monastery_courtyard_evening.png",
+              "text": "Знаешь слово «вечеря»? Это вечерняя еда. От него произошло слово «вечер»! Многие наши слова — из монастырей.",
+              "action": "quiz",
+              "quiz_id": "q_vecher"
+            }
+          ]
+        },
+        {
+          "id": "bell_tower",
+          "title": "Колокольня",
+          "description": "Высокая башня с колоколами над монастырём",
+          "background": "assets/images/bg_bell_tower.png",
+          "unlocked": true,
+          "dialogue": [
+            {
+              "id": "bt1",
+              "speaker": "",
+              "emotion": "none",
+              "bg": "assets/images/bg_bell_tower.png",
+              "text": "Узкие каменные ступени ведут вверх. Стены холодные и влажные.",
+              "next": "bt2"
+            },
+            {
+              "id": "bt2",
+              "speaker": "Мори",
+              "emotion": "happy",
+              "bg": "assets/images/bg_bell_tower.png",
+              "text": "Колокол на Руси называли «звон». Отсюда — «звонить», «звук», «звонкий». Один корень!",
+              "next": "bt3"
+            },
+            {
+              "id": "bt3",
+              "speaker": "",
+              "emotion": "none",
+              "bg": "assets/images/bg_bell_tower_top.png",
+              "text": "Наверху — огромные бронзовые колокола. Внизу видна вся округа: река, лес, деревня.",
+              "next": "bt4"
+            },
+            {
+              "id": "bt4",
+              "speaker": "Ты",
+              "emotion": "none",
+              "bg": "assets/images/bg_bell_tower_top.png",
+              "text": "Вот это вид! Отсюда видно всё!",
+              "next": "bt5"
+            },
+            {
+              "id": "bt5",
+              "speaker": "Мори",
+              "emotion": "idea",
+              "bg": "assets/images/bg_bell_tower_top.png",
+              "text": "Видишь реку? Там пристань. А за лесом — рынок. Вот куда мы пойдём дальше! Но сначала — маленькое задание.",
+              "action": "quiz",
+              "quiz_id": "q_zvon"
+            }
+          ]
+        },
+        {
+          "id": "market",
+          "title": "Торговая площадь",
+          "description": "Шумный рынок у стен монастыря",
+          "background": "assets/images/bg_market_square.png",
+          "unlocked": true,
+          "dialogue": [
+            {
+              "id": "m1",
+              "speaker": "",
+              "emotion": "none",
+              "bg": "assets/images/bg_market_square.png",
+              "text": "Шумно! Торговцы кричат, дети бегают, пахнет хлебом и рыбой.",
+              "next": "m2"
+            },
+            {
+              "id": "m2",
+              "speaker": "Мори",
+              "emotion": "happy",
+              "bg": "assets/images/bg_market_square.png",
+              "text": "Рынок по-старому называли «торг» или «торжище». Отсюда — «торговать», «торжество», «уторговаться»!",
+              "next": "m3"
+            },
+            {
+              "id": "m3",
+              "speaker": "Ты",
+              "emotion": "none",
+              "bg": "assets/images/bg_market_square.png",
+              "text": "Торжество — это праздник. При чём тут рынок?",
+              "next": "m4"
+            },
+            {
+              "id": "m4",
+              "speaker": "Мори",
+              "emotion": "idea",
+              "bg": "assets/images/bg_market_square.png",
+              "text": "Раньше «торжество» значило «большое собрание людей». На рынке всегда много народу — вот и праздник! Слова меняют смысл со временем.",
+              "next": "m5"
+            },
+            {
+              "id": "m5",
+              "speaker": "",
+              "emotion": "none",
+              "bg": "assets/images/bg_market_stall_books.png",
+              "text": "В углу рынка — маленькая лавка. На прилавке лежат свитки и берестяные листы.",
+              "next": "m6"
+            },
+            {
+              "id": "m6",
+              "speaker": "Мори",
+              "emotion": "happy",
+              "bg": "assets/images/bg_market_stall_books.png",
+              "text": "Это лавка писца! Он продаёт письма и грамоты тем, кто сам не умеет писать. Грамотных людей тогда было мало.",
+              "next": "m7"
+            },
+            {
+              "id": "m7",
+              "speaker": "Мори",
+              "emotion": "funny",
+              "bg": "assets/images/bg_market_stall_books.png",
+              "text": "Проверим, что ты запомнил на рынке!",
+              "action": "quiz",
+              "quiz_id": "q_torg"
+            }
+          ]
+        },
+        {
+          "id": "river_dock",
+          "title": "Речная пристань",
+          "description": "Пристань на реке, откуда уходят торговые ладьи",
+          "background": "assets/images/bg_river_dock.png",
+          "unlocked": true,
+          "dialogue": [
+            {
+              "id": "rd1",
+              "speaker": "",
+              "emotion": "none",
+              "bg": "assets/images/bg_river_dock.png",
+              "text": "У деревянного причала стоит большая плоская лодка. Рыбаки тянут сети.",
+              "next": "rd2"
+            },
+            {
+              "id": "rd2",
+              "speaker": "Мори",
+              "emotion": "happy",
+              "bg": "assets/images/bg_river_dock.png",
+              "text": "Реки на Руси были как дороги! По ним плавали купцы из разных городов. И слова тоже путешествовали вместе с людьми.",
+              "next": "rd3"
+            },
+            {
+              "id": "rd3",
+              "speaker": "Ты",
+              "emotion": "none",
+              "bg": "assets/images/bg_river_dock.png",
+              "text": "Слова путешествовали?",
+              "next": "rd4"
+            },
+            {
+              "id": "rd4",
+              "speaker": "Мори",
+              "emotion": "idea",
+              "bg": "assets/images/bg_river_dock.png",
+              "text": "Да! Купец из Новгорода приплывал в Киев и привозил новые слова. Так язык рос и менялся. Например, слово «товар» пришло из тюркских языков!",
+              "next": "rd5"
+            },
+            {
+              "id": "rd5",
+              "speaker": "",
+              "emotion": "none",
+              "bg": "assets/images/bg_river_dock_evening.png",
+              "text": "Вечер. Река отражает розовое небо. Лодки покачиваются у берега.",
+              "next": "rd6"
+            },
+            {
+              "id": "rd6",
+              "speaker": "Мори",
+              "emotion": "happy",
+              "bg": "assets/images/bg_river_dock_evening.png",
+              "text": "Мы многое узнали сегодня! Скрипторий, церковь, рынок, пристань... Ты настоящий исследователь!",
+              "next": "rd7"
+            },
+            {
+              "id": "rd7",
+              "speaker": "Мори",
+              "emotion": "idea",
+              "bg": "assets/images/bg_river_dock_evening.png",
+              "text": "Последнее задание у реки — и Акт I завершён!",
+              "action": "quiz",
+              "quiz_id": "q_reka"
             }
           ]
         }
@@ -371,6 +758,73 @@
       "next_dialogue": "b_after_quiz2",
       "location_id": "birch_grove"
     },
+    "q_vecher": {
+      "id": "q_vecher",
+      "type": "choice",
+      "title": "Монастырский двор",
+      "question": "От какого слова произошло слово «вечер»?",
+      "word_highlight": "вечеря",
+      "options": [
+        { "id": "a", "text": "Вечерняя еда", "correct": true },
+        { "id": "b", "text": "Ветер", "correct": false },
+        { "id": "c", "text": "Вечность", "correct": false }
+      ],
+      "hint": "Подсказка: монахи ели три раза в день. Утром, днём и...",
+      "reward_word": "vecher",
+      "score": 10,
+      "next_dialogue": "cy_after_quiz",
+      "location_id": "courtyard"
+    },
+    "q_zvon": {
+      "id": "q_zvon",
+      "type": "fill",
+      "title": "Колокольня",
+      "question": "Вставь пропущенную букву:",
+      "word_template": "ЗВ_НКИЙ",
+      "word_answer": "ЗВОНКИЙ",
+      "missing_index": 2,
+      "options": ["О", "А", "У", "Е"],
+      "correct_option": "О",
+      "hint": "Подсказка: звон — звук. ЗВОН → ЗВОНКИЙ!",
+      "reward_word": "zvon",
+      "score": 10,
+      "next_dialogue": "bt_after_quiz",
+      "location_id": "bell_tower"
+    },
+    "q_torg": {
+      "id": "q_torg",
+      "type": "choice",
+      "title": "Торговая площадь",
+      "question": "Что означало слово «торжество» в Древней Руси?",
+      "word_highlight": "торжество",
+      "options": [
+        { "id": "a", "text": "Большое собрание людей", "correct": true },
+        { "id": "b", "text": "Праздник урожая", "correct": false },
+        { "id": "c", "text": "Церковная служба", "correct": false }
+      ],
+      "hint": "Подсказка: торг — рынок. На рынке всегда много...",
+      "reward_word": "torg",
+      "score": 10,
+      "next_dialogue": "m_after_quiz",
+      "location_id": "market"
+    },
+    "q_reka": {
+      "id": "q_reka",
+      "type": "match",
+      "title": "Слова из разных языков",
+      "question": "Соедини слово с языком, из которого оно пришло:",
+      "pairs": [
+        { "ancient": "товар", "modern": "тюркский" },
+        { "ancient": "хлеб»", "modern": "славянский" },
+        { "ancient": "бумага", "modern": "арабский" },
+        { "ancient": "лодка", "modern": "скандинавский" }
+      ],
+      "hint": "Подсказка: «бумага» по-арабски — «бумага». Совпадает!",
+      "reward_words": ["tovar", "hleb", "bumaga", "lodka"],
+      "score": 20,
+      "next_dialogue": "rd_after_quiz",
+      "location_id": "river_dock"
+    },
     "q_match": {
       "id": "q_match",
       "type": "match",
@@ -413,7 +867,43 @@
         "id": "c_after_quiz3",
         "speaker": "Мори",
         "emotion": "happy",
-        "text": "Ура! Ты знаешь слова Древней Руси! Все слова в Архиве. Акт I пройден!",
+        "text": "Ура! Ты знаешь слова Древней Руси! Все слова в Архиве. Идём дальше!",
+        "action": "complete_location"
+      }
+    ],
+    "cy_after_quiz": [
+      {
+        "id": "cy_after_quiz",
+        "speaker": "Мори",
+        "emotion": "happy",
+        "text": "Правильно! «Вечеря» — вечерняя еда. Слово в Архиве!",
+        "action": "complete_location"
+      }
+    ],
+    "bt_after_quiz": [
+      {
+        "id": "bt_after_quiz",
+        "speaker": "Мори",
+        "emotion": "happy",
+        "text": "Отлично! «Звонкий» — от слова «звон». Слово в Архиве!",
+        "action": "complete_location"
+      }
+    ],
+    "m_after_quiz": [
+      {
+        "id": "m_after_quiz",
+        "speaker": "Мори",
+        "emotion": "happy",
+        "text": "Верно! «Торжество» — большое собрание людей. Слово в Архиве!",
+        "action": "complete_location"
+      }
+    ],
+    "rd_after_quiz": [
+      {
+        "id": "rd_after_quiz",
+        "speaker": "Мори",
+        "emotion": "happy",
+        "text": "Браво! Ты узнал, откуда пришли наши слова. Акт I пройден!",
         "action": "complete_act1"
       }
     ]
@@ -460,6 +950,55 @@
       "modern": "ладонь",
       "era": "Древняя Русь, XI в.",
       "description": "Устаревшее слово. Встречается в церковнославянских текстах и поэзии."
+    },
+    "vecher": {
+      "id": "vecher",
+      "form": "вечеря",
+      "modern": "вечерняя еда",
+      "era": "Древняя Русь, XI в.",
+      "description": "От этого слова произошло слово «вечер». В монастырях вечеря была главным приёмом пищи за день."
+    },
+    "zvon": {
+      "id": "zvon",
+      "form": "звонъ",
+      "modern": "звон, звук",
+      "era": "Древняя Русь, XI в.",
+      "description": "От этого корня произошли слова: звонить, звук, звонкий, звонница. Колокола были голосом монастыря."
+    },
+    "torg": {
+      "id": "torg",
+      "form": "торжище",
+      "modern": "рынок",
+      "era": "Древняя Русь, XI в.",
+      "description": "Слово «торжество» раньше значило «большое собрание людей». Дало слова: торговать, торговец, уторговаться."
+    },
+    "tovar": {
+      "id": "tovar",
+      "form": "товаръ",
+      "modern": "товар",
+      "era": "Древняя Русь, XI в.",
+      "description": "Пришло из тюркского языка. Торговцы привозили это слово вместе с товарами из степей."
+    },
+    "hleb": {
+      "id": "hleb",
+      "form": "хлѣбъ",
+      "modern": "хлеб",
+      "era": "Древняя Русь, XI в.",
+      "description": "Одно из древнейших славянских слов. Хлеб был главной едой на Руси. Слово сохранилось без изменений."
+    },
+    "bumaga": {
+      "id": "bumaga",
+      "form": "бумага",
+      "modern": "бумага",
+      "era": "Древняя Русь, XIII в.",
+      "description": "Пришло из арабского языка через торговлю. До появления бумаги писали на бересте и пергаменте."
+    },
+    "lodka": {
+      "id": "lodka",
+      "form": "лодьи",
+      "modern": "лодка",
+      "era": "Древняя Русь, XI в.",
+      "description": "Пришло из скандинавского языка через варягов. Реки были главными дорогами Древней Руси."
     }
   }
 }
