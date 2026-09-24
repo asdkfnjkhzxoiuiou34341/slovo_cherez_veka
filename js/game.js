@@ -962,7 +962,7 @@ async function init() {
   try { save = JSON.parse(localStorage.getItem(SAVE_KEY)) || {}; } catch {}
 
   if (save.freshStart) {
-    // пришли с лендинга — запускаем пролог заново
+    // пришли с лендинга — запускаем интро + пролог заново
     delete save.freshStart;
     // сбрасываем игровой прогресс но сохраняем сложность
     state.score = 0;
@@ -974,8 +974,11 @@ async function init() {
     saveProgress();
     updateScoreUI();
     updateInventoryCount();
-    showScreen('game');
-    showActSplash('Пролог', 'Слово через века', 'Начало путешествия', startPrologue);
+    const video = document.getElementById('intro-video');
+    if (video) video.currentTime = 0;
+    const playPromise = video ? video.play() : null;
+    if (playPromise) playPromise.catch(() => {});
+    startIntro(playPromise);
   } else if (state.currentDialogue && state.currentDialogueId) {
     // есть сохранённый прогресс — продолжаем
     showScreen('game');
