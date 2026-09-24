@@ -49,6 +49,9 @@ function saveProgress() {
     completedLocations: state.completedLocations,
     unlockedAchievements: state.unlockedAchievements,
     difficulty: state.difficulty,
+    currentDialogueId: state.currentDialogueId,
+    currentLocationId: state.currentLocation?.id,
+    currentLocationActId: state.currentLocation?.actId,
   }));
 }
 
@@ -61,6 +64,9 @@ function loadProgress() {
   state.completedLocations = d.completedLocations ?? [];
   state.unlockedAchievements = d.unlockedAchievements ?? [];
   state.difficulty = d.difficulty ?? 'explorer';
+  state._savedDialogueId = d.currentDialogueId ?? null;
+  state._savedLocationId = d.currentLocationId ?? null;
+  state._savedLocationActId = d.currentLocationActId ?? null;
 }
 
 function hasSave() {
@@ -81,6 +87,12 @@ function showScreen(name) {
   if (name === 'map') { renderMap(); state.previousScreen = state.lastScreen; state.lastScreen = 'map'; }
   if (name === 'inventory') { renderInventory(); state.previousScreen = state.lastScreen; state.lastScreen = 'inventory'; }
   if (name === 'game') state.lastScreen = 'game';
+
+  // кнопка назад к диалогу — видна только на карте если есть активный диалог
+  const backBtn = document.getElementById('btn-back-to-game');
+  if (backBtn) {
+    backBtn.style.display = (name === 'map' && state.currentDialogue && state.currentDialogueId) ? 'flex' : 'none';
+  }
 
   lucide.createIcons();
 }
@@ -212,7 +224,7 @@ function startPrologue() {
   const p = gameData.prologue;
   state.currentDialogue = p.dialogue;
   state.currentDialogueId = p.dialogue[0].id;
-  state.currentLocation = { id: 'prologue', title: p.title };
+  state.currentLocation = { id: 'prologue', title: p.title, actId: 'prologue' };
   document.getElementById('location-title').textContent = '';
   setGameBg(p.background);
   showScreen('game');
@@ -281,6 +293,8 @@ function showDialogue(nodeId) {
   const node = getDialogueNode(nodeId);
   if (!node) return;
   state.currentDialogueId = nodeId;
+  // сохраняем позицию диалога
+  saveProgress();
   setMoriEmotion(node.emotion || 'default');
   // switch background if node specifies one
   if (node.bg) {
@@ -807,7 +821,7 @@ function startLocation(actId, locId) {
   const act = gameData.acts.find(a => a.id === actId);
   const loc = act?.locations.find(l => l.id === locId);
   if (!loc) return;
-  state.currentLocation = loc;
+  state.currentLocation = { ...loc, actId };
   state.currentDialogue = loc.dialogue;
   state.currentDialogueId = loc.dialogue[0].id;
   document.getElementById('location-title').textContent = loc.title;
@@ -937,6 +951,7 @@ async function init() {
   document.getElementById('btn-map').onclick = () => showScreen('map');
   document.getElementById('btn-inventory').onclick = () => showScreen('inventory');
   document.getElementById('btn-achievements').onclick = openAchievements;
+  document.getElementById('btn-back-to-game').onclick = () => showScreen('game');
 
   // Map / Inventory back
   document.getElementById('btn-back-map').onclick = () => {
