@@ -38,6 +38,7 @@ let state = {
   currentLocation: null,
   currentDialogue: null,
   lastScreen: 'game',
+  previousScreen: 'game',
 };
 
 // ─── Save / Load ──────────────────────────────────────────────────────────────
@@ -77,8 +78,8 @@ function showScreen(name) {
   const isGame = GAME_SCREENS.includes(name);
   document.getElementById('game-topbar').style.display = isGame ? 'flex' : 'none';
 
-  if (name === 'map') { renderMap(); state.lastScreen = 'map'; }
-  if (name === 'inventory') { renderInventory(); state.lastScreen = 'inventory'; }
+  if (name === 'map') { renderMap(); state.previousScreen = state.lastScreen; state.lastScreen = 'map'; }
+  if (name === 'inventory') { renderInventory(); state.previousScreen = state.lastScreen; state.lastScreen = 'inventory'; }
   if (name === 'game') state.lastScreen = 'game';
 
   lucide.createIcons();
@@ -938,7 +939,14 @@ async function init() {
   document.getElementById('btn-achievements').onclick = openAchievements;
 
   // Map / Inventory back
-  document.getElementById('btn-back-map').onclick = () => showScreen(state.lastScreen === 'map' ? 'game' : state.lastScreen);
+  document.getElementById('btn-back-map').onclick = () => {
+    const prev = state.previousScreen;
+    if (prev === 'game' && state.currentDialogue && state.currentDialogueId) {
+      showScreen('game');
+    } else {
+      showScreen('game');
+    }
+  };
   document.getElementById('btn-back-inv').onclick = () => {
     const last = state.lastScreen;
     if (last === 'map') { showScreen('map'); return; }
