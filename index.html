@@ -35,7 +35,7 @@
       <button class="btn-ghost--nav" onclick="scrollToSection('features')">Возможности</button>
       <button class="btn-ghost--nav" onclick="scrollToSection('gallery')">Скриншоты</button>
     </nav>
-    <button class="btn-ghost" id="btn-continue" style="display:none" onclick="continueGame()">
+    <button class="btn-ghost" id="btn-continue" style="display:none" onclick="window.location.href='game.html'">
       <i data-lucide="play" style="width:13px;height:13px"></i> Продолжить
     </button>
   </header>
@@ -56,7 +56,7 @@
           живые диалекты народов России.
         </p>
         <div class="lp-hero-actions">
-          <button class="btn-primary" id="btn-start-landing">
+      <button class="btn-primary" id="btn-start-landing">
             <i data-lucide="compass" style="width:17px;height:17px"></i>
             Начать путешествие
           </button>
@@ -281,172 +281,6 @@
   </div>
 </div>
 
-<!-- ══ SCREEN: INTRO ══ -->
-<div class="screen" id="screen-intro">
-  <video id="intro-video" muted playsinline preload="auto">
-    <source src="assets/video/intro.mp4" type="video/mp4" />
-  </video>
-  <div class="intro-placeholder" id="intro-placeholder" style="display:none">
-    <img src="mori/mori_full.png" class="intro-mori-float" alt="Мори" />
-    <div class="intro-placeholder-title">Слово через века</div>
-    <div class="intro-placeholder-sub">Путешествие начинается...</div>
-    <div class="intro-progress"><div class="intro-progress-bar" id="intro-bar"></div></div>
-  </div>
-  <button class="btn-skip" id="btn-skip-intro">
-    <i data-lucide="skip-forward" style="width:13px;height:13px"></i>
-    Пропустить
-  </button>
-</div>
-
-<!-- ══ GAME TOPBAR ══ -->
-<div class="game-topbar" id="game-topbar" style="display:none">
-  <div class="topbar-group">
-    <button class="btn-ghost" id="btn-map">
-      <i data-lucide="map" style="width:13px;height:13px"></i> Карта
-    </button>
-  </div>
-  <div class="topbar-group">
-    <div class="score-display">
-      <i data-lucide="sparkles" style="width:13px;height:13px"></i>
-      <span id="score-display">0</span>
-    </div>
-    <span class="diff-badge" id="diff-badge">Исследователь</span>
-  </div>
-  <div class="topbar-group">
-    <button class="btn-ghost" id="btn-achievements">
-      <i data-lucide="trophy" style="width:13px;height:13px"></i> Награды
-    </button>
-    <button class="btn-ghost" id="btn-inventory">
-      <i data-lucide="book-open" style="width:13px;height:13px"></i> Архив
-      <span class="inv-badge" id="inv-count">0</span>
-    </button>
-  </div>
-</div>
-
-<!-- ══ ACT FINALE ══ -->
-<div id="act-finale">
-  <div class="finale-trophy">🏆</div>
-  <div class="finale-title" id="finale-title"></div>
-  <div class="finale-sub" id="finale-sub"></div>
-  <div class="finale-stats" id="finale-stats"></div>
-  <button class="btn-primary finale-btn" id="finale-btn">
-    <i data-lucide="map" style="width:16px;height:16px"></i>
-    Открыть карту
-  </button>
-</div>
-
-<!-- ══ ACT SPLASH ══ -->
-<div id="act-splash">
-  <div class="act-splash-eyebrow" id="act-splash-eyebrow"></div>
-  <div class="act-splash-line"></div>
-  <div class="act-splash-title" id="act-splash-title"></div>
-  <div class="act-splash-sub" id="act-splash-sub"></div>
-</div>
-
-<!-- ══ SCREEN: QUIZ ══ -->
-<div class="screen" id="screen-quiz">
-  <div id="quiz-bg"></div>
-  <div class="quiz-container" id="quiz-container"></div>
-</div>
-
-<!-- ══ SCREEN: GAME ══ -->
-<div class="screen" id="screen-game">
-  <div id="game-bg"></div>
-  <div id="game-bg-next"></div>
-  <div id="location-title"></div>
-  <div class="mori-container">
-    <img id="mori-sprite" src="mori/mori_full.png" alt="Мори" />
-  </div>
-  <div class="dialogue-box">
-    <div class="speaker-name" id="speaker-name">Мори</div>
-    <p id="dialogue-text"></p>
-    <div id="choices-container"></div>
-  </div>
-</div>
-
-<!-- ══ SCREEN: MAP ══ -->
-<div class="screen" id="screen-map">
-  <div class="map-topbar">
-    <button class="btn-ghost" id="btn-back-map">
-      <i data-lucide="arrow-left" style="width:13px;height:13px"></i> Назад
-    </button>
-    <div class="map-topbar-title">Карта Древней Руси</div>
-    <div class="map-topbar-hint">Выбери место для исследования</div>
-  </div>
-
-  <div class="map-world" id="map-world">
-    <img class="map-bg-img" src="assets/images/map_rus_full.png" alt="Карта Руси" id="map-bg-img" />
-    <div class="map-fog" id="map-fog"></div>
-    <div class="map-markers" id="map-markers"></div>
-  </div>
-
-  <!-- Tooltip при наведении на маркер -->
-  <div class="map-tooltip" id="map-tooltip">
-    <div class="map-tooltip-title" id="map-tooltip-title"></div>
-    <div class="map-tooltip-desc" id="map-tooltip-desc"></div>
-    <div class="map-tooltip-status" id="map-tooltip-status"></div>
-  </div>
-
-  <!-- Панель выбора локации (появляется при клике) -->
-  <div class="map-panel" id="map-panel">
-    <div class="map-panel-header">
-      <div class="map-panel-title" id="map-panel-title"></div>
-      <button class="map-panel-close" id="map-panel-close">
-        <i data-lucide="x" style="width:16px;height:16px"></i>
-      </button>
-    </div>
-    <div class="map-panel-desc" id="map-panel-desc"></div>
-    <div class="map-panel-locs" id="map-panel-locs"></div>
-  </div>
-</div>
-
-<!-- ══ SCREEN: INVENTORY ══ -->
-<div class="screen" id="screen-inventory">
-  <div class="archive-header">
-    <div class="archive-header-left">
-      <button class="btn-ghost" id="btn-back-inv">
-        <i data-lucide="arrow-left" style="width:13px;height:13px"></i> Назад
-      </button>
-    </div>
-    <div class="archive-header-center">
-      <div class="archive-title-label">Словарный Архив</div>
-      <div class="archive-page-info" id="archive-page-info"></div>
-    </div>
-    <div class="archive-header-right">
-      <span class="archive-count" id="archive-count">0 слов</span>
-    </div>
-  </div>
-  <div class="archive-body">
-    <button class="archive-nav archive-nav--prev" id="archive-prev">
-      <i data-lucide="chevron-left" style="width:22px;height:22px"></i>
-    </button>
-    <div class="archive-pages" id="archive-pages"></div>
-    <button class="archive-nav archive-nav--next" id="archive-next">
-      <i data-lucide="chevron-right" style="width:22px;height:22px"></i>
-    </button>
-  </div>
-  <div class="archive-dots" id="archive-dots"></div>
-</div>
-
-<!-- ══ MODAL: ACHIEVEMENTS ══ -->
-<div class="modal-overlay" id="modal-achievements">
-  <div class="modal">
-    <div class="modal-header">
-      <div class="modal-title">Мои Награды</div>
-      <button class="modal-close" id="btn-close-achievements">
-        <i data-lucide="x" style="width:20px;height:20px"></i>
-      </button>
-    </div>
-    <div class="achievements-grid" id="achievements-grid"></div>
-  </div>
-</div>
-
-<!-- ══ WORD TOAST ══ -->
-<div id="word-toast">
-  <i data-lucide="scroll-text" style="width:14px;height:14px"></i>
-  Найдено: <span id="toast-word"></span>
-</div>
-
-<script src="js/app.js"></script>
+<script src="js/landing.js"></script>
 </body>
 </html>

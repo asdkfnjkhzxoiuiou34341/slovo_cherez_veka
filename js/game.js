@@ -922,7 +922,7 @@ function closeAchievements() {
   document.getElementById('modal-achievements').classList.remove('open');
 }
 
-// ─── Init ─────────────────────────────────────────────────────────────────────
+// ─── Init (game.html) ─────────────────────────────────────────────────────────
 async function init() {
   const res = await fetch(asset('data/gameData.json'));
   gameData = await res.json();
@@ -931,32 +931,6 @@ async function init() {
   updateScoreUI();
   updateInventoryCount();
   document.getElementById('diff-badge').textContent = DIFF_LABELS[state.difficulty];
-
-  // Sync difficulty modal cards
-  _syncDiffCards('#modal-diff-grid', state.difficulty);
-
-  // Show "Continue" button if save exists
-  if (hasSave()) {
-    document.getElementById('btn-continue').style.display = 'flex';
-  }
-
-  // Landing buttons → open difficulty modal first
-  document.getElementById('btn-start-landing').onclick = () => openDifficultyModal();
-
-  // Difficulty modal
-  document.getElementById('btn-confirm-diff').onclick = () => {
-    const video = document.getElementById('intro-video');
-    if (video) video.currentTime = 0;
-    const playPromise = video ? video.play() : null;
-    if (playPromise) playPromise.catch(err => console.error('[VIDEO]', err.name, err.message));
-    closeDifficultyModal();
-    startIntro(playPromise);
-  };
-  document.getElementById('btn-close-diff').onclick = closeDifficultyModal;
-  document.getElementById('btn-close-diff-cancel').onclick = closeDifficultyModal;
-  document.getElementById('modal-difficulty').onclick = (e) => {
-    if (e.target === e.currentTarget) closeDifficultyModal();
-  };
 
   // Game topbar
   document.getElementById('btn-map').onclick = () => showScreen('map');
@@ -983,7 +957,38 @@ async function init() {
     if (e.target === e.currentTarget) closeAchievements();
   };
 
-  showScreen('landing');
+  // Читаем флаг из localStorage
+  let save = {};
+  try { save = JSON.parse(localStorage.getItem(SAVE_KEY)) || {}; } catch {}
+
+  if (save.freshStart) {
+    // пришли с лендинга — запускаем пролог заново
+    delete save.freshStart;
+    // сбрасываем игровой прогресс но сохраняем сложность
+    state.score = 0;
+    state.foundWords = [];
+    state.completedLocations = [];
+    state.unlockedAchievements = [];
+    state.currentDialogue = null;
+    state.currentDialogueId = null;
+    saveProgress();
+    updateScoreUI();
+    updateInventoryCount();
+    showScreen('game');
+    showActSplash('Пролог', 'Слово через века', 'Начало путешествия', startPrologue);
+  } else if (state.currentDialogue && state.currentDialogueId) {
+    // есть сохранённый прогресс — продолжаем
+    showScreen('game');
+    showDialogue(state.currentDialogueId);
+  } else if (state.completedLocations.length > 0) {
+    // прогресс есть но диалог не сохранён — открываем карту
+    showScreen('map');
+  } else {
+    // нет прогресса — запускаем пролог
+    showScreen('game');
+    showActSplash('Пролог', 'Слово через века', 'Начало путешествия', startPrologue);
+  }
+
   lucide.createIcons();
 }
 
