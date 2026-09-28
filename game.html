@@ -102,18 +102,18 @@
     <img id="mori-sprite" src="mori/mori_full.png" alt="Мори" />
   </div>
   <div class="dialogue-box">
-    <div class="dlg-nav-btns" id="dlg-nav-btns" style="display:none">
-      <button class="dlg-nav-btn" id="dlg-btn-first" onclick="dialogueGoFirst()" title="В начало">
-        <i data-lucide="chevrons-left" style="width:14px;height:14px"></i>
-      </button>
-      <button class="dlg-nav-btn" id="dlg-btn-prev" onclick="dialogueGoBack()" title="Назад">
-        <i data-lucide="chevron-left" style="width:14px;height:14px"></i>
-      </button>
-    </div>
     <div class="speaker-name" id="speaker-name">Мори</div>
     <div id="dialogue-image-wrap" style="display:none"></div>
     <p id="dialogue-text"></p>
     <div id="choices-container"></div>
+  </div>
+  <div class="dlg-nav-bar" id="dlg-nav-btns" style="display:none">
+    <button class="dlg-nav-btn" id="dlg-btn-first" onclick="dialogueGoFirst()" title="В начало диалога">
+      <i data-lucide="chevrons-left" style="width:16px;height:16px"></i>
+    </button>
+    <button class="dlg-nav-btn" id="dlg-btn-prev" onclick="dialogueGoBack()" title="Предыдущее предложение">
+      <i data-lucide="chevron-left" style="width:16px;height:16px"></i>
+    </button>
   </div>
 </div>
 
