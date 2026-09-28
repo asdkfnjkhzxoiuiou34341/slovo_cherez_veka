@@ -964,7 +964,8 @@
       "reward_word": "vecher",
       "score": 10,
       "next_dialogue": "cy_after_quiz",
-      "location_id": "courtyard"
+      "location_id": "courtyard",
+      "explorer_quiz_id": "q_vecher_explorer"
     },
     "q_zvon": {
       "id": "q_zvon",
@@ -1129,6 +1130,42 @@
       "score": 25,
       "next_dialogue": "c_after_quiz3",
       "location_id": "church"
+    },
+    "q_vecher_explorer": {
+      "id": "q_vecher_explorer",
+      "type": "odd_one_out",
+      "title": "Монастырский двор: чередование гласных",
+      "question": "В каком слове есть чередование гласной в корне?",
+      "word_highlight": "е/и, о/а",
+      "options": [
+        {
+          "text": "вечеря",
+          "correct": false
+        },
+        {
+          "text": "собирать",
+          "correct": true
+        },
+        {
+          "text": "монастырь",
+          "correct": false
+        },
+        {
+          "text": "береста",
+          "correct": false
+        },
+        {
+          "text": "колокол",
+          "correct": false
+        }
+      ],
+      "hint": "Подсказка: чередование — это когда в однокоренных словах гласная меняется. Например: бер-у / соб-ир-ать.",
+      "hint_grade": "Для 5–6 класса: собирать → сбор. Гласная в корне меняется: -бир- / -бер-. Это и есть чередование.",
+      "explanation": "«Собирать» — корень -бир-/-бер- (чередование и/е): собирать — сберечь. Остальные слова чередований не имеют. Корни с чередованием е/и: -бир-/-бер-, -тир-/-тер-, -жиг-/-жег-, -стил-/-стел-.",
+      "reward_word": "vecher",
+      "score": 15,
+      "next_dialogue": "cy_after_quiz",
+      "location_id": "courtyard"
     }
   },
   "post_quiz_dialogues": {
@@ -1168,7 +1205,8 @@
         "speaker": "Мори",
         "emotion": "happy",
         "text": "Правильно! «Вечеря» — вечерняя еда. Слово в Архиве!",
-        "action": "complete_location"
+        "action": "complete_location",
+        "text_explorer": "Правильно! «Вечеря» — вечерняя еда, отсюда «вечер». А чередование -бир-/-бер- — одно из самых частых в русском языке. Слово в Архиве!"
       }
     ],
     "bt_after_quiz": [
