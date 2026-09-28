@@ -1134,7 +1134,8 @@
       "score": 20,
       "next_dialogue": "c_after_quiz3",
       "location_id": "church",
-      "explorer_quiz_id": "q_match_explorer"
+      "explorer_quiz_id": "q_match_explorer",
+      "keeper_quiz_id": "q_match_keeper"
     },
     "q_match_explorer": {
       "id": "q_match_explorer",
@@ -1405,6 +1406,52 @@
       "score": 20,
       "next_dialogue": "b_after_quiz2",
       "location_id": "birch_grove"
+    },
+    "q_match_keeper": {
+      "id": "q_match_keeper",
+      "type": "match",
+      "title": "Церковь: этимология устаревших слов",
+      "question": "Соедини устаревшее слово с языком-источником или праформой:",
+      "pairs": [
+        {
+          "ancient": "очи",
+          "modern": "праслав. *oči"
+        },
+        {
+          "ancient": "уста",
+          "modern": "праслав. *usta"
+        },
+        {
+          "ancient": "чело",
+          "modern": "праслав. *čelo"
+        },
+        {
+          "ancient": "длань",
+          "modern": "праслав. *dlanь"
+        },
+        {
+          "ancient": "ланиты",
+          "modern": "греч. λανίς"
+        },
+        {
+          "ancient": "выя",
+          "modern": "праслав. *vyja"
+        }
+      ],
+      "hint": "Подсказка: большинство слов — праславянские. «Ланиты» — исключение, греческое заимствование через церковнославянский.",
+      "hint_grade": "Для 10–11 класса: ланиты ← греч. λανίς (щека); остальные — общеславянский фонд, реконструируемый сравнительным методом.",
+      "explanation": "Праславянские формы реконструируются методом сравнительно-исторического языкознания по данным всех славянских языков. «Ланиты» — церковнославянизм греческого происхождения, вошедший через богослужебные тексты. «Выя» (*vyja) — общеслав., ср. польск. wija, чешск. vije.",
+      "reward_words": [
+        "ochi",
+        "usta",
+        "chelo",
+        "dlan",
+        "lanity",
+        "vyya"
+      ],
+      "score": 25,
+      "next_dialogue": "c_after_quiz3",
+      "location_id": "church"
     }
   },
   "post_quiz_dialogues": {
