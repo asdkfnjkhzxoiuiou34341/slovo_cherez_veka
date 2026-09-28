@@ -937,7 +937,8 @@
       "score": 10,
       "next_dialogue": "b_after_quiz2",
       "location_id": "birch_grove",
-      "explorer_quiz_id": "q_fill_explorer"
+      "explorer_quiz_id": "q_fill_explorer",
+      "keeper_quiz_id": "q_fill_keeper"
     },
     "q_fill_explorer": {
       "id": "q_fill_explorer",
@@ -1362,6 +1363,42 @@
       "score": 20,
       "next_dialogue": "s_after_quiz1",
       "location_id": "scriptorium"
+    },
+    "q_fill_keeper": {
+      "id": "q_fill_keeper",
+      "type": "odd_one_out",
+      "title": "Берёзовая роща: морфонология",
+      "question": "В каком слове чередование гласных в корне НЕ является историческим чередованием е/ё (< праслав. *e/*ě), а имеет другую природу?",
+      "word_highlight": "е / ё",
+      "options": [
+        {
+          "text": "берёза — береста",
+          "correct": false
+        },
+        {
+          "text": "звёзды — звезда",
+          "correct": false
+        },
+        {
+          "text": "сёла — село",
+          "correct": false
+        },
+        {
+          "text": "собирать — сберечь",
+          "correct": true
+        },
+        {
+          "text": "берёг — берег",
+          "correct": false
+        }
+      ],
+      "hint": "Подсказка: в одном из примеров чередуются не е/ё, а и/е. Это другой тип исторического чередования.",
+      "hint_grade": "Для 10–11 класса: собирать/сберечь — чередование и/е в корне -бир-/-бер-, восходящее к праслав. *ьr/*er (редуцированный). Это не е/ё-чередование.",
+      "explanation": "«Собирать — сберечь»: корень -бир-/-бер- — рефлекс праслав. *bьr-/*ber- (чередование редуцированного *ь с нулём). Остальные пары — историческое чередование *e/*ě под ударением: берёза/береста, звёзды/звезда, сёла/село, берёг/берег. Два разных морфонологических процесса.",
+      "reward_word": "beresta",
+      "score": 20,
+      "next_dialogue": "b_after_quiz2",
+      "location_id": "birch_grove"
     }
   },
   "post_quiz_dialogues": {
