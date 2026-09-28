@@ -991,7 +991,8 @@
       "reward_word": "zvon",
       "score": 10,
       "next_dialogue": "bt_after_quiz",
-      "location_id": "bell_tower"
+      "location_id": "bell_tower",
+      "explorer_quiz_id": "q_zvon_explorer"
     },
     "q_torg": {
       "id": "q_torg",
@@ -1171,6 +1172,42 @@
       "score": 15,
       "next_dialogue": "cy_after_quiz",
       "location_id": "courtyard"
+    },
+    "q_zvon_explorer": {
+      "id": "q_zvon_explorer",
+      "type": "odd_one_out",
+      "title": "Колокольня: безударные гласные",
+      "question": "В каком слове безударную гласную в корне НЕЛЬЗЯ проверить ударением?",
+      "word_highlight": "непроверяемая гласная",
+      "options": [
+        {
+          "text": "звонить",
+          "correct": false
+        },
+        {
+          "text": "берёза",
+          "correct": false
+        },
+        {
+          "text": "колокол",
+          "correct": true
+        },
+        {
+          "text": "грамота",
+          "correct": false
+        },
+        {
+          "text": "голова",
+          "correct": false
+        }
+      ],
+      "hint": "Подсказка: попробуй подобрать проверочное слово к каждому. У одного из них — не получится.",
+      "hint_grade": "Для 5–6 класса: звонить → звон, берёза → берёзка, голова → головы. А «колокол» — словарное слово, проверить нельзя.",
+      "explanation": "'Колокол' — словарное слово, безударные гласные не проверяются. Остальные: звонить → звон, берёза → берёзка, грамота → грамотный (частично), голова → головы. Словарные слова надо запоминать.",
+      "reward_word": "zvon",
+      "score": 15,
+      "next_dialogue": "bt_after_quiz",
+      "location_id": "bell_tower"
     }
   },
   "post_quiz_dialogues": {
@@ -1220,7 +1257,8 @@
         "speaker": "Мори",
         "emotion": "happy",
         "text": "Отлично! «Звонкий» — от слова «звон». Слово в Архиве!",
-        "action": "complete_location"
+        "action": "complete_location",
+        "text_explorer": "Отлично! «Колокол» — словарное слово, его не проверишь ударением. Таких слов в русском языке сотни — их нужно запоминать. «Звонкий» в Архиве!"
       }
     ],
     "m_after_quiz": [
