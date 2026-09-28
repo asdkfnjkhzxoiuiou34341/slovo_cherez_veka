@@ -37,6 +37,7 @@ let state = {
   currentDialogueId: null,
   currentLocation: null,
   currentDialogue: null,
+  dialogueHistory: [],
   lastScreen: 'game',
   previousScreen: 'game',
 };
@@ -225,6 +226,7 @@ function startPrologue() {
   state.currentDialogue = p.dialogue;
   state.currentDialogueId = p.dialogue[0].id;
   state.currentLocation = { id: 'prologue', title: p.title, actId: 'prologue' };
+  state.dialogueHistory = [];
   document.getElementById('location-title').textContent = '';
   setGameBg(p.background);
   showScreen('game');
@@ -289,10 +291,17 @@ function getChoiceText(choice) {
   return choice.text || '';
 }
 
-function showDialogue(nodeId) {
+function showDialogue(nodeId, fromHistory = false) {
   const node = getDialogueNode(nodeId);
   if (!node) return;
   state.currentDialogueId = nodeId;
+
+  // пишем историю только при движении вперёд
+  if (!fromHistory) {
+    state.dialogueHistory.push(nodeId);
+  }
+  updateDialogueNavBtns();
+
   // сохраняем позицию диалога
   saveProgress();
   setMoriEmotion(node.emotion || 'default');
@@ -320,6 +329,29 @@ function showDialogue(nodeId) {
   }
 
   typeText(getNodeText(node), () => renderChoices(node));
+}
+
+function updateDialogueNavBtns() {
+  const wrap = document.getElementById('dlg-nav-btns');
+  if (!wrap) return;
+  const len = state.dialogueHistory.length;
+  wrap.style.display = len > 1 ? 'flex' : 'none';
+  document.getElementById('dlg-btn-first').disabled = len <= 1;
+  document.getElementById('dlg-btn-prev').disabled  = len <= 1;
+}
+
+function dialogueGoBack() {
+  if (state.dialogueHistory.length <= 1) return;
+  state.dialogueHistory.pop(); // убираем текущую
+  const prevId = state.dialogueHistory[state.dialogueHistory.length - 1];
+  showDialogue(prevId, true);
+}
+
+function dialogueGoFirst() {
+  if (state.dialogueHistory.length <= 1) return;
+  const firstId = state.dialogueHistory[0];
+  state.dialogueHistory = [firstId];
+  showDialogue(firstId, true);
 }
 
 function typeText(text, onDone) {
@@ -1008,6 +1040,7 @@ function startLocation(actId, locId) {
   state.currentLocation = { ...loc, actId };
   state.currentDialogue = loc.dialogue;
   state.currentDialogueId = loc.dialogue[0].id;
+  state.dialogueHistory = [];
   document.getElementById('location-title').textContent = loc.title;
   setGameBg(loc.background);
   showScreen('game');
