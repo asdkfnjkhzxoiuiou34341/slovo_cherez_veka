@@ -304,6 +304,21 @@ function showDialogue(nodeId) {
   speakerEl.textContent = node.speaker || '';
   speakerEl.style.display = node.speaker ? 'inline-block' : 'none';
   document.getElementById('choices-container').innerHTML = '';
+
+  // показываем картинку если есть
+  const imgEl = document.getElementById('dialogue-image-wrap');
+  if (node.image) {
+    imgEl.innerHTML = `
+      <div class="dlg-img-inner">
+        <img src="${asset(node.image)}" alt="" class="dlg-img" />
+        ${node.image_caption ? `<div class="dlg-img-caption">${node.image_caption}</div>` : ''}
+      </div>`;
+    imgEl.style.display = 'block';
+  } else {
+    imgEl.innerHTML = '';
+    imgEl.style.display = 'none';
+  }
+
   typeText(getNodeText(node), () => renderChoices(node));
 }
 
