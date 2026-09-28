@@ -301,6 +301,7 @@ function showDialogue(nodeId, fromHistory = false) {
     state.dialogueHistory.push(nodeId);
   }
   updateDialogueNavBtns();
+  lucide.createIcons();
 
   // сохраняем позицию диалога
   saveProgress();
@@ -904,24 +905,28 @@ function showWordToast(word) {
 }
 
 function showAchievementToast(name) {
-  // Reuse word toast with different text briefly after word toast
+  const ach = ACHIEVEMENTS.find(a => a.name === name);
+  const icon = ach?.icon || 'trophy';
+  const color = ach?.color || 'var(--gold)';
   setTimeout(() => {
-    const toast = document.getElementById('word-toast');
-    document.getElementById('toast-word').textContent = '';
-    toast.querySelector('span').textContent = '';
-    // Create a separate small notification
     const el = document.createElement('div');
-    el.style.cssText = `position:fixed;bottom:1.5rem;right:1.5rem;z-index:300;
-      background:linear-gradient(135deg,#1a2d45,#243b55);
-      border:1px solid var(--gold);border-radius:8px;
-      padding:0.75rem 1.1rem;color:var(--gold-light);
-      font-family:'Cinzel',serif;font-size:0.82rem;
-      box-shadow:0 4px 20px rgba(201,168,76,0.25);
-      animation:slideDown 0.4s ease both;`;
-    el.textContent = `🏆 ${name}`;
+    el.className = 'achievement-toast';
+    el.innerHTML = `
+      <div class="achievement-toast-icon" style="color:${color}">
+        <i data-lucide="${icon}" style="width:18px;height:18px"></i>
+      </div>
+      <div class="achievement-toast-body">
+        <div class="achievement-toast-label">Награда получена</div>
+        <div class="achievement-toast-name">${name}</div>
+      </div>`;
     document.body.appendChild(el);
-    setTimeout(() => el.remove(), 3000);
-  }, 500);
+    lucide.createIcons();
+    requestAnimationFrame(() => el.classList.add('show'));
+    setTimeout(() => {
+      el.classList.remove('show');
+      setTimeout(() => el.remove(), 400);
+    }, 3200);
+  }, 600);
 }
 
 // ─── Map ──────────────────────────────────────────────────────────────────────
