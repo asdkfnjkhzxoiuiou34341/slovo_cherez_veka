@@ -394,9 +394,11 @@ function quizScrollWrap(inner) {
 function startQuiz(quizId) {
   let quiz = gameData.quizzes[quizId];
   if (!quiz) return;
-  // для explorer/keeper — подменяем квиз если есть усложнённая версия
+  // подменяем квиз на версию для сложности
   if (state.difficulty === 'explorer' && quiz.explorer_quiz_id) {
     quiz = gameData.quizzes[quiz.explorer_quiz_id] || quiz;
+  } else if (state.difficulty === 'keeper' && quiz.keeper_quiz_id) {
+    quiz = gameData.quizzes[quiz.keeper_quiz_id] || quiz;
   }
   document.getElementById('quiz-bg').style.background =
     `url('${asset('assets/images/act1/backgrounds/bg_scriptorium_desk.png')}') center/cover no-repeat`;

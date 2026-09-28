@@ -875,7 +875,8 @@
       "score": 10,
       "next_dialogue": "s_after_quiz1",
       "location_id": "scriptorium",
-      "explorer_quiz_id": "q_vedat_roots"
+      "explorer_quiz_id": "q_vedat_roots",
+      "keeper_quiz_id": "q_vedat_keeper"
     },
     "q_vedat_roots": {
       "id": "q_vedat_roots",
@@ -1322,6 +1323,42 @@
       "score": 25,
       "next_dialogue": "rd_after_quiz",
       "location_id": "river_dock"
+    },
+    "q_vedat_keeper": {
+      "id": "q_vedat_keeper",
+      "type": "odd_one_out",
+      "title": "Скрипторий: праиндоевропейская этимология",
+      "question": "Все слова ниже восходят к праиндоевропейскому корню *weid- (видеть/знать), кроме одного. Найди лишнее.",
+      "word_highlight": "*weid-",
+      "options": [
+        {
+          "text": "ведьма",
+          "correct": false
+        },
+        {
+          "text": "видеть",
+          "correct": false
+        },
+        {
+          "text": "весть",
+          "correct": true
+        },
+        {
+          "text": "невежда",
+          "correct": false
+        },
+        {
+          "text": "свидетель",
+          "correct": false
+        }
+      ],
+      "hint": "Подсказка: проверь каждое слово — можно ли в нём выделить корень -вед-/-вид-? У одного слова корень другой.",
+      "hint_grade": "Для 10–11 класса: «весть» — от праслав. *věstь (известие), корень -вест-/-вещ-, восходит к *wekʷ- (говорить), а не *weid-.",
+      "explanation": "«Весть» восходит к праслав. *věstь — корень *wekʷ- (говорить, возвещать); ср. «вещать», «вещий». Остальные: ведьма, невежда, ведомость — корень *weid- (знать); видеть, свидетель — *weid- (видеть). Семантическое единство «видеть = знать» отражает архаичную эпистемологию.",
+      "reward_word": "vedat",
+      "score": 20,
+      "next_dialogue": "s_after_quiz1",
+      "location_id": "scriptorium"
     }
   },
   "post_quiz_dialogues": {
