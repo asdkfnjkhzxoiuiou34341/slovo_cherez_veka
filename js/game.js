@@ -379,14 +379,14 @@ function renderChoices(node) {
 function showPisaloSuccess(wordForm) {
   const el = document.createElement('div');
   el.className = 'pisalo-success';
-  el.innerHTML = `<img src="${asset('assets/images/item_pisalo.png')}" alt=""><div class="pisalo-success-text">+ ${wordForm}</div>`;
+  el.innerHTML = `<img src="${asset('assets/images/act1/items/item_pisalo.png')}" alt=""><div class="pisalo-success-text">+ ${wordForm}</div>`;
   document.body.appendChild(el);
   setTimeout(() => el.remove(), 3000);
 }
 
 function quizScrollWrap(inner) {
   return `<div class="quiz-scroll-wrap">
-    <img class="quiz-scroll-bg" src="${asset('assets/images/birch_scroll_empty.png')}" alt="" />
+    <img class="quiz-scroll-bg" src="${asset('assets/images/act1/items/birch_scroll_empty.png')}" alt="" />
     <div class="quiz-scroll-content">${inner}</div>
   </div>`;
 }
@@ -426,20 +426,37 @@ function quizDone(quiz, correct) {
     saveProgress();
     checkAchievements();
   } else if (correct && alreadyDone) {
-    // повторное прохождение — слова уже есть, очки не начисляем
     updateInventoryCount();
   }
-  setTimeout(() => {
-    const dlg = gameData.post_quiz_dialogues[quiz.next_dialogue];
-    if (dlg) {
-      state.currentDialogue = dlg;
-      state.currentDialogueId = dlg[0].id;
-      showScreen('game');
-      showDialogue(dlg[0].id);
-    } else {
-      showScreen('map');
-    }
-  }, correct ? 2800 : 0);
+  if (correct) {
+    // показываем кнопку «Продолжить» поверх результата
+    setTimeout(() => {
+      const c = document.getElementById('quiz-container');
+      if (!c) return;
+      const existing = c.querySelector('.quiz-continue-btn');
+      if (existing) return;
+      const btn = document.createElement('button');
+      btn.className = 'choice-btn choice-btn--continue quiz-continue-btn';
+      btn.style.cssText = 'margin:1rem auto 0;display:block';
+      btn.innerHTML = 'Продолжить <i data-lucide="arrow-right" style="width:14px;height:14px;display:inline;vertical-align:middle"></i>';
+      btn.onclick = () => {
+        const dlg = gameData.post_quiz_dialogues[quiz.next_dialogue];
+        if (dlg) {
+          state.currentDialogue = dlg;
+          state.currentDialogueId = dlg[0].id;
+          showScreen('game');
+          showDialogue(dlg[0].id);
+        } else {
+          showScreen('map');
+        }
+        lucide.createIcons();
+      };
+      c.appendChild(btn);
+      lucide.createIcons();
+    }, 800);
+  } else {
+    // неверный ответ — ничего не делаем, игрок пробует снова
+  }
 }
 
 function renderChoiceQuiz(quiz, c) {
@@ -459,7 +476,8 @@ function renderChoiceQuiz(quiz, c) {
       <div class="quiz-mori-hint-bubble">${quiz.hint}</div>
     </div>`;
   const opts = document.getElementById('quiz-opts');
-  quiz.options.forEach(opt => {
+  const shuffledOpts = [...quiz.options].sort(() => Math.random() - 0.5);
+  shuffledOpts.forEach(opt => {
     const btn = document.createElement('button');
     btn.className = 'quiz-option';
     btn.innerHTML = `<i data-lucide="circle" class="opt-icon" style="width:16px;height:16px"></i><span>${opt.text}</span>`;
@@ -512,7 +530,8 @@ function renderFillQuiz(quiz, c) {
       <div class="quiz-mori-hint-bubble">${quiz.hint}</div>
     </div>`;
   const opts = document.getElementById('fill-opts');
-  quiz.options.forEach(letter => {
+  const shuffledFill = [...quiz.options].sort(() => Math.random() - 0.5);
+  shuffledFill.forEach(letter => {
     const btn = document.createElement('button');
     btn.className = 'quiz-fill-btn';
     btn.textContent = letter;
@@ -883,7 +902,7 @@ function renderMap() {
 
     marker.innerHTML = `
       <div class="map-marker-icon">
-        <img src="${asset('assets/images/' + pos.icon)}" alt="" />
+        <img src="${asset('assets/images/map/' + pos.icon)}" alt="" />
       </div>
       <div class="map-marker-pin"></div>
       <div class="map-marker-label">${pos.label}</div>`;
@@ -1150,10 +1169,42 @@ async function init() {
     const playPromise = video ? video.play() : null;
     if (playPromise) playPromise.catch(() => {});
     startIntro(playPromise);
-  } else if (state.currentDialogue && state.currentDialogueId) {
-    // есть сохранённый прогресс — продолжаем
+  } else if (state._savedDialogueId && state._savedLocationId) {
+    // восстанавливаем диалог из сохранения
+    const savedLocId = state._savedLocationId;
+    const savedActId = state._savedLocationActId;
+    const savedDlgId = state._savedDialogueId;
+
+    if (savedActId === 'prologue') {
+      state.currentDialogue = gameData.prologue.dialogue;
+      state.currentLocation = { id: 'prologue', title: gameData.prologue.title, actId: 'prologue' };
+      setGameBg(gameData.prologue.background);
+      document.getElementById('location-title').textContent = '';
+    } else {
+      // ищем в post_quiz_dialogues
+      const postDlg = gameData.post_quiz_dialogues[savedDlgId];
+      if (postDlg) {
+        state.currentDialogue = postDlg;
+      } else {
+        // ищем локацию в актах
+        let found = false;
+        for (const act of gameData.acts) {
+          const loc = act.locations.find(l => l.id === savedLocId);
+          if (loc) {
+            state.currentLocation = { ...loc, actId: act.id };
+            state.currentDialogue = loc.dialogue;
+            setGameBg(loc.background);
+            document.getElementById('location-title').textContent = loc.title;
+            found = true;
+            break;
+          }
+        }
+        if (!found) { showScreen('map'); return; }
+      }
+    }
+    state.currentDialogueId = savedDlgId;
     showScreen('game');
-    showDialogue(state.currentDialogueId);
+    showDialogue(savedDlgId);
   } else if (state.completedLocations.length > 0) {
     // прогресс есть но диалог не сохранён — открываем карту
     showScreen('map');
