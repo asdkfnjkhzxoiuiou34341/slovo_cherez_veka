@@ -392,16 +392,21 @@ function quizScrollWrap(inner) {
 }
 
 function startQuiz(quizId) {
-  const quiz = gameData.quizzes[quizId];
+  let quiz = gameData.quizzes[quizId];
   if (!quiz) return;
+  // для explorer/keeper — подменяем квиз если есть усложнённая версия
+  if (state.difficulty === 'explorer' && quiz.explorer_quiz_id) {
+    quiz = gameData.quizzes[quiz.explorer_quiz_id] || quiz;
+  }
   document.getElementById('quiz-bg').style.background =
-    `url('${asset('assets/images/bg_scriptorium_desk.png')}') center/cover no-repeat`;
+    `url('${asset('assets/images/act1/backgrounds/bg_scriptorium_desk.png')}') center/cover no-repeat`;
   showScreen('quiz');
   const c = document.getElementById('quiz-container');
   c.innerHTML = '';
-  if (quiz.type === 'choice') renderChoiceQuiz(quiz, c);
-  else if (quiz.type === 'fill')  renderFillQuiz(quiz, c);
-  else if (quiz.type === 'match') renderMatchQuiz(quiz, c);
+  if (quiz.type === 'choice')      renderChoiceQuiz(quiz, c);
+  else if (quiz.type === 'fill')   renderFillQuiz(quiz, c);
+  else if (quiz.type === 'match')  renderMatchQuiz(quiz, c);
+  else if (quiz.type === 'odd_one_out') renderOddOneOutQuiz(quiz, c);
 }
 
 function quizDone(quiz, correct) {
@@ -529,6 +534,55 @@ function renderFillQuiz(quiz, c) {
           blank.classList.remove('filled-wrong');
           opts.querySelectorAll('.quiz-fill-btn').forEach(b => b.disabled = false);
         }, 600);
+      }
+    };
+    opts.appendChild(btn);
+  });
+  lucide.createIcons();
+}
+
+function renderOddOneOutQuiz(quiz, c) {
+  const shuffled = [...quiz.options].sort(() => Math.random() - 0.5);
+  c.innerHTML = `
+    <div class="quiz-eyebrow">${quiz.title}</div>
+    ${quiz.word_highlight ? `<div class="quiz-word-highlight">${quiz.word_highlight}</div>` : ''}
+    ${quizScrollWrap(`
+      <div class="quiz-question">${quiz.question}</div>
+      <div class="quiz-options" id="quiz-opts"></div>
+      <div class="quiz-result" id="quiz-result" style="display:none">
+        <div class="quiz-result-icon"><i data-lucide="star" style="width:2.2rem;height:2.2rem;color:var(--gold)"></i></div>
+        <div class="quiz-result-text" id="quiz-result-text"></div>
+      </div>
+    `)}
+    <div class="quiz-mori-hint" id="quiz-hint" style="display:none">
+      <img src="${asset('mori/mori_pout.png')}" class="quiz-mori-hint-img" alt="" />
+      <div class="quiz-mori-hint-bubble">${quiz.hint_grade || quiz.hint}</div>
+    </div>`;
+  const opts = document.getElementById('quiz-opts');
+  shuffled.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.innerHTML = `<i data-lucide="circle" class="opt-icon" style="width:16px;height:16px"></i><span>${opt.text}</span>`;
+    btn.onclick = () => {
+      opts.querySelectorAll('.quiz-option').forEach(b => b.disabled = true);
+      if (opt.correct) {
+        btn.classList.add('correct');
+        document.getElementById('quiz-hint').style.display = 'none';
+        const res = document.getElementById('quiz-result');
+        res.style.display = '';
+        res.classList.add('visible');
+        document.getElementById('quiz-result-text').innerHTML =
+          `Правильно! +${quiz.score} очков<br><small style="opacity:.8;font-size:.8em">${quiz.explanation || ''}</small>`;
+        const wid = quiz.reward_word || quiz.reward_words?.[0];
+        if (wid) showPisaloSuccess(gameData.words[wid]?.form || wid);
+        quizDone(quiz, true);
+      } else {
+        btn.classList.add('wrong');
+        document.getElementById('quiz-hint').style.display = 'flex';
+        setTimeout(() => {
+          btn.classList.remove('wrong');
+          opts.querySelectorAll('.quiz-option').forEach(b => b.disabled = false);
+        }, 700);
       }
     };
     opts.appendChild(btn);
