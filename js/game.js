@@ -787,7 +787,7 @@ function showAct1Finale() {
       <div class="finale-stat-label">очков</div>
     </div>
     <div class="finale-stat">
-      <div class="finale-stat-num">3</div>
+      <div class="finale-stat-num">${state.completedLocations.filter(id => id !== 'act1').length}</div>
       <div class="finale-stat-label">локации</div>
     </div>`;
   const act2 = gameData.acts.find(a => a.id === 'act2');
