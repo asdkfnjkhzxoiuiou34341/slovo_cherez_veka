@@ -1046,7 +1046,8 @@
       "score": 10,
       "next_dialogue": "bt_after_quiz",
       "location_id": "bell_tower",
-      "explorer_quiz_id": "q_zvon_explorer"
+      "explorer_quiz_id": "q_zvon_explorer",
+      "keeper_quiz_id": "q_zvon_keeper"
     },
     "q_torg": {
       "id": "q_torg",
@@ -1500,6 +1501,42 @@
       "score": 20,
       "next_dialogue": "cy_after_quiz",
       "location_id": "courtyard"
+    },
+    "q_zvon_keeper": {
+      "id": "q_zvon_keeper",
+      "type": "odd_one_out",
+      "title": "Колокольня: словообразовательный анализ",
+      "question": "Все слова ниже входят в словообразовательное гнездо с корнем -звон-/-звук-, кроме одного. Найди слово с другим корнем.",
+      "word_highlight": "-звон- / -звук-",
+      "options": [
+        {
+          "text": "звонница",
+          "correct": false
+        },
+        {
+          "text": "созвучие",
+          "correct": false
+        },
+        {
+          "text": "звонарь",
+          "correct": false
+        },
+        {
+          "text": "звучать",
+          "correct": false
+        },
+        {
+          "text": "звание",
+          "correct": true
+        }
+      ],
+      "hint": "Подсказка: одно слово только похоже на однокоренное по звучанию, но его корень другой. Проверь значение.",
+      "hint_grade": "Для 10–11 класса: «звание» — от «звать» (корень -зва-/-зов-), а не от «звон». Омофония корней — ловушка при морфемном анализе.",
+      "explanation": "«Звание» ← «звать» ← праслав. *zъvati (корень *zъv-/*zov-); ср. «зов», «призвание», «название». Корень -звон- восходит к *zvonъ (ПИЕ *gʷhen-). Несмотря на фонетическое сходство, это разные этимологические гнёзда. Ошибочное объединение таких слов называется народной этимологией.",
+      "reward_word": "zvon",
+      "score": 20,
+      "next_dialogue": "bt_after_quiz",
+      "location_id": "bell_tower"
     }
   },
   "post_quiz_dialogues": {
