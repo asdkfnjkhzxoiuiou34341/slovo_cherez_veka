@@ -451,6 +451,8 @@ function startQuiz(quizId) {
   document.getElementById('quiz-bg').style.background =
     `url('${asset('assets/images/act1/backgrounds/bg_scriptorium_desk.png')}') center/cover no-repeat`;
   showScreen('quiz');
+  // чистим оставшуюся кнопку от предыдущего квиза
+  document.querySelectorAll('#screen-quiz > .quiz-continue-btn').forEach(b => b.remove());
   const c = document.getElementById('quiz-container');
   c.innerHTML = '';
   if (quiz.type === 'choice')      renderChoiceQuiz(quiz, c);
@@ -501,7 +503,9 @@ function quizDone(quiz, correct) {
         }
         lucide.createIcons();
       };
-      c.appendChild(btn);
+      // вставляем кнопку вне scroll-контейнера, прямо в screen-quiz
+      const screen = document.getElementById('screen-quiz');
+      screen.appendChild(btn);
       lucide.createIcons();
     }, 800);
   } else {
