@@ -1,4 +1,4 @@
-﻿{
+{
   "meta": {
     "title": "Слово через века",
     "version": "1.3.1"
@@ -77,8 +77,16 @@
         "text_explorer": "Чтобы вернуться домой, нужно узнать историю нашего языка — как он менялся от Древней Руси до наших дней. Готов?",
         "text_keeper": "Чтобы вернуться домой, нужно изучить диахроническое развитие русского языка — от старославянских истоков до современной нормы. Готов?",
         "choices": [
-          { "text": "Готов! Погнали!", "next": "p8_yes", "score": 0 },
-          { "text": "А если я не хочу?..", "next": "p8_no", "score": 0 }
+          {
+            "text": "Готов! Погнали!",
+            "next": "p8_yes",
+            "score": 0
+          },
+          {
+            "text": "А если я не хочу?..",
+            "next": "p8_no",
+            "score": 0
+          }
         ]
       },
       {
@@ -228,8 +236,16 @@
         "bg": "assets/images/act1/backgrounds/bg_birch_grove.png",
         "text": "Вот мы и пришли! Это берёзовая роща. Здесь начнём наше первое задание. Ты готов?",
         "choices": [
-          { "text": "Да, готов!", "next": "p_act1", "score": 0 },
-          { "text": "Конечно!", "next": "p_act1", "score": 0 }
+          {
+            "text": "Да, готов!",
+            "next": "p_act1",
+            "score": 0
+          },
+          {
+            "text": "Конечно!",
+            "next": "p_act1",
+            "score": 0
+          }
         ]
       },
       {
@@ -422,6 +438,7 @@
               "speaker": "",
               "emotion": "none",
               "text": "Снова берёзовая роща. Листья шелестят, солнце пробивается сквозь ветки.",
+              "text_explorer": "Снова берёзовая роща. Листья шелестят, солнце пробивается сквозь ветки. Именно здесь заготавливали главный материал для письма — бересту.",
               "next": "b2"
             },
             {
@@ -429,6 +446,7 @@
               "speaker": "Мори",
               "emotion": "happy",
               "text": "Здесь снимали кору с берёз весной, когда она мягкая. Потом сушили и писали на ней острой палочкой — писалом.",
+              "text_explorer": "Здесь снимали кору с берёз весной, когда она мягкая. Потом сушили и писали острой палочкой — писалом. Кстати, слово «стиль» пришло именно от латинского stilus — так называли похожую палочку для письма!",
               "next": "b3"
             },
             {
@@ -436,6 +454,7 @@
               "speaker": "Мори",
               "emotion": "funny",
               "text": "Проверим, знаешь ли ты, как пишется одно важное слово!",
+              "text_explorer": "Проверим правописание — и заодно разберём, почему в этом слове именно такая буква!",
               "action": "quiz",
               "quiz_id": "q_fill"
             }
@@ -741,10 +760,30 @@
         }
       ]
     },
-    { "id": "act2", "title": "Акт II: Печатный век", "unlocked": false, "locations": [] },
-    { "id": "act3", "title": "Акт III: Золотой век литературы", "unlocked": false, "locations": [] },
-    { "id": "act4", "title": "Акт IV: Язык народов и диалекты", "unlocked": false, "locations": [] },
-    { "id": "act5", "title": "Акт V: Современность", "unlocked": false, "locations": [] }
+    {
+      "id": "act2",
+      "title": "Акт II: Печатный век",
+      "unlocked": false,
+      "locations": []
+    },
+    {
+      "id": "act3",
+      "title": "Акт III: Золотой век литературы",
+      "unlocked": false,
+      "locations": []
+    },
+    {
+      "id": "act4",
+      "title": "Акт IV: Язык народов и диалекты",
+      "unlocked": false,
+      "locations": []
+    },
+    {
+      "id": "act5",
+      "title": "Акт V: Современность",
+      "unlocked": false,
+      "locations": []
+    }
   ],
   "quizzes": {
     "q_vedat": {
@@ -754,9 +793,21 @@
       "question": "Что означает слово «вѣдати»?",
       "word_highlight": "вѣдати",
       "options": [
-        { "id": "a", "text": "Знать", "correct": true },
-        { "id": "b", "text": "Видеть", "correct": false },
-        { "id": "c", "text": "Говорить", "correct": false }
+        {
+          "id": "a",
+          "text": "Знать",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "Видеть",
+          "correct": false
+        },
+        {
+          "id": "c",
+          "text": "Говорить",
+          "correct": false
+        }
       ],
       "hint": "Подсказка: от этого слова произошло слово «ведьма» — та, кто всё знает!",
       "reward_word": "vedat",
@@ -772,11 +823,26 @@
       "question": "Все слова ниже связаны с корнем -ВЕД- (знать), кроме одного. Найди лишнее!",
       "word_highlight": "-вед-",
       "options": [
-        { "text": "ведьма", "correct": false },
-        { "text": "невежда", "correct": false },
-        { "text": "ведро", "correct": true },
-        { "text": "ведомость", "correct": false },
-        { "text": "заведение", "correct": false }
+        {
+          "text": "ведьма",
+          "correct": false
+        },
+        {
+          "text": "невежда",
+          "correct": false
+        },
+        {
+          "text": "ведро",
+          "correct": true
+        },
+        {
+          "text": "ведомость",
+          "correct": false
+        },
+        {
+          "text": "заведение",
+          "correct": false
+        }
       ],
       "hint": "Подсказка: одно из этих слов — бытовой предмет, а не про знание. Подумай, что ты носишь воду?",
       "hint_grade": "Для 5–6 класса: «ведро» — от слова «вода», а не «ведать».",
@@ -794,11 +860,55 @@
       "word_template": "БЕР_СТА",
       "word_answer": "БЕРЕСТА",
       "missing_index": 3,
-      "options": ["Е", "И", "Ѣ", "А"],
+      "options": [
+        "Е",
+        "И",
+        "Ѣ",
+        "А"
+      ],
       "correct_option": "Е",
       "hint": "Подсказка: это кора берёзы. БЕР-Ё-ЗА → БЕР-Е-СТА!",
       "reward_word": "beresta",
       "score": 10,
+      "next_dialogue": "b_after_quiz2",
+      "location_id": "birch_grove",
+      "explorer_quiz_id": "q_fill_explorer"
+    },
+    "q_fill_explorer": {
+      "id": "q_fill_explorer",
+      "type": "fill_rule",
+      "title": "Берёзовая роща: правописание",
+      "question": "Вставь пропущенную букву:",
+      "word_template": "БЕР_СТА",
+      "word_answer": "БЕРЕСТА",
+      "missing_index": 3,
+      "options": [
+        "Е",
+        "И",
+        "Ё",
+        "А"
+      ],
+      "correct_option": "Е",
+      "rule_question": "Почему здесь пишется «Е», а не «Ё»?",
+      "rule_options": [
+        {
+          "text": "Безударная гласная проверяется ударением: берёза → береста",
+          "correct": true
+        },
+        {
+          "text": "После шипящих всегда пишется «Е»",
+          "correct": false
+        },
+        {
+          "text": "Это исключение, надо запомнить",
+          "correct": false
+        }
+      ],
+      "hint": "Подсказка: поставь ударение на этот слог — какую букву слышишь?",
+      "hint_grade": "Для 5–6 класса: берЁза → берЕста. Без ударения «ё» превращается в «е».",
+      "explanation": "Чередование е/ё в корне: под ударением — «ё» (берёза), без ударения — «е» (береста). Так же: звезда → звёздочка, село → сёла.",
+      "reward_word": "beresta",
+      "score": 15,
       "next_dialogue": "b_after_quiz2",
       "location_id": "birch_grove"
     },
@@ -809,9 +919,21 @@
       "question": "От какого слова произошло слово «вечер»?",
       "word_highlight": "вечеря",
       "options": [
-        { "id": "a", "text": "Вечерняя еда", "correct": true },
-        { "id": "b", "text": "Ветер", "correct": false },
-        { "id": "c", "text": "Вечность", "correct": false }
+        {
+          "id": "a",
+          "text": "Вечерняя еда",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "Ветер",
+          "correct": false
+        },
+        {
+          "id": "c",
+          "text": "Вечность",
+          "correct": false
+        }
       ],
       "hint": "Подсказка: монахи ели три раза в день. Утром, днём и...",
       "reward_word": "vecher",
@@ -827,7 +949,12 @@
       "word_template": "ЗВ_НКИЙ",
       "word_answer": "ЗВОНКИЙ",
       "missing_index": 2,
-      "options": ["О", "А", "У", "Е"],
+      "options": [
+        "О",
+        "А",
+        "У",
+        "Е"
+      ],
       "correct_option": "О",
       "hint": "Подсказка: звон — звук. ЗВОН → ЗВОНКИЙ!",
       "reward_word": "zvon",
@@ -842,9 +969,21 @@
       "question": "Что означало слово «торжество» в Древней Руси?",
       "word_highlight": "торжество",
       "options": [
-        { "id": "a", "text": "Большое собрание людей", "correct": true },
-        { "id": "b", "text": "Праздник урожая", "correct": false },
-        { "id": "c", "text": "Церковная служба", "correct": false }
+        {
+          "id": "a",
+          "text": "Большое собрание людей",
+          "correct": true
+        },
+        {
+          "id": "b",
+          "text": "Праздник урожая",
+          "correct": false
+        },
+        {
+          "id": "c",
+          "text": "Церковная служба",
+          "correct": false
+        }
       ],
       "hint": "Подсказка: торг — рынок. На рынке всегда много...",
       "reward_word": "torg",
@@ -858,13 +997,30 @@
       "title": "Слова из разных языков",
       "question": "Соедини слово с языком, из которого оно пришло:",
       "pairs": [
-        { "ancient": "товар", "modern": "тюркский" },
-        { "ancient": "хлеб»", "modern": "славянский" },
-        { "ancient": "бумага", "modern": "арабский" },
-        { "ancient": "лодка", "modern": "скандинавский" }
+        {
+          "ancient": "товар",
+          "modern": "тюркский"
+        },
+        {
+          "ancient": "хлеб»",
+          "modern": "славянский"
+        },
+        {
+          "ancient": "бумага",
+          "modern": "арабский"
+        },
+        {
+          "ancient": "лодка",
+          "modern": "скандинавский"
+        }
       ],
       "hint": "Подсказка: «бумага» по-арабски — «бумага». Совпадает!",
-      "reward_words": ["tovar", "hleb", "bumaga", "lodka"],
+      "reward_words": [
+        "tovar",
+        "hleb",
+        "bumaga",
+        "lodka"
+      ],
       "score": 20,
       "next_dialogue": "rd_after_quiz",
       "location_id": "river_dock"
@@ -875,13 +1031,30 @@
       "title": "Словарь Древней Руси",
       "question": "Соедини старое слово с его значением:",
       "pairs": [
-        { "ancient": "очи", "modern": "глаза" },
-        { "ancient": "уста", "modern": "губы" },
-        { "ancient": "чело", "modern": "лоб" },
-        { "ancient": "длань", "modern": "ладонь" }
+        {
+          "ancient": "очи",
+          "modern": "глаза"
+        },
+        {
+          "ancient": "уста",
+          "modern": "губы"
+        },
+        {
+          "ancient": "чело",
+          "modern": "лоб"
+        },
+        {
+          "ancient": "длань",
+          "modern": "ладонь"
+        }
       ],
       "hint": "Подсказка: «очки» — от слова «очи». Попробуй угадать остальные!",
-      "reward_words": ["ochi", "usta", "chelo", "dlan"],
+      "reward_words": [
+        "ochi",
+        "usta",
+        "chelo",
+        "dlan"
+      ],
       "score": 20,
       "next_dialogue": "c_after_quiz3",
       "location_id": "church"
@@ -904,7 +1077,8 @@
         "speaker": "Мори",
         "emotion": "happy",
         "text": "Молодец! «Береста» — кора берёзы. Слово в Архиве. Идём дальше!",
-        "action": "complete_location"
+        "action": "complete_location",
+        "text_explorer": "Молодец! «Береста» — кора берёзы. Чередование е/ё в корне — одно из важных правил русского языка. Слово в Архиве!"
       }
     ],
     "c_after_quiz3": [

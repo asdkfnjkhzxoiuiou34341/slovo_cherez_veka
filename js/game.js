@@ -407,6 +407,7 @@ function startQuiz(quizId) {
   else if (quiz.type === 'fill')   renderFillQuiz(quiz, c);
   else if (quiz.type === 'match')  renderMatchQuiz(quiz, c);
   else if (quiz.type === 'odd_one_out') renderOddOneOutQuiz(quiz, c);
+  else if (quiz.type === 'fill_rule')   renderFillRuleQuiz(quiz, c);
 }
 
 function quizDone(quiz, correct) {
@@ -537,6 +538,99 @@ function renderFillQuiz(quiz, c) {
       }
     };
     opts.appendChild(btn);
+  });
+  lucide.createIcons();
+}
+
+function renderFillRuleQuiz(quiz, c) {
+  // Шаг 1: вставь букву. Шаг 2: выбери правило.
+  const letters = quiz.word_template.split('');
+  let step = 1;
+  c.innerHTML = `
+    <div class="quiz-eyebrow">${quiz.title}</div>
+    ${quizScrollWrap(`
+      <div class="quiz-question" id="fr-question">${quiz.question}</div>
+      <div class="quiz-fill-word" id="fr-word">${
+        letters.map((l, i) => i === quiz.missing_index
+          ? `<span class="quiz-fill-blank" id="fill-blank">_</span>`
+          : `<span class="quiz-fill-letter">${l}</span>`
+        ).join('')
+      }</div>
+      <div class="quiz-fill-options" id="fill-opts"></div>
+      <div class="quiz-rule-options" id="rule-opts" style="display:none"></div>
+      <div class="quiz-result" id="quiz-result">
+        <div class="quiz-result-icon"><i data-lucide="star" style="width:2.2rem;height:2.2rem;color:var(--gold)"></i></div>
+        <div class="quiz-result-text" id="fr-result-text">Правильно! +${quiz.score} очков</div>
+      </div>
+    `)}
+    <div class="quiz-mori-hint" id="quiz-hint" style="display:none">
+      <img src="${asset('mori/mori_pout.png')}" class="quiz-mori-hint-img" alt="" />
+      <div class="quiz-mori-hint-bubble" id="fr-hint-text">${quiz.hint_grade || quiz.hint}</div>
+    </div>`;
+
+  const fillOpts = document.getElementById('fill-opts');
+  const ruleOpts = document.getElementById('rule-opts');
+
+  // Шаг 1: вставь букву
+  quiz.options.forEach(letter => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-fill-btn';
+    btn.textContent = letter;
+    btn.onclick = () => {
+      const blank = document.getElementById('fill-blank');
+      blank.textContent = letter;
+      fillOpts.querySelectorAll('.quiz-fill-btn').forEach(b => b.disabled = true);
+      if (letter === quiz.correct_option) {
+        blank.classList.add('filled-correct');
+        document.getElementById('quiz-hint').style.display = 'none';
+        // Переходим к шагу 2
+        setTimeout(() => {
+          document.getElementById('fr-question').textContent = quiz.rule_question;
+          fillOpts.style.display = 'none';
+          ruleOpts.style.display = '';
+          document.getElementById('fr-word').style.opacity = '0.4';
+        }, 500);
+      } else {
+        blank.classList.add('filled-wrong');
+        document.getElementById('quiz-hint').style.display = 'flex';
+        setTimeout(() => {
+          blank.textContent = '_';
+          blank.classList.remove('filled-wrong');
+          fillOpts.querySelectorAll('.quiz-fill-btn').forEach(b => b.disabled = false);
+        }, 700);
+      }
+    };
+    fillOpts.appendChild(btn);
+  });
+
+  // Шаг 2: выбери правило
+  quiz.rule_options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.innerHTML = `<i data-lucide="circle" class="opt-icon" style="width:16px;height:16px"></i><span>${opt.text}</span>`;
+    btn.onclick = () => {
+      ruleOpts.querySelectorAll('.quiz-option').forEach(b => b.disabled = true);
+      if (opt.correct) {
+        btn.classList.add('correct');
+        document.getElementById('quiz-hint').style.display = 'none';
+        const res = document.getElementById('quiz-result');
+        res.classList.add('visible');
+        document.getElementById('fr-result-text').innerHTML =
+          `Правильно! +${quiz.score} очков<br><small style="opacity:.8;font-size:.8em">${quiz.explanation || ''}</small>`;
+        const wid = quiz.reward_word || quiz.reward_words?.[0];
+        if (wid) showPisaloSuccess(gameData.words[wid]?.form || wid);
+        quizDone(quiz, true);
+      } else {
+        btn.classList.add('wrong');
+        document.getElementById('fr-hint-text').textContent = quiz.hint_grade || quiz.hint;
+        document.getElementById('quiz-hint').style.display = 'flex';
+        setTimeout(() => {
+          btn.classList.remove('wrong');
+          ruleOpts.querySelectorAll('.quiz-option').forEach(b => b.disabled = false);
+        }, 700);
+      }
+    };
+    ruleOpts.appendChild(btn);
   });
   lucide.createIcons();
 }
